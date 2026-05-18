@@ -9,6 +9,8 @@ html {
 }
 
 :root {
+  --grid-columns: 34;
+  --grid-rows: 21;
   --page-bg: #050505;
   --page-fog: rgba(236, 236, 236, 0.04);
   --paper: #d8d8d3;
@@ -24,10 +26,10 @@ html {
   --tile-bg-hover: rgba(242, 242, 238, 0.92);
   --gap: 10px;
   --page-padding: clamp(10px, 1.4vw, 18px);
-  --subgrid-x: calc((100vw - (var(--page-padding) * 2)) / 32);
-  --subgrid-y: calc((100dvh - (var(--page-padding) * 2)) / 32);
-  --lock-inset-x: clamp(14px, calc(var(--subgrid-x) - (var(--gap) / 2)), 30px);
-  --lock-inset-y: clamp(14px, calc(var(--subgrid-y) - (var(--gap) / 2)), 30px);
+  --subgrid-x: calc((100vw - (var(--page-padding) * 2)) / var(--grid-columns));
+  --subgrid-y: calc((100dvh - (var(--page-padding) * 2)) / var(--grid-rows));
+  --lock-inset-x: clamp(12px, calc(var(--subgrid-x) - (var(--gap) / 2)), 28px);
+  --lock-inset-y: clamp(12px, calc(var(--subgrid-y) - (var(--gap) / 2)), 28px);
   --hard-shadow: 8px 8px 0 rgba(0, 0, 0, 0.96);
   --hard-shadow-hover: 12px 12px 0 rgba(0, 0, 0, 1);
 }
@@ -171,7 +173,7 @@ body::after {
   position: relative;
   z-index: 2;
   display: grid;
-  place-items: stretch;
+  place-items: center;
   width: 100vw;
   height: 100vh;
   height: 100dvh;
@@ -182,11 +184,12 @@ body::after {
 .paper-grid {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(32, 1fr);
-  grid-template-rows: repeat(32, 1fr);
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  grid-template-rows: repeat(var(--grid-rows), 1fr);
   gap: var(--gap);
-  width: 100%;
-  height: 100%;
+  width: min(100%, calc((100dvh - (var(--page-padding) * 2)) * (34 / 21)));
+  max-height: 100%;
+  aspect-ratio: 34 / 21;
   min-width: 0;
   min-height: 0;
   overflow: hidden;
@@ -310,7 +313,7 @@ body::after {
   min-width: 0;
   min-height: 0;
   padding: clamp(22px, 3vw, 52px);
-  font-size: clamp(38px, 5vw, 102px);
+  font-size: clamp(34px, 4.4vw, 90px);
   font-weight: 950;
   line-height: 0.86;
   text-align: left;
@@ -345,10 +348,10 @@ body::after {
 }
 
 .tile-photos {
-  grid-column: 1 / span 16;
-  grid-row: 1 / span 16;
+  grid-column: 22 / span 13;
+  grid-row: 1 / span 13;
   align-items: flex-end;
-  padding: clamp(18px, 2.6vw, 46px) clamp(24px, 4.3vw, 76px) clamp(28px, 4.5vw, 78px);
+  padding: clamp(18px, 2.1vw, 34px) clamp(20px, 2.6vw, 42px) clamp(22px, 2.8vw, 42px);
   color: var(--paper);
   background:
     linear-gradient(0deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.2)),
@@ -362,7 +365,7 @@ body::after {
     100% calc(100% / 8),
     auto,
     auto;
-  font-size: clamp(58px, 7.8vw, 154px);
+  font-size: clamp(48px, 5.6vw, 108px);
 }
 
 .tile-photos::after {
@@ -390,8 +393,8 @@ body::after {
 }
 
 .tile-about {
-  grid-column: 17 / span 16;
-  grid-row: 1 / span 32;
+  grid-column: 1 / span 21;
+  grid-row: 1 / span 21;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 28%),
     linear-gradient(135deg, rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.03)),
@@ -404,22 +407,22 @@ body::after {
   padding-top: clamp(30px, 4vw, 76px);
   padding-bottom: clamp(20px, 2.4vw, 42px);
   border-bottom: 2px solid var(--ink);
-  font-size: clamp(40px, 5.2vw, 108px);
+  font-size: clamp(48px, 5.3vw, 108px);
 }
 
 .tile-about .tile-content {
-  width: min(100%, 58ch);
-  padding-top: clamp(18px, 2vw, 34px);
+  width: min(100%, 56ch);
+  padding-top: clamp(16px, 1.6vw, 24px);
 }
 
 .tile-null-large {
-  grid-column: 1 / span 8;
-  grid-row: 17 / span 8;
+  grid-column: 30 / span 3;
+  grid-row: 14 / span 3;
 }
 
 .tile-name {
-  grid-column: 9 / span 8;
-  grid-row: 17 / span 16;
+  grid-column: 22 / span 8;
+  grid-row: 14 / span 8;
   color: var(--paper);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 34%),
@@ -437,14 +440,14 @@ body::after {
 }
 
 .tile-null-small-b {
-  grid-column: 1 / span 4;
-  grid-row: 25 / span 4;
+  grid-column: 33 / span 2;
+  grid-row: 14 / span 2;
   color: var(--paper);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 34%),
     linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.2)),
     var(--ash);
-  font-size: clamp(16px, 1.3vw, 28px);
+  font-size: clamp(12px, 0.9vw, 18px);
 }
 
 .tile-null-small-b .tile-center-text {
@@ -452,8 +455,8 @@ body::after {
 }
 
 .tile-null-small-a {
-  grid-column: 5 / span 4;
-  grid-row: 25 / span 8;
+  grid-column: 30 / span 5;
+  grid-row: 17 / span 5;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 34%),
     linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.18)),
@@ -461,15 +464,34 @@ body::after {
 }
 
 .tile-fractal-field {
-  grid-column: 1 / span 4;
-  grid-row: 29 / span 4;
+  grid-column: 33 / span 1;
+  grid-row: 16 / span 1;
   background: transparent;
   border: 0;
   box-shadow: none;
 }
 
+.tile-marker {
+  grid-column: 34 / span 1;
+  grid-row: 16 / span 1;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 34%),
+    var(--paper);
+}
+
+.tile-marker::before,
+.tile-marker::after {
+  display: none;
+}
+
 .tile-fractal-field::before,
 .tile-fractal-field::after {
+  display: none;
+}
+
+.tile-null-small-b::before,
+.tile-fractal-field::before,
+.tile-marker::before {
   display: none;
 }
 
@@ -511,8 +533,8 @@ body::after {
 
 .tile-null-small-b .tile-center-text {
   max-width: 9ch;
-  font-size: clamp(14px, 1.2vw, 22px);
-  line-height: 0.92;
+  font-size: clamp(12px, 0.95vw, 16px);
+  line-height: 0.9;
 }
 
 .about-copy {
@@ -577,8 +599,8 @@ body::after {
   z-index: 3;
   display: grid;
   align-content: end;
-  gap: 10px;
-  padding: 18px;
+  gap: 6px;
+  padding: 10px;
   background:
     linear-gradient(0deg, rgba(0, 0, 0, 0.76), rgba(0, 0, 0, 0.08)),
     linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
@@ -602,14 +624,14 @@ body::after {
 }
 
 .archive-fallback-kicker {
-  font-size: 11px;
+  font-size: 8px;
   font-weight: 900;
   letter-spacing: 0.12em;
 }
 
 .archive-fallback-title {
-  max-width: 11ch;
-  font-size: clamp(24px, 2.2vw, 40px);
+  max-width: 8ch;
+  font-size: clamp(12px, 1vw, 18px);
   font-weight: 950;
   line-height: 0.9;
 }
@@ -637,7 +659,7 @@ body::after {
   color: var(--ink);
   background: var(--paper);
   border: 0;
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 900;
   letter-spacing: 0.12em;
 }
@@ -691,7 +713,7 @@ body::after {
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  padding: clamp(18px, 2vw, 28px);
+  padding: clamp(14px, 1.2vw, 18px);
 }
 
 .project-credits::before,
@@ -717,7 +739,7 @@ body::after {
 
 .project-credits-track {
   display: grid;
-  gap: clamp(18px, 1.7vw, 28px);
+  gap: clamp(14px, 1.2vw, 18px);
   min-width: 0;
   animation: projectCredits 24s linear infinite;
   will-change: transform;
@@ -743,7 +765,7 @@ body::after {
   display: block;
   max-width: 100%;
   color: currentColor;
-  font-size: clamp(22px, 2.75vw, 44px);
+  font-size: clamp(18px, 1.9vw, 30px);
   font-weight: 950;
   line-height: 0.92;
   overflow-wrap: break-word;
@@ -752,9 +774,9 @@ body::after {
 
 .project-description {
   display: block;
-  max-width: 28ch;
+  max-width: 22ch;
   color: rgba(216, 216, 211, 0.7);
-  font-size: clamp(12px, 0.88vw, 15px);
+  font-size: clamp(10px, 0.7vw, 12px);
   font-weight: 700;
   line-height: 1.38;
   overflow-wrap: break-word;
@@ -776,21 +798,21 @@ body::after {
   z-index: 2;
   display: grid;
   align-content: start;
-  gap: 14px;
+  gap: 10px;
   width: 100%;
   height: 100%;
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  padding: clamp(16px, 1.7vw, 24px);
+  padding: clamp(12px, 1vw, 16px);
 }
 
 .contact-link {
   display: grid;
-  gap: 4px;
+  gap: 3px;
   width: 100%;
   min-width: 0;
-  padding-top: 18px;
+  padding-top: 10px;
   color: var(--ink);
   text-decoration: none;
   border-top: 2px solid rgba(0, 0, 0, 0.78);
@@ -802,7 +824,7 @@ body::after {
 
 .contact-label {
   color: currentColor;
-  font-size: clamp(10px, 0.78vw, 12px);
+  font-size: clamp(8px, 0.56vw, 10px);
   font-weight: 950;
   letter-spacing: 0.12em;
   line-height: 1;
@@ -812,7 +834,7 @@ body::after {
 .contact-value {
   max-width: 100%;
   color: currentColor;
-  font-size: clamp(12px, 1vw, 16px);
+  font-size: clamp(10px, 0.72vw, 12px);
   font-weight: 900;
   line-height: 1.18;
   overflow-wrap: anywhere;
@@ -821,7 +843,8 @@ body::after {
 .tile-name,
 .tile-null-large,
 .tile-null-small-a,
-.tile-null-small-b {
+.tile-null-small-b,
+.tile-marker {
   align-items: flex-start;
   justify-content: flex-start;
 }
@@ -829,7 +852,8 @@ body::after {
 .tile-name .tile-center-text,
 .tile-null-large .tile-center-text,
 .tile-null-small-a .tile-center-text,
-.tile-null-small-b .tile-center-text {
+.tile-null-small-b .tile-center-text,
+.tile-marker .tile-center-text {
   word-break: break-word;
 }
 
@@ -862,9 +886,12 @@ body::after {
     height: auto;
     min-height: 100dvh;
     overflow: visible;
+    place-items: stretch;
   }
 
   .paper-grid {
+    width: 100%;
+    aspect-ratio: auto;
     grid-template-columns: 1fr;
     grid-auto-rows: auto;
     height: auto;
@@ -907,7 +934,8 @@ body::after {
 
   .tile-null-large,
   .tile-name,
-  .tile-null-small-a {
+  .tile-null-small-a,
+  .tile-marker {
     min-height: 310px;
   }
 

@@ -125,7 +125,7 @@ function initializeSite() {
       fallback.className = "archive-fallback";
       fallback.innerHTML = `
         <span class="archive-fallback-kicker">Visual archive</span>
-        <span class="archive-fallback-title">Raw frames. Hard cuts. Process stills.</span>
+        <span class="archive-fallback-title">Raw frames. Process stills.</span>
       `;
       tile.appendChild(fallback);
 
@@ -272,7 +272,7 @@ function initializeSite() {
       className: "tile-null-small-b",
       variant: "center",
       label: "Status",
-      content: "Available"
+      content: "Open"
     });
 
     const contactTile = createTile({
@@ -287,14 +287,21 @@ function initializeSite() {
       label: "Signal"
     });
 
+    const markerTile = createTile({
+      className: "tile-marker",
+      variant: "fractal",
+      label: "Mark"
+    });
+
     [
-      photosTile,
       aboutTile,
-      imageTile,
+      photosTile,
       nameTile,
-      statusTile,
       contactTile,
-      fractalTile
+      imageTile,
+      statusTile,
+      fractalTile,
+      markerTile
     ].forEach((tile, index) => {
       tile.dataset.index = `0${index + 1}`;
       paperGrid.appendChild(tile);
