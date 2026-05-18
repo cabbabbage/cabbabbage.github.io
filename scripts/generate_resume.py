@@ -98,6 +98,45 @@ def draw_link(pdf, text, url, x, y, font="Helvetica-Bold", size=8.4, fill=LINK):
     return x + width
 
 
+def draw_contact_link(pdf, label, value, url, x, y, width):
+    set_font(pdf, "Helvetica-Bold", 7.4, SMOKE)
+    pdf.drawString(x, y, label.upper())
+    label_width = text_width(label.upper(), "Helvetica-Bold", 7.4)
+    value_x = x + label_width + 5
+    set_font(pdf, "Helvetica-Bold", 8.2, LINK)
+    pdf.drawString(value_x, y, value)
+    pdf.linkURL(url, (x, y - 2, x + width, y + 9), relative=0, thickness=0)
+
+
+def draw_contact_text(pdf, label, value, x, y, width, url=None):
+    set_font(pdf, "Helvetica-Bold", 7.4, SMOKE)
+    pdf.drawString(x, y, label.upper())
+    label_width = text_width(label.upper(), "Helvetica-Bold", 7.4)
+    value_x = x + label_width + 5
+    set_font(pdf, "Helvetica-Bold", 8.2, INK)
+    pdf.drawString(value_x, y, value)
+    if url:
+        pdf.linkURL(url, (x, y - 2, x + width, y + 9), relative=0, thickness=0)
+
+
+def draw_contact_block(pdf, content, y):
+    col_gap = 18
+    col_w = (PAGE_W - (MARGIN * 2) - (col_gap * 2)) / 3
+    left = MARGIN
+    middle = MARGIN + col_w + col_gap
+    right = MARGIN + ((col_w + col_gap) * 2)
+
+    draw_contact_text(pdf, "Email", content["email"], left, y, col_w, f"mailto:{content['email']}")
+    draw_contact_text(pdf, "Phone", content["phone"], middle, y, col_w)
+    draw_contact_text(pdf, "Location", content["location"], right, y, col_w)
+
+    y -= 14
+    draw_contact_link(pdf, "GitHub", content["github"]["label"], content["github"]["url"], left, y, col_w)
+    draw_contact_link(pdf, "LinkedIn", content["linkedin"]["label"], content["linkedin"]["url"], middle, y, col_w)
+    draw_contact_link(pdf, "Portfolio", content["portfolio"]["label"], content["portfolio"]["url"], right, y, col_w)
+    return y - 22
+
+
 def draw_header(pdf, content, page_num):
     draw_background(pdf)
     if page_num == 1:
@@ -124,15 +163,7 @@ def draw_header(pdf, content, page_num):
         pdf.drawRightString(PAGE_W - MARGIN - 12, PAGE_H - 57, f"{content['title']} / PAGE {page_num}")
         y = PAGE_H - 88
 
-    set_font(pdf, "Helvetica-Bold", 8.5, INK)
-    pdf.drawString(MARGIN, y, content["email"])
-    pdf.drawString(MARGIN + 178, y, content["phone"])
-    draw_link(pdf, content["github"]["label"], content["github"]["url"], MARGIN + 260, y)
-    y -= 13
-    draw_link(pdf, content["linkedin"]["label"], content["linkedin"]["url"], MARGIN, y)
-    draw_link(pdf, content["portfolio"]["url"], content["portfolio"]["url"], MARGIN + 252, y)
-    pdf.linkURL(f"mailto:{content['email']}", (MARGIN, y + 11, MARGIN + 170, y + 25), relative=0, thickness=0)
-    return y - 24
+    return draw_contact_block(pdf, content, y)
 
 
 def draw_summary(pdf, content, y):

@@ -5,15 +5,15 @@ const FALLBACK_CONTENT = {
   phone: "970-666-1069",
   email: "mickelsoncalvin021@gmail.com",
   github: {
-    label: "github.com/cabbabbage",
+    label: "cabbabbage",
     url: "https://github.com/cabbabbage"
   },
   linkedin: {
-    label: "linkedin.com/in/calvin-mickelson-7573b6381",
+    label: "Calvin Mickelson",
     url: "https://linkedin.com/in/calvin-mickelson-7573b6381"
   },
   portfolio: {
-    label: "cabbabbage.github.io/calvin.github.io",
+    label: "Portfolio site",
     url: "https://cabbabbage.github.io/calvin.github.io/"
   },
   resumeDownload: {
@@ -23,7 +23,7 @@ const FALLBACK_CONTENT = {
   },
   websiteSummary: "I am a Fort Collins-based software developer focused on practical systems work: C++ engines, rendering tools, real-time applications, and computer vision projects. I like building software that is fast, debuggable, and useful under real constraints.",
   skills: {
-    Languages: ["C++", "Python", "JavaScript", "Java", "SQL"],
+    Languages: ["C++", "Python", "JavaScript", "TypeScript", "Java", "SQL", "C", "HTML/CSS", "Bash"],
     "Frameworks/Tools": ["React", "Node.js", "Git", "CMake", "TensorFlow", "NumPy", "Pandas", "SDL", "MediaPipe"],
     "Core Strengths": ["Rendering pipelines", "procedural generation", "asset tooling", "debugging", "performance optimization"]
   },

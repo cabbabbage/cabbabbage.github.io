@@ -5,15 +5,15 @@
   "phone": "970-666-1069",
   "email": "mickelsoncalvin021@gmail.com",
   "github": {
-    "label": "github.com/cabbabbage",
+    "label": "cabbabbage",
     "url": "https://github.com/cabbabbage"
   },
   "linkedin": {
-    "label": "linkedin.com/in/calvin-mickelson-7573b6381",
+    "label": "Calvin Mickelson",
     "url": "https://linkedin.com/in/calvin-mickelson-7573b6381"
   },
   "portfolio": {
-    "label": "cabbabbage.github.io/calvin.github.io",
+    "label": "Portfolio site",
     "url": "https://cabbabbage.github.io/calvin.github.io/"
   },
   "resumeDownload": {
@@ -28,8 +28,12 @@
       "C++",
       "Python",
       "JavaScript",
+      "TypeScript",
       "Java",
-      "SQL"
+      "SQL",
+      "C",
+      "HTML/CSS",
+      "Bash"
     ],
     "Frameworks/Tools": [
       "React",
