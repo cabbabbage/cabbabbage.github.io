@@ -121,13 +121,23 @@ function initializeSite() {
     if (variant === "slideshow") {
       tile.classList.add("tile-image-slideshow");
 
+      const fallback = document.createElement("div");
+      fallback.className = "archive-fallback";
+      fallback.innerHTML = `
+        <span class="archive-fallback-kicker">Visual archive</span>
+        <span class="archive-fallback-title">Raw frames. Hard cuts. Process stills.</span>
+      `;
+      tile.appendChild(fallback);
+
       imageFiles.forEach((src, index) => {
         const image = document.createElement("img");
-        image.src = src;
         image.alt = `Portfolio image ${index + 1}`;
         image.className = "slideshow-image";
-        image.style.animationDelay = `${index * 3.5}s`;
-        tile.appendChild(image);
+        image.style.animationDelay = `${(index * 3.5) - 3.5}s`;
+        image.addEventListener("load", () => {
+          tile.appendChild(image);
+        });
+        image.src = src;
       });
 
       return tile;
@@ -223,19 +233,17 @@ function initializeSite() {
             force, and direct problem solving.
           </p>
           <p>
-            My work sits between engineering and visual structure: procedural generation, custom
-            editors, runtime tooling, rendering pipelines, QA workflows, and systems that make
-            chaotic behavior usable.
+            Procedural generation, custom editors, runtime tooling, rendering pipelines, QA
+            workflows, and production debugging.
           </p>
           <p>
-            I care about readable architecture, fast debugging, sharp interfaces, and software
-            that feels intentional instead of overbuilt.
+            Readable architecture, sharp interfaces, and software that feels intentional instead
+            of overbuilt.
           </p>
           <ul>
-            <li>C++ game systems and SDL rendering</li>
-            <li>Python tooling and editor workflows</li>
-            <li>QA, debugging, support, and documentation</li>
-            <li>Procedural maps, asset systems, and visual tools</li>
+            <li>C++ systems, SDL rendering, and engine tools</li>
+            <li>Python tooling, QA workflows, and editor support</li>
+            <li>Procedural maps, asset pipelines, and visual systems</li>
           </ul>
         </div>
       `
@@ -264,7 +272,7 @@ function initializeSite() {
       className: "tile-null-small-b",
       variant: "center",
       label: "Status",
-      content: "Open / Available"
+      content: "Available"
     });
 
     const contactTile = createTile({
@@ -392,6 +400,16 @@ function initializeSite() {
     sessionStorage.setItem("captchaPassed", "true");
   }
 
+  function isLocalPreviewHost() {
+    const { hostname, protocol } = window.location;
+    return (
+      protocol === "file:" ||
+      hostname === "localhost" ||
+      hostname === "127.0.0.1" ||
+      hostname === "[::1]"
+    );
+  }
+
   window.captchaComplete = function () {
     entryMessage.textContent = "Verification complete. Entering...";
     showHomePage();
@@ -405,6 +423,11 @@ function initializeSite() {
     entryMessage.textContent = "Verification expired. Please complete it again.";
     sessionStorage.removeItem("captchaPassed");
   };
+
+  if (isLocalPreviewHost()) {
+    showHomePage();
+    return;
+  }
 
   if (sessionStorage.getItem("captchaPassed") === "true") {
     showHomePage();
