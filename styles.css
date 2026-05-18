@@ -216,7 +216,7 @@ body::after {
     var(--tile-bg);
   border: 2px solid rgba(0, 0, 0, 0.94);
   box-shadow: var(--hard-shadow);
-  contain: layout paint;
+  contain: layout;
   transition:
     background 120ms linear,
     color 120ms linear,
@@ -247,7 +247,7 @@ body::after {
 
 .tile-split {
   display: grid;
-  grid-template-rows: minmax(148px, calc(var(--subgrid-y) * 11)) 1fr;
+  grid-template-rows: minmax(126px, calc(var(--subgrid-y) * 8)) minmax(0, 1fr);
   min-width: 0;
   min-height: 0;
 }
@@ -293,7 +293,7 @@ body::after {
   min-width: 0;
   min-height: 0;
   padding: clamp(22px, 3vw, 52px);
-  font-size: clamp(34px, 4.4vw, 90px);
+  font-size: clamp(34px, 4vw, 84px);
   font-weight: 950;
   line-height: 0.86;
   text-align: left;
@@ -309,7 +309,7 @@ body::after {
   min-height: 0;
   max-width: 100%;
   overflow: hidden;
-  padding: var(--lock-inset-y) var(--lock-inset-x);
+  padding: clamp(14px, 1.2vw, 22px) clamp(16px, 1.45vw, 28px);
   color: rgba(9, 9, 9, 0.92);
   font-size: clamp(12px, 0.92vw, 16px);
   font-weight: 700;
@@ -333,7 +333,8 @@ body::after {
   align-items: flex-end;
   overflow: visible;
   z-index: 4;
-  padding: clamp(18px, 2.1vw, 34px) clamp(20px, 2.6vw, 42px) clamp(22px, 2.8vw, 42px);
+  contain: layout;
+  padding: clamp(18px, 2.1vw, 34px) clamp(18px, 2.2vw, 34px) clamp(22px, 2.7vw, 40px);
   color: var(--paper);
   background:
     linear-gradient(0deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.2)),
@@ -347,7 +348,7 @@ body::after {
     100% calc(100% / 8),
     auto,
     auto;
-  font-size: clamp(48px, 5.6vw, 108px);
+  font-size: clamp(46px, 5vw, 94px);
 }
 
 .tile-photos::after {
@@ -360,9 +361,10 @@ body::after {
   max-width: none;
   width: max-content;
   z-index: 8;
-  margin-right: -4.4ch;
+  margin-right: clamp(-2.1ch, -7vw, -0.75ch);
   color: var(--paper);
-  line-height: 0.8;
+  line-height: 0.78;
+  letter-spacing: -0.045em;
   white-space: pre;
 }
 
@@ -388,7 +390,7 @@ body::after {
 }
 
 .tile-about.tile-split {
-  grid-template-rows: minmax(108px, calc(var(--subgrid-y) * 7)) 1fr;
+  grid-template-rows: minmax(122px, calc(var(--subgrid-y) * 5)) minmax(0, 1fr);
 }
 
 .tile-about .tile-title {
@@ -396,17 +398,17 @@ body::after {
   justify-content: flex-start;
   min-height: 0;
   padding-top: clamp(18px, 1.8vw, 24px);
-  padding-bottom: clamp(12px, 1.1vw, 18px);
+  padding-bottom: clamp(10px, 1vw, 16px);
   border-bottom: 2px solid var(--ink);
-  font-size: clamp(54px, 5.1vw, 104px);
-  line-height: 0.9;
+  font-size: clamp(48px, 4.6vw, 92px);
+  line-height: 0.84;
 }
 
 .tile-about .tile-content {
-  width: min(100%, 62ch);
+  width: 100%;
   height: 100%;
-  padding-top: clamp(8px, 0.7vw, 12px);
-  padding-bottom: clamp(18px, 1.4vw, 24px);
+  padding-top: clamp(14px, 1.2vw, 22px);
+  padding-bottom: clamp(16px, 1.4vw, 26px);
 }
 
 .tile-name {
@@ -467,7 +469,7 @@ body::after {
 .tile-name.tile-center {
   align-items: flex-start;
   justify-content: flex-start;
-  padding: clamp(18px, 1.9vw, 26px);
+  padding: clamp(14px, 1.45vw, 22px);
   font-size: clamp(38px, 4.6vw, 96px);
 }
 
@@ -477,10 +479,12 @@ body::after {
 
 .about-copy {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  align-content: start;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr) minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  align-content: stretch;
   height: 100%;
-  gap: clamp(14px, 1.3vw, 20px);
+  column-gap: clamp(16px, 1.5vw, 24px);
+  row-gap: clamp(16px, 1.35vw, 22px);
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
@@ -492,32 +496,46 @@ body::after {
 }
 
 .about-copy p:first-child {
-  grid-column: 1 / span 2;
-  max-width: 28ch;
-  font-size: clamp(18px, 1.28vw, 23px);
+  grid-column: 1 / span 3;
+  max-width: 41ch;
+  font-size: clamp(18px, 1.22vw, 22px);
   font-weight: 900;
-  line-height: 1.14;
+  line-height: 1.08;
   text-transform: uppercase;
 }
 
 .about-copy p:nth-child(2) {
   grid-column: 1;
+  grid-row: 2;
 }
 
 .about-copy p:nth-child(3),
 .about-copy ul {
   grid-column: 2;
+  grid-row: 2;
+}
+
+.about-copy ul {
+  grid-column: 3;
+}
+
+.about-copy p:not(:first-child),
+.about-copy ul {
+  min-height: 0;
+  padding-top: clamp(12px, 1vw, 18px);
+  border-top: 2px solid rgba(0, 0, 0, 0.78);
 }
 
 .about-copy p:not(:first-child),
 .about-copy li {
-  font-size: clamp(14px, 0.96vw, 17px);
-  line-height: 1.4;
+  font-size: clamp(12px, 0.82vw, 15px);
+  line-height: 1.36;
 }
 
 .about-copy ul {
   display: grid;
-  gap: 8px;
+  align-content: start;
+  gap: clamp(8px, 0.7vw, 12px);
   max-width: none;
   margin: 0;
   padding: 0;
@@ -527,17 +545,17 @@ body::after {
 .about-copy li {
   position: relative;
   margin: 0;
-  padding-left: 26px;
+  padding-left: 22px;
   font-weight: 850;
 }
 
 .about-copy li::before {
   content: "";
   position: absolute;
-  top: 0.56em;
+  top: 0.48em;
   left: 0;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   background: var(--ink);
 }
 
@@ -550,12 +568,12 @@ body::after {
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  padding: clamp(14px, 1.2vw, 18px);
+  padding: clamp(12px, 1vw, 16px);
 }
 
 .project-credits-track {
   display: grid;
-  gap: clamp(14px, 1.2vw, 18px);
+  gap: clamp(12px, 0.9vw, 16px);
   min-width: 0;
   padding-right: 6px;
   animation: projectCredits 24s linear infinite;
@@ -564,9 +582,9 @@ body::after {
 
 .project-link {
   display: grid;
-  gap: 8px;
+  gap: 6px;
   min-width: 0;
-  padding-bottom: 10px;
+  padding-bottom: 8px;
   color: var(--paper);
   text-decoration: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
@@ -589,7 +607,7 @@ body::after {
   display: block;
   max-width: 100%;
   color: currentColor;
-  font-size: clamp(18px, 1.9vw, 30px);
+  font-size: clamp(18px, 1.7vw, 28px);
   font-weight: 950;
   line-height: 0.92;
   overflow-wrap: break-word;
@@ -598,7 +616,7 @@ body::after {
 
 .project-description {
   display: block;
-  max-width: 22ch;
+  max-width: 24ch;
   color: rgba(216, 216, 211, 0.7);
   font-size: clamp(10px, 0.7vw, 12px);
   font-weight: 700;
@@ -622,13 +640,13 @@ body::after {
   z-index: 2;
   display: grid;
   align-content: start;
-  gap: 10px;
+  gap: clamp(7px, 0.65vw, 10px);
   width: 100%;
   height: 100%;
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  padding: clamp(12px, 1vw, 16px);
+  padding: clamp(10px, 0.85vw, 14px);
 }
 
 .contact-link {
@@ -636,7 +654,7 @@ body::after {
   gap: 3px;
   width: 100%;
   min-width: 0;
-  padding-top: 10px;
+  padding-top: clamp(7px, 0.6vw, 10px);
   color: var(--ink);
   text-decoration: none;
   border-top: 2px solid rgba(0, 0, 0, 0.78);
@@ -648,7 +666,7 @@ body::after {
 
 .contact-label {
   color: currentColor;
-  font-size: clamp(8px, 0.56vw, 10px);
+  font-size: clamp(7px, 0.52vw, 9px);
   font-weight: 950;
   letter-spacing: 0.12em;
   line-height: 1;
@@ -658,7 +676,7 @@ body::after {
 .contact-value {
   max-width: 100%;
   color: currentColor;
-  font-size: clamp(10px, 0.72vw, 12px);
+  font-size: clamp(9px, 0.68vw, 12px);
   font-weight: 900;
   line-height: 1.18;
   overflow-wrap: anywhere;
