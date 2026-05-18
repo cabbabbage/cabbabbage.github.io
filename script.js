@@ -81,6 +81,7 @@ function initializeSite() {
     tile.className = ["tile", getVariantClass(variant), className]
       .filter(Boolean)
       .join(" ");
+    tile.dataset.label = options.label || variant;
 
     if (variant === "split") {
       const title = document.createElement("div");
@@ -213,20 +214,21 @@ function initializeSite() {
     const aboutTile = createTile({
       className: "tile-about",
       variant: "split",
+      label: "Manifest",
       title: "Software Engineer",
       html: `
         <div class="about-copy">
           <p>
-            I build practical software, game systems, technical tools, and user-facing interfaces
-            with a bias toward clear systems and direct problem solving.
+            Practical software. Game systems. Tools. Interfaces. Built with a bias toward clarity,
+            force, and direct problem solving.
           </p>
           <p>
-            My work sits between engineering and visual systems: procedural generation, custom
-            editors, runtime tools, rendering pipelines, QA workflows, and anything that turns
-            messy behavior into something usable.
+            My work sits between engineering and visual structure: procedural generation, custom
+            editors, runtime tooling, rendering pipelines, QA workflows, and systems that make
+            chaotic behavior usable.
           </p>
           <p>
-            I care about readable architecture, fast debugging, thoughtful interfaces, and software
+            I care about readable architecture, fast debugging, sharp interfaces, and software
             that feels intentional instead of overbuilt.
           </p>
           <ul>
@@ -242,33 +244,39 @@ function initializeSite() {
     const photosTile = createTile({
       className: "tile-photos",
       variant: "center",
+      label: "Identity",
       content: "Calvin Mickelson"
     });
 
     const imageTile = createTile({
       className: "tile-null-large",
-      variant: "slideshow"
+      variant: "slideshow",
+      label: "Archive"
     });
 
     const nameTile = createTile({
       className: "tile-name",
-      variant: "projects"
+      variant: "projects",
+      label: "Selected Work"
     });
 
     const statusTile = createTile({
       className: "tile-null-small-b",
       variant: "center",
-      content: "Open to work"
+      label: "Status",
+      content: "Open / Available"
     });
 
     const contactTile = createTile({
       className: "tile-null-small-a",
-      variant: "contact"
+      variant: "contact",
+      label: "Contact"
     });
 
     const fractalTile = createTile({
       className: "tile-fractal-field",
-      variant: "fractal"
+      variant: "fractal",
+      label: "Signal"
     });
 
     [
@@ -293,11 +301,11 @@ function initializeSite() {
 
   function buildFractalTiles(container) {
     const palette = [
-      "var(--night-soft)",
-      "var(--accent-dark)",
-      "var(--muted)",
+      "var(--steel)",
+      "var(--smoke)",
+      "var(--ash)",
       "var(--paper)",
-      "var(--accent)",
+      "var(--paper-dim)",
       "var(--ink)"
     ];
 
