@@ -23,12 +23,12 @@ html {
   --major-grid-size: calc(100% / 8);
   --minor-grid-width: 1px;
   --major-grid-width: 2px;
-  --grid-track-x: calc((100vw - (var(--page-padding) * 2) - (var(--gap) * 7)) / 8);
-  --grid-track-y: calc((100dvh - (var(--page-padding) * 2) - (var(--gap) * 7)) / 8);
-  --subgrid-x: calc(var(--grid-track-x) / 4);
-  --subgrid-y: calc(var(--grid-track-y) / 4);
-  --snap-x: clamp(12px, var(--subgrid-x), 40px);
-  --snap-y: clamp(10px, var(--subgrid-y), 28px);
+  --subgrid-x: calc((100vw - (var(--page-padding) * 2)) / 32);
+  --subgrid-y: calc((100dvh - (var(--page-padding) * 2)) / 32);
+  --lock-inset-x: calc(var(--subgrid-x) - (var(--gap) / 2));
+  --lock-inset-y: calc(var(--subgrid-y) - (var(--gap) / 2));
+  --snap-x: var(--lock-inset-x);
+  --snap-y: var(--lock-inset-y);
 
   --text-punch-opacity: 1;
   --text-punch-opacity-hover: 0.55;
@@ -221,7 +221,7 @@ body {
 
 .tile-split {
   display: grid;
-  grid-template-rows: 34% 66%;
+  grid-template-rows: calc(var(--subgrid-y) * 11) 1fr;
   min-width: 0;
   min-height: 0;
 }
@@ -295,13 +295,13 @@ body {
   z-index: 2;
   min-width: 0;
   min-height: 0;
-  padding: var(--snap-y) var(--snap-x);
+  padding: var(--lock-inset-y) var(--lock-inset-x);
   text-align: left;
   color: var(--ink);
-  font-size: clamp(12px, 1vw, 19px);
+  font-size: clamp(10px, 0.86vw, 14px);
   font-weight: 800;
-  letter-spacing: -0.025em;
-  line-height: 1.08;
+  letter-spacing: -0.02em;
+  line-height: var(--subgrid-y);
   max-width: 100%;
   overflow: hidden;
 }
@@ -364,12 +364,13 @@ body {
 }
 
 .tile-about .tile-content {
-  width: 100%;
-  max-width: calc(100% - (var(--snap-x) * 2));
+  width: calc(var(--subgrid-x) * 12);
+  max-width: calc(100% - (var(--lock-inset-x) * 2));
   align-self: start;
-  justify-self: center;
+  justify-self: start;
+  margin-left: calc((var(--subgrid-x) * 2) - (var(--gap) / 2));
   padding: 0;
-  padding-top: var(--snap-y);
+  padding-top: var(--subgrid-y);
 }
 
 .tile-photos .tile-center-text {
@@ -402,17 +403,23 @@ body {
 }
 
 .tile-null-small-b.tile-center {
-  padding: clamp(10px, 1.25vw, 18px);
+  padding:
+    calc(var(--subgrid-y) - (var(--gap) * 0.75))
+    0
+    0
+    var(--subgrid-x);
 }
 
 .tile-null-small-b .tile-center-text {
   background: none;
   background-clip: border-box;
   -webkit-background-clip: border-box;
+  width: calc(var(--subgrid-x) * 2);
+  max-width: 100%;
   color: var(--ink);
   -webkit-text-fill-color: currentColor;
   letter-spacing: -0.045em;
-  line-height: 0.92;
+  line-height: var(--subgrid-y);
   opacity: 1;
 }
 
@@ -421,23 +428,30 @@ body {
 .about-copy {
   display: grid;
   align-content: start;
-  gap: clamp(8px, calc(var(--snap-y) * 0.55), 14px);
+  gap: var(--subgrid-y);
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
 }
 
 .about-copy p {
+  width: calc(var(--subgrid-x) * 12);
+  max-width: 100%;
   margin: 0;
 }
 
 .about-copy ul {
-  margin: clamp(4px, calc(var(--snap-y) * 0.45), 10px) 0 0;
+  display: grid;
+  gap: 0;
+  width: calc(var(--subgrid-x) * 12);
+  max-width: 100%;
+  margin: 0;
   padding-left: 1em;
 }
 
 .about-copy li {
-  margin: 0 0 0.28em;
+  min-height: var(--subgrid-y);
+  margin: 0;
 }
 
 /* IMAGE SLIDESHOW TILE */
@@ -508,7 +522,11 @@ body {
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  padding: var(--snap-y) var(--snap-x);
+  padding: var(--lock-inset-y) var(--lock-inset-x);
+}
+
+.tile-name .project-credits {
+  padding-left: calc(var(--subgrid-x) - (var(--gap) / 4));
 }
 
 .project-credits::before,
@@ -534,19 +552,14 @@ body {
 
 .project-credits-track {
   display: grid;
-  gap: clamp(18px, calc(var(--snap-y) * 1.4), 38px);
+  gap: var(--subgrid-y);
   min-width: 0;
-  animation: projectCredits 22s linear infinite;
-  will-change: transform;
-}
-
-.project-credits:hover .project-credits-track {
-  animation-play-state: paused;
+  animation: none;
 }
 
 .project-link {
   display: grid;
-  gap: 8px;
+  gap: 0;
   min-width: 0;
   color: var(--ink);
   text-decoration: none;
@@ -560,23 +573,25 @@ body {
 
 .project-title {
   display: block;
+  width: calc(var(--subgrid-x) * 6);
   max-width: 100%;
-  font-size: clamp(28px, 4.3vw, 92px);
+  font-size: clamp(20px, 2.65vw, 38px);
   font-weight: 900;
-  line-height: 0.82;
-  letter-spacing: -0.09em;
+  line-height: calc(var(--subgrid-y) * 2);
+  letter-spacing: -0.07em;
   overflow-wrap: break-word;
 }
 
 .project-description {
   display: block;
-  max-width: 95%;
+  width: calc(var(--subgrid-x) * 6);
+  max-width: 100%;
   color: var(--ink);
   -webkit-text-fill-color: currentColor;
-  font-size: clamp(10px, 0.85vw, 17px);
+  font-size: clamp(9px, 0.72vw, 13px);
   font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.025em;
+  line-height: var(--subgrid-y);
+  letter-spacing: -0.015em;
   overflow-wrap: break-word;
 }
 
@@ -597,19 +612,25 @@ body {
   inset: 0;
   z-index: 2;
   display: grid;
-  align-content: center;
-  gap: clamp(7px, 0.8vw, 14px);
+  align-content: start;
+  gap: var(--subgrid-y);
   width: 100%;
   height: 100%;
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  padding: var(--snap-y) calc(var(--snap-x) * 0.35);
+  padding:
+    calc(var(--subgrid-y) - (var(--gap) * 0.75))
+    0
+    0
+    calc(var(--subgrid-x) - 1px);
 }
 
 .contact-link {
   display: grid;
-  gap: 2px;
+  gap: 0;
+  width: calc(var(--subgrid-x) * 2);
+  max-width: 100%;
   min-width: 0;
   color: var(--ink);
   text-decoration: none;
@@ -624,20 +645,21 @@ body {
 .contact-label {
   color: var(--ink);
   -webkit-text-fill-color: currentColor;
-  font-size: clamp(9px, 0.72vw, 14px);
+  font-size: clamp(8px, 0.62vw, 11px);
   font-weight: 900;
-  letter-spacing: -0.015em;
-  line-height: 1;
+  letter-spacing: 0;
+  line-height: var(--subgrid-y);
 }
 
 .contact-value {
+  width: calc(var(--subgrid-x) * 2);
   max-width: 100%;
   color: var(--ink);
   -webkit-text-fill-color: currentColor;
-  font-size: clamp(11px, 0.95vw, 21px);
+  font-size: clamp(8px, 0.65vw, 12px);
   font-weight: 900;
-  letter-spacing: -0.035em;
-  line-height: 0.95;
+  letter-spacing: 0;
+  line-height: var(--subgrid-y);
   overflow-wrap: anywhere;
 }
 
