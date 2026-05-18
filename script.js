@@ -58,6 +58,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   ];
 
+  function getVariantClass(variant) {
+    if (variant === "split") return "tile-split";
+    if (variant === "center") return "tile-center";
+    if (variant === "image") return "tile-image";
+    if (variant === "slideshow") return "tile-slideshow";
+    if (variant === "projects") return "tile-projects";
+    if (variant === "contact") return "tile-contact";
+    return "tile-center";
+  }
+
   function createTile(options) {
     const tile = document.createElement("section");
 
@@ -66,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     tile.className = [
       "tile",
-      variant === "split" ? "tile-split" : "tile-center",
+      getVariantClass(variant),
       className
     ]
       .filter(Boolean)
@@ -88,6 +98,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
       tile.appendChild(title);
       tile.appendChild(content);
+      return tile;
+    }
+
+    if (variant === "image") {
+      if (options.imageSrc) {
+        const image = document.createElement("img");
+        image.src = options.imageSrc;
+        image.alt = options.imageAlt || "";
+        tile.appendChild(image);
+      } else {
+        const text = document.createElement("div");
+        text.className = "tile-center-text";
+        text.textContent = options.content || "";
+        tile.appendChild(text);
+      }
+
       return tile;
     }
 
@@ -148,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const link = document.createElement("a");
         link.href = contact.url;
         link.target = contact.url.startsWith("mailto:") ? "_self" : "_blank";
-        link.rel = "noopener noreferrer";
+        link.rel = contact.url.startsWith("mailto:") ? "" : "noopener noreferrer";
         link.className = "contact-link";
 
         const label = document.createElement("span");
@@ -183,8 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
       className: "tile-about",
       variant: "split",
       title: "About Me",
-      html:
-        `
+      html: `
         <div class="about-copy">
           <p>
             I am a computer science graduate focused on building practical software, game systems,
@@ -206,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <li>Procedural maps, asset systems, and visual tools</li>
           </ul>
         </div>
-        `
+      `
     });
 
     const nameTile = createTile({
@@ -237,9 +262,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     paperGrid.appendChild(aboutTile);
-    paperGrid.appendChild(nameTile);
-    paperGrid.appendChild(imageTile);
     paperGrid.appendChild(photosTile);
+    paperGrid.appendChild(imageTile);
+    paperGrid.appendChild(nameTile);
     paperGrid.appendChild(contactTile);
     paperGrid.appendChild(statusTile);
   }
