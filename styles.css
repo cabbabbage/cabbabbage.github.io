@@ -264,13 +264,14 @@ body {
   font-weight: 900;
   letter-spacing: -0.075em;
 }
+
 .tile-about {
   grid-column: 5 / span 4;
   grid-row: 1 / span 8;
 }
 
 .tile-about .tile-title {
-  font-size: clamp(56px, 7vw, 150px);
+  font-size: clamp(48px, 5.8vw, 126px);
 }
 
 .tile-about .tile-content {
@@ -281,13 +282,27 @@ body {
 .tile-photos {
   grid-column: 1 / span 4;
   grid-row: 1 / span 4;
-  font-size: clamp(42px, 6vw, 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(14px, 2.2vw, 42px);
+  font-size: clamp(72px, 8.8vw, 180px);
+  text-align: center;
+}
+
+.tile-photos .tile-center-text {
+  max-width: 100%;
+  text-align: center;
+  line-height: 0.82;
+  letter-spacing: -0.105em;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 
 .tile-name {
   grid-column: 3 / span 2;
   grid-row: 5 / span 4;
-  font-size: clamp(42px, 4.7vw, 96px);
+  font-size: clamp(30px, 3.3vw, 72px);
 }
 
 .tile-name .tile-center-text {
@@ -315,8 +330,7 @@ body {
 .tile-name,
 .tile-null-large,
 .tile-null-small-a,
-.tile-null-small-b,
-.tile-photos {
+.tile-null-small-b {
   align-items: flex-start;
   justify-content: flex-start;
 }
@@ -324,8 +338,7 @@ body {
 .tile-name .tile-center-text,
 .tile-null-large .tile-center-text,
 .tile-null-small-a .tile-center-text,
-.tile-null-small-b .tile-center-text,
-.tile-photos .tile-center-text {
+.tile-null-small-b .tile-center-text {
   word-break: break-word;
 }
 

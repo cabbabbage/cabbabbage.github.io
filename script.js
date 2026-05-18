@@ -83,13 +83,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const nameTile = createTile({
       className: "tile-name",
       variant: "center",
-      content: "Calvin Mickelson"
+      content: "null for right now"
     });
 
     const photosTile = createTile({
       className: "tile-photos",
       variant: "center",
-      content: "null for right now"
+      content: "Calvin Mickelson"
     });
 
     const nullLargeTile = createTile({
