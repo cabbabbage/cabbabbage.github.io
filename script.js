@@ -343,40 +343,39 @@ async function initializeSite() {
     return tile;
   }
 
-  function addNameDots(tile) {
-    const dotColors = [
+  function addAboutBottomArt(tile) {
+    const artColors = [
       "var(--signal)",
       "var(--electric)",
       "var(--strike)",
+      "var(--ink)",
       "var(--paper)"
     ];
-    const dotCount = 14;
+    const shapeTypes = ["dot", "circle", "bar"];
+    const shapeCount = 26;
     const field = document.createElement("div");
-    field.className = "name-dot-field";
+    field.className = "about-bottom-art";
     field.setAttribute("aria-hidden", "true");
 
-    for (let index = 0; index < dotCount; index += 1) {
-      const dot = document.createElement("span");
-      const left = 8 + Math.random() * 78;
-      const top = 8 + Math.random() * 78;
-      const xLimit = Math.min(left - 2, 92 - left, 26);
-      const yLimit = Math.min(top - 2, 92 - top, 26);
-      const xDirection = Math.random() < 0.5 ? -1 : 1;
-      const yDirection = Math.random() < 0.5 ? -1 : 1;
+    for (let index = 0; index < shapeCount; index += 1) {
+      const shape = document.createElement("span");
+      const shapeType = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
+      const color = artColors[index % artColors.length];
+      const width = shapeType === "bar" ? 28 + Math.random() * 92 : 5 + Math.random() * 28;
+      const height = shapeType === "bar" ? 4 + Math.random() * 14 : width;
 
-      dot.className = "name-dot";
-      dot.style.setProperty("--dot-left", `${left.toFixed(2)}%`);
-      dot.style.setProperty("--dot-top", `${top.toFixed(2)}%`);
-      dot.style.setProperty("--dot-size", `${(4 + Math.random() * 5).toFixed(2)}px`);
-      dot.style.setProperty("--dot-travel-x", `${(xDirection * (3 + Math.random() * (xLimit - 3))).toFixed(2)}%`);
-      dot.style.setProperty("--dot-travel-y", `${(yDirection * (3 + Math.random() * (yLimit - 3))).toFixed(2)}%`);
-      dot.style.setProperty("--dot-duration", `${(2.8 + Math.random() * 3.4).toFixed(2)}s`);
-      dot.style.setProperty("--dot-delay", `${(-Math.random() * 5).toFixed(2)}s`);
-      dot.style.setProperty("--dot-color", dotColors[index % dotColors.length]);
-      field.appendChild(dot);
+      shape.className = `about-art-shape about-art-${shapeType}`;
+      shape.style.setProperty("--art-left", `${(2 + Math.random() * 96).toFixed(2)}%`);
+      shape.style.setProperty("--art-top", `${(12 + Math.random() * 80).toFixed(2)}%`);
+      shape.style.setProperty("--art-width", `${width.toFixed(2)}px`);
+      shape.style.setProperty("--art-height", `${height.toFixed(2)}px`);
+      shape.style.setProperty("--art-color", color);
+      shape.style.setProperty("--art-opacity", `${(0.38 + Math.random() * 0.42).toFixed(2)}`);
+      shape.style.setProperty("--art-rotate", `${(-28 + Math.random() * 56).toFixed(2)}deg`);
+      field.appendChild(shape);
     }
 
-    tile.prepend(field);
+    tile.appendChild(field);
   }
 
   function buildHomePage() {
@@ -420,6 +419,7 @@ async function initializeSite() {
         </div>
       `
     });
+    addAboutBottomArt(aboutTile);
 
     const photosTile = createTile({
       className: "tile-photos",
@@ -433,7 +433,6 @@ async function initializeSite() {
       variant: "projects",
       label: "Selected Work"
     });
-    addNameDots(nameTile);
 
     const contactTile = createTile({
       className: "tile-null-small-a",
