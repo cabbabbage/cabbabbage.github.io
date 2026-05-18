@@ -418,10 +418,13 @@ body::after {
   right: 12px;
   bottom: 12px;
   left: 12px;
-  z-index: 0;
+  z-index: 1;
   height: clamp(160px, 30%, 200px);
   pointer-events: none;
   background:
+    radial-gradient(circle at var(--about-tint-a-x, 28%) var(--about-tint-a-y, 68%), rgba(223, 255, 53, var(--about-tint-strength, 0.18)) 0 8%, transparent 24%),
+    radial-gradient(circle at var(--about-tint-b-x, 72%) var(--about-tint-b-y, 42%), rgba(102, 231, 255, calc(var(--about-tint-strength, 0.18) * 0.9)) 0 7%, transparent 22%),
+    radial-gradient(circle at var(--about-tint-c-x, 84%) var(--about-tint-c-y, 74%), rgba(255, 77, 46, calc(var(--about-tint-strength, 0.18) * 0.74)) 0 6%, transparent 20%),
     radial-gradient(circle at 78% 18%, transparent 0 22%, rgba(216, 216, 211, 0.24) 22.2% 22.7%, transparent 23%),
     radial-gradient(circle at 42% 5%, transparent 0 38%, rgba(216, 216, 211, 0.2) 38.2% 38.7%, transparent 39%),
     linear-gradient(90deg, transparent 0 49.8%, rgba(216, 216, 211, 0.2) 50%, transparent 50.2%),
@@ -465,53 +468,6 @@ body::after {
   mask-position: 0 0;
   mask-repeat: no-repeat;
   mask-size: 100% 100%;
-}
-
-.about-bottom-art {
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
-  left: 12px;
-  z-index: 1;
-  height: clamp(150px, 29%, 210px);
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.about-bottom-art::before {
-  content: "";
-  position: absolute;
-  inset: 12% -4% -18%;
-  background:
-    linear-gradient(90deg, rgba(9, 9, 9, 0.18) 1px, transparent 1px),
-    linear-gradient(rgba(9, 9, 9, 0.14) 1px, transparent 1px);
-  background-size: 34px 100%, 100% 27px;
-  opacity: 0.5;
-}
-
-.about-art-shape {
-  position: absolute;
-  left: var(--art-left);
-  top: var(--art-top);
-  width: var(--art-width);
-  height: var(--art-height);
-  background: var(--art-color);
-  opacity: var(--art-opacity);
-  transform: translate(-50%, -50%) rotate(var(--art-rotate));
-}
-
-.about-art-dot,
-.about-art-circle {
-  border-radius: 50%;
-}
-
-.about-art-circle {
-  background: transparent;
-  border: clamp(2px, 0.22vw, 4px) solid var(--art-color);
-}
-
-.about-art-bar {
-  box-shadow: 8px 8px 0 rgba(9, 9, 9, 0.16);
 }
 
 .tile-about.tile-split {
@@ -985,10 +941,6 @@ body::after {
   .tile-about::before {
     height: clamp(120px, 16%, 150px);
     opacity: 0.58;
-  }
-
-  .about-bottom-art {
-    height: clamp(130px, 18%, 170px);
   }
 
   .tile-about .tile-title {

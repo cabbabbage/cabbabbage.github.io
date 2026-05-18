@@ -343,39 +343,14 @@ async function initializeSite() {
     return tile;
   }
 
-  function addAboutBottomArt(tile) {
-    const artColors = [
-      "var(--signal)",
-      "var(--electric)",
-      "var(--strike)",
-      "var(--ink)",
-      "var(--paper)"
-    ];
-    const shapeTypes = ["dot", "circle", "bar"];
-    const shapeCount = 26;
-    const field = document.createElement("div");
-    field.className = "about-bottom-art";
-    field.setAttribute("aria-hidden", "true");
-
-    for (let index = 0; index < shapeCount; index += 1) {
-      const shape = document.createElement("span");
-      const shapeType = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
-      const color = artColors[index % artColors.length];
-      const width = shapeType === "bar" ? 28 + Math.random() * 92 : 5 + Math.random() * 28;
-      const height = shapeType === "bar" ? 4 + Math.random() * 14 : width;
-
-      shape.className = `about-art-shape about-art-${shapeType}`;
-      shape.style.setProperty("--art-left", `${(2 + Math.random() * 96).toFixed(2)}%`);
-      shape.style.setProperty("--art-top", `${(12 + Math.random() * 80).toFixed(2)}%`);
-      shape.style.setProperty("--art-width", `${width.toFixed(2)}px`);
-      shape.style.setProperty("--art-height", `${height.toFixed(2)}px`);
-      shape.style.setProperty("--art-color", color);
-      shape.style.setProperty("--art-opacity", `${(0.38 + Math.random() * 0.42).toFixed(2)}`);
-      shape.style.setProperty("--art-rotate", `${(-28 + Math.random() * 56).toFixed(2)}deg`);
-      field.appendChild(shape);
-    }
-
-    tile.appendChild(field);
+  function tintAboutBottomArt(tile) {
+    tile.style.setProperty("--about-tint-a-x", `${(16 + Math.random() * 22).toFixed(2)}%`);
+    tile.style.setProperty("--about-tint-a-y", `${(48 + Math.random() * 34).toFixed(2)}%`);
+    tile.style.setProperty("--about-tint-b-x", `${(58 + Math.random() * 26).toFixed(2)}%`);
+    tile.style.setProperty("--about-tint-b-y", `${(28 + Math.random() * 38).toFixed(2)}%`);
+    tile.style.setProperty("--about-tint-c-x", `${(70 + Math.random() * 22).toFixed(2)}%`);
+    tile.style.setProperty("--about-tint-c-y", `${(60 + Math.random() * 24).toFixed(2)}%`);
+    tile.style.setProperty("--about-tint-strength", `${(0.16 + Math.random() * 0.08).toFixed(2)}`);
   }
 
   function buildHomePage() {
@@ -419,7 +394,7 @@ async function initializeSite() {
         </div>
       `
     });
-    addAboutBottomArt(aboutTile);
+    tintAboutBottomArt(aboutTile);
 
     const photosTile = createTile({
       className: "tile-photos",
