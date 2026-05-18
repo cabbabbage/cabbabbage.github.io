@@ -21,7 +21,10 @@ ASH = colors.HexColor("#31312f")
 SMOKE = colors.HexColor("#5f5f5a")
 PAPER = colors.HexColor("#d8d8d3")
 PAPER_DIM = colors.HexColor("#b6b6b0")
-LINK = colors.HexColor("#111111")
+SIGNAL = colors.HexColor("#dfff35")
+ELECTRIC = colors.HexColor("#66e7ff")
+STRIKE = colors.HexColor("#ff4d2e")
+LINK = INK
 
 
 def load_content():
@@ -57,22 +60,57 @@ def wrap_text(text, font, size, max_width):
 def draw_background(pdf):
     pdf.setFillColor(PAPER)
     pdf.rect(0, 0, PAGE_W, PAGE_H, fill=1, stroke=0)
-    pdf.setFillColor(colors.Color(0, 0, 0, alpha=0.035))
+    pdf.setFillColor(colors.Color(0, 0, 0, alpha=0.028))
     pdf.rect(MARGIN - 12, MARGIN - 12, PAGE_W - ((MARGIN - 12) * 2), PAGE_H - ((MARGIN - 12) * 2), fill=1, stroke=0)
+
+    pdf.saveState()
+    pdf.setStrokeColor(colors.Color(0, 0, 0, alpha=0.11))
+    pdf.setLineWidth(0.25)
+    grid = 28
+    x = MARGIN - 12
+    while x <= PAGE_W - MARGIN + 12:
+        pdf.line(x, MARGIN - 12, x, PAGE_H - MARGIN + 12)
+        x += grid
+    y = MARGIN - 12
+    while y <= PAGE_H - MARGIN + 12:
+        pdf.line(MARGIN - 12, y, PAGE_W - MARGIN + 12, y)
+        y += grid
+    pdf.restoreState()
+
+    for x, y, color in (
+        (PAGE_W - MARGIN - 18, PAGE_H - MARGIN + 2, SIGNAL),
+        (PAGE_W - MARGIN - 54, PAGE_H - MARGIN - 32, ELECTRIC),
+        (MARGIN + 22, MARGIN + 34, STRIKE),
+        (MARGIN + 126, PAGE_H - MARGIN - 18, SIGNAL),
+    ):
+        pdf.setFillColor(color)
+        pdf.circle(x, y, 1.7, fill=1, stroke=0)
+
+    pdf.setStrokeColor(INK)
+    pdf.setLineWidth(1.1)
+    pdf.rect(MARGIN - 16, MARGIN - 16, PAGE_W - ((MARGIN - 16) * 2), PAGE_H - ((MARGIN - 16) * 2), fill=0, stroke=1)
+    pdf.setStrokeColor(SIGNAL)
+    pdf.setLineWidth(4)
+    pdf.line(MARGIN - 11, MARGIN - 14, PAGE_W - MARGIN + 11, MARGIN - 14)
+    pdf.setStrokeColor(STRIKE)
+    pdf.line(MARGIN - 14, PAGE_H - 118, MARGIN - 14, PAGE_H - 36)
 
 
 def draw_label(pdf, text, x, y, width=None):
     label_width = width or max(72, text_width(text, "Helvetica-Bold", 8) + 16)
-    pdf.setFillColor(INK)
+    pdf.setFillColor(SIGNAL)
     pdf.rect(x, y - 11, label_width, 15, fill=1, stroke=0)
-    set_font(pdf, "Helvetica-Bold", 8, PAPER)
+    pdf.setStrokeColor(INK)
+    pdf.setLineWidth(1)
+    pdf.rect(x, y - 11, label_width, 15, fill=0, stroke=1)
+    set_font(pdf, "Helvetica-Bold", 8, INK)
     pdf.drawString(x + 7, y - 6.5, text.upper())
     return y - 23
 
 
 def draw_rule(pdf, x, y, width):
     pdf.setStrokeColor(INK)
-    pdf.setLineWidth(1.2)
+    pdf.setLineWidth(1)
     pdf.line(x, y, x + width, y)
 
 
@@ -82,7 +120,7 @@ def draw_wrapped(pdf, text, x, y, width, font="Helvetica", size=8.8, leading=11,
     set_font(pdf, font, size, fill)
     for index, line in enumerate(lines):
         if bullet and index == 0:
-            pdf.setFillColor(INK)
+            pdf.setFillColor(SIGNAL)
             pdf.rect(x, y - 4, 3.5, 3.5, fill=1, stroke=0)
         pdf.setFillColor(fill)
         pdf.drawString(x + bullet_indent, y, line)
@@ -99,67 +137,98 @@ def draw_link(pdf, text, url, x, y, font="Helvetica-Bold", size=8.4, fill=LINK):
 
 
 def draw_contact_link(pdf, label, value, url, x, y, width):
-    set_font(pdf, "Helvetica-Bold", 7.4, SMOKE)
+    set_font(pdf, "Helvetica-Bold", 7.1, INK)
     pdf.drawString(x, y, label.upper())
-    label_width = text_width(label.upper(), "Helvetica-Bold", 7.4)
-    value_x = x + label_width + 5
-    set_font(pdf, "Helvetica-Bold", 8.2, LINK)
+    label_width = text_width(label.upper(), "Helvetica-Bold", 7.1)
+    value_x = x + label_width + 6
+    set_font(pdf, "Helvetica-Bold", 8, ASH)
     pdf.drawString(value_x, y, value)
     pdf.linkURL(url, (x, y - 2, x + width, y + 9), relative=0, thickness=0)
 
 
 def draw_contact_text(pdf, label, value, x, y, width, url=None):
-    set_font(pdf, "Helvetica-Bold", 7.4, SMOKE)
+    set_font(pdf, "Helvetica-Bold", 7.1, INK)
     pdf.drawString(x, y, label.upper())
-    label_width = text_width(label.upper(), "Helvetica-Bold", 7.4)
-    value_x = x + label_width + 5
-    set_font(pdf, "Helvetica-Bold", 8.2, INK)
+    label_width = text_width(label.upper(), "Helvetica-Bold", 7.1)
+    value_x = x + label_width + 6
+    set_font(pdf, "Helvetica-Bold", 8, INK)
     pdf.drawString(value_x, y, value)
     if url:
         pdf.linkURL(url, (x, y - 2, x + width, y + 9), relative=0, thickness=0)
 
 
 def draw_contact_block(pdf, content, y):
-    col_gap = 18
+    col_gap = 22
     col_w = (PAGE_W - (MARGIN * 2) - (col_gap * 2)) / 3
     left = MARGIN
     middle = MARGIN + col_w + col_gap
     right = MARGIN + ((col_w + col_gap) * 2)
 
-    draw_contact_text(pdf, "Email", content["email"], left, y, col_w, f"mailto:{content['email']}")
-    draw_contact_text(pdf, "Phone", content["phone"], middle, y, col_w)
-    draw_contact_text(pdf, "Location", content["location"], right, y, col_w)
+    band_y = y - 24
+    band_h = 42
+    pdf.setFillColor(colors.Color(0, 0, 0, alpha=0.07))
+    pdf.rect(MARGIN, band_y, PAGE_W - (MARGIN * 2), band_h, fill=1, stroke=0)
+    pdf.setStrokeColor(INK)
+    pdf.setLineWidth(1)
+    pdf.line(MARGIN, band_y, PAGE_W - MARGIN, band_y)
+    pdf.setStrokeColor(colors.Color(0, 0, 0, alpha=0.18))
+    pdf.setLineWidth(0.45)
+    pdf.line(MARGIN, y - 3, PAGE_W - MARGIN, y - 3)
+    pdf.line(middle - (col_gap / 2), band_y + 5, middle - (col_gap / 2), band_y + band_h - 5)
+    pdf.line(right - (col_gap / 2), band_y + 5, right - (col_gap / 2), band_y + band_h - 5)
+    pdf.setStrokeColor(ELECTRIC)
+    pdf.setLineWidth(3)
+    pdf.line(PAGE_W - MARGIN - 96, y + 19, PAGE_W - MARGIN, y + 19)
 
-    y -= 14
-    draw_contact_link(pdf, "GitHub", content["github"]["label"], content["github"]["url"], left, y, col_w)
-    draw_contact_link(pdf, "LinkedIn", content["linkedin"]["label"], content["linkedin"]["url"], middle, y, col_w)
-    draw_contact_link(pdf, "Portfolio", content["portfolio"]["label"], content["portfolio"]["url"], right, y, col_w)
+    draw_contact_text(pdf, "Email", content["email"], left + 2, y + 2, col_w, f"mailto:{content['email']}")
+    draw_contact_text(pdf, "Phone", content["phone"], middle + 2, y + 2, col_w)
+    draw_contact_text(pdf, "Location", content["location"], right + 2, y + 2, col_w)
+
+    y -= 15
+    draw_contact_link(pdf, "GitHub", content["github"]["label"], content["github"]["url"], left + 2, y, col_w)
+    draw_contact_link(pdf, "LinkedIn", content["linkedin"]["label"], content["linkedin"]["url"], middle + 2, y, col_w)
+    draw_contact_link(pdf, "Portfolio", content["portfolio"]["label"], content["portfolio"]["url"], right + 2, y, col_w)
     return y - 22
 
 
 def draw_header(pdf, content, page_num):
     draw_background(pdf)
     if page_num == 1:
+        panel_x = PAGE_W - 174
+        panel_w = 138
         pdf.setFillColor(INK)
         pdf.rect(MARGIN, PAGE_H - 112, PAGE_W - (MARGIN * 2), 76, fill=1, stroke=0)
-        pdf.setFillColor(PAPER)
-        pdf.rect(PAGE_W - 154, PAGE_H - 112, 118, 76, fill=1, stroke=0)
-        set_font(pdf, "Helvetica-Bold", 28, PAPER)
-        pdf.drawString(MARGIN + 16, PAGE_H - 68, content["name"].upper())
-        set_font(pdf, "Helvetica-Bold", 13, PAPER)
-        pdf.drawString(MARGIN + 18, PAGE_H - 90, content["title"])
-        set_font(pdf, "Helvetica-Bold", 9, INK)
-        pdf.drawString(PAGE_W - 140, PAGE_H - 62, "SOFTWARE")
-        pdf.drawString(PAGE_W - 140, PAGE_H - 78, "DEVELOPER")
-        set_font(pdf, "Helvetica", 8, INK)
-        pdf.drawString(PAGE_W - 140, PAGE_H - 94, "PROJECT RESUME")
+        pdf.setFillColor(PAPER_DIM)
+        pdf.rect(panel_x, PAGE_H - 112, panel_w, 76, fill=1, stroke=0)
+        pdf.setFillColor(STRIKE)
+        pdf.rect(MARGIN, PAGE_H - 112, 8, 76, fill=1, stroke=0)
+        pdf.setFillColor(SIGNAL)
+        pdf.rect(MARGIN, PAGE_H - 112, PAGE_W - (MARGIN * 2), 5, fill=1, stroke=0)
+        pdf.setStrokeColor(PAPER)
+        pdf.setLineWidth(0.8)
+        pdf.rect(MARGIN + 10, PAGE_H - 102, panel_x - MARGIN - 20, 56, fill=0, stroke=1)
+        pdf.rect(panel_x + 14, PAGE_H - 102, panel_w - 28, 56, fill=0, stroke=1)
+        set_font(pdf, "Helvetica-Bold", 27, PAPER)
+        pdf.drawString(MARGIN + 20, PAGE_H - 68, content["name"].upper())
+        set_font(pdf, "Helvetica-Bold", 13, SIGNAL)
+        pdf.drawString(MARGIN + 20, PAGE_H - 90, content["title"].upper())
+        set_font(pdf, "Helvetica-Bold", 9.4, INK)
+        pdf.drawString(panel_x + 28, PAGE_H - 64, "SOFTWARE")
+        pdf.drawString(panel_x + 28, PAGE_H - 80, "DEVELOPER")
+        set_font(pdf, "Helvetica-Bold", 8, INK)
+        pdf.drawString(panel_x + 28, PAGE_H - 96, "PROJECT RESUME")
         y = PAGE_H - 128
     else:
         pdf.setFillColor(INK)
         pdf.rect(MARGIN, PAGE_H - 70, PAGE_W - (MARGIN * 2), 34, fill=1, stroke=0)
+        pdf.setFillColor(STRIKE)
+        pdf.rect(MARGIN, PAGE_H - 70, 7, 34, fill=1, stroke=0)
+        pdf.setStrokeColor(SIGNAL)
+        pdf.setLineWidth(3)
+        pdf.line(MARGIN, PAGE_H - 36, PAGE_W - MARGIN, PAGE_H - 36)
         set_font(pdf, "Helvetica-Bold", 15, PAPER)
         pdf.drawString(MARGIN + 12, PAGE_H - 57, content["name"].upper())
-        set_font(pdf, "Helvetica-Bold", 9, PAPER)
+        set_font(pdf, "Helvetica-Bold", 9, SIGNAL)
         pdf.drawRightString(PAGE_W - MARGIN - 12, PAGE_H - 57, f"{content['title']} / PAGE {page_num}")
         y = PAGE_H - 88
 
