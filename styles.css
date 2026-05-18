@@ -23,6 +23,8 @@ html {
   --major-grid-size: calc(100% / 8);
   --minor-grid-width: 1px;
   --major-grid-width: 2px;
+  --minor-grid-opacity: 0.48;
+  --major-grid-opacity: 0.68;
   --subgrid-x: calc((100vw - (var(--page-padding) * 2)) / 32);
   --subgrid-y: calc((100dvh - (var(--page-padding) * 2)) / 32);
   --lock-inset-x: calc(var(--subgrid-x) - (var(--gap) / 2));
@@ -65,7 +67,12 @@ body {
   display: grid;
   place-items: center;
   padding: 24px;
-  background: #050505;
+  background-color: var(--page-bg);
+  background-image: var(--page-gif);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   z-index: 10;
 }
 
@@ -159,6 +166,7 @@ body {
 
 .paper-grid::before {
   z-index: 4;
+  opacity: var(--minor-grid-opacity);
 
   -webkit-mask-image:
     linear-gradient(to right, #000 var(--minor-grid-width), transparent var(--minor-grid-width)),
@@ -179,6 +187,7 @@ body {
 
 .paper-grid::after {
   z-index: 5;
+  opacity: var(--major-grid-opacity);
 
   -webkit-mask-image:
     linear-gradient(to right, #000 var(--major-grid-width), transparent var(--major-grid-width)),
