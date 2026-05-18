@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+function initializeSite() {
   const entryScreen = document.getElementById("entry-screen");
   const homePage = document.getElementById("home-page");
   const entryMessage = document.getElementById("entry-message");
@@ -111,12 +111,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (variant === "slideshow") {
       tile.classList.add("tile-image-slideshow", "tile-art-panel");
 
-      ["C++", "SDL", "TOOLS", "QA", "PY"].forEach((label, index) => {
-        const mark = document.createElement("span");
-        mark.className = `art-mark art-mark-${index + 1}`;
-        mark.textContent = label;
-        tile.appendChild(mark);
-      });
+      const mark = document.createElement("span");
+      mark.className = "art-mark";
+      mark.textContent = "C++ / TOOLS";
+      tile.appendChild(mark);
 
       return tile;
     }
@@ -197,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const aboutTile = createTile({
       className: "tile-about",
       variant: "split",
-      title: "Software Engineer / Tool Builder",
+      title: "Software Engineer",
       html: `
         <div class="about-copy">
           <p>
@@ -242,7 +240,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const statusTile = createTile({
       className: "tile-null-small-b",
       variant: "center",
-      content: "Open to work / building"
+      content: "Open to work"
     });
 
     const contactTile = createTile({
@@ -287,4 +285,10 @@ document.addEventListener("DOMContentLoaded", function () {
   if (sessionStorage.getItem("captchaPassed") === "true") {
     showHomePage();
   }
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeSite);
+} else {
+  initializeSite();
+}

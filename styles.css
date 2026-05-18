@@ -9,18 +9,17 @@ html {
 }
 
 :root {
-  --page-bg: #090907;
+  --page-bg: #0b0b0a;
   --page-gif: url("assets/background.gif");
-  --ink: #090907;
-  --surface: #f2eee3;
-  --surface-cool: #dff8ff;
-  --acid: #d7ff2f;
-  --signal: #ff4d2d;
-  --blue: #38c7ff;
-  --muted: #383832;
+  --ink: #10100e;
+  --surface: #efede5;
+  --paper: #d8d4c7;
+  --accent: #a8b7ad;
+  --accent-dark: #65736a;
+  --muted: #55534c;
 
-  --tile-bg: rgba(242, 238, 227, 0.94);
-  --tile-bg-hover: #fffdf4;
+  --tile-bg: rgba(239, 237, 229, 0.93);
+  --tile-bg-hover: #f7f4eb;
 
   --gap: 10px;
   --page-padding: clamp(10px, 1.4vw, 18px);
@@ -29,15 +28,15 @@ html {
   --major-grid-size: calc(100% / 8);
   --minor-grid-width: 1px;
   --major-grid-width: 2px;
-  --minor-grid-opacity: 0.2;
-  --major-grid-opacity: 0.32;
+  --minor-grid-opacity: 0.09;
+  --major-grid-opacity: 0.16;
   --subgrid-x: calc((100vw - (var(--page-padding) * 2)) / 32);
   --subgrid-y: calc((100dvh - (var(--page-padding) * 2)) / 32);
   --lock-inset-x: clamp(14px, calc(var(--subgrid-x) - (var(--gap) / 2)), 30px);
   --lock-inset-y: clamp(14px, calc(var(--subgrid-y) - (var(--gap) / 2)), 30px);
 
-  --hard-shadow: 8px 8px 0 rgba(0, 0, 0, 0.95);
-  --hard-shadow-hover: 14px 14px 0 rgba(0, 0, 0, 0.95);
+  --hard-shadow: 7px 7px 0 rgba(0, 0, 0, 0.92);
+  --hard-shadow-hover: 10px 10px 0 rgba(0, 0, 0, 0.92);
 }
 
 body {
@@ -53,7 +52,7 @@ body {
     sans-serif;
   background-color: var(--page-bg);
   background-image:
-    linear-gradient(rgba(9, 9, 7, 0.42), rgba(9, 9, 7, 0.62)),
+    linear-gradient(rgba(11, 11, 10, 0.72), rgba(11, 11, 10, 0.76)),
     var(--page-gif);
   background-size: cover;
   background-position: center;
@@ -61,20 +60,6 @@ body {
   background-attachment: fixed;
   line-height: 1.35;
   overflow: hidden;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 42px 42px;
-  mix-blend-mode: screen;
-  opacity: 0.35;
 }
 
 .hidden {
@@ -92,7 +77,7 @@ body::before {
   padding: 24px;
   background-color: var(--page-bg);
   background-image:
-    linear-gradient(rgba(9, 9, 7, 0.2), rgba(9, 9, 7, 0.75)),
+    linear-gradient(rgba(11, 11, 10, 0.38), rgba(11, 11, 10, 0.78)),
     var(--page-gif);
   background-size: cover;
   background-position: center;
@@ -257,7 +242,7 @@ body::before {
   background: var(--tile-bg);
   border: 2px solid var(--ink);
   border-radius: 0;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.22) inset;
+  box-shadow: none;
   contain: layout paint;
   transition:
     background 140ms linear,
@@ -266,24 +251,10 @@ body::before {
     box-shadow 140ms linear;
 }
 
-.tile::before {
-  content: attr(data-index);
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  z-index: 4;
-  color: currentColor;
-  font-size: 11px;
-  font-weight: 950;
-  letter-spacing: 0.08em;
-  opacity: 0.52;
-  pointer-events: none;
-}
-
 .tile:hover {
   z-index: 12;
   background: var(--tile-bg-hover);
-  transform: translate(-4px, -4px);
+  transform: translate(-2px, -2px);
   box-shadow: var(--hard-shadow-hover);
 }
 
@@ -372,12 +343,13 @@ body::before {
   padding: clamp(26px, 4.3vw, 74px);
   color: var(--ink);
   background:
-    linear-gradient(135deg, rgba(215, 255, 47, 0.96) 0 45%, rgba(242, 238, 227, 0.96) 45% 100%);
+    linear-gradient(160deg, rgba(168, 183, 173, 0.76) 0 32%, transparent 32% 100%),
+    var(--surface);
   font-size: clamp(56px, 7.4vw, 148px);
 }
 
 .tile-photos::after {
-  content: "PORTFOLIO / DEV";
+  content: "PORTFOLIO";
   position: absolute;
   top: 18px;
   left: 18px;
@@ -397,9 +369,7 @@ body::before {
 .tile-about {
   grid-column: 5 / span 4;
   grid-row: 1 / span 8;
-  background:
-    linear-gradient(90deg, rgba(56, 199, 255, 0.18), transparent 34%),
-    var(--surface);
+  background: var(--surface);
 }
 
 .tile-about .tile-title {
@@ -425,21 +395,23 @@ body::before {
   grid-column: 3 / span 2;
   grid-row: 5 / span 4;
   color: var(--surface);
-  background: var(--ink);
+  background:
+    linear-gradient(180deg, rgba(168, 183, 173, 0.14), transparent 44%),
+    var(--ink);
 }
 
 .tile-null-small-b {
   grid-column: 1 / span 1;
   grid-row: 7 / span 1;
   color: var(--ink);
-  background: var(--signal);
+  background: var(--paper);
   font-size: clamp(16px, 1.3vw, 28px);
 }
 
 .tile-null-small-a {
   grid-column: 2 / span 1;
   grid-row: 7 / span 2;
-  background: var(--acid);
+  background: var(--accent);
 }
 
 .tile-name.tile-center {
@@ -517,7 +489,7 @@ body::before {
   left: 0;
   width: 12px;
   height: 12px;
-  background: var(--signal);
+  background: var(--accent);
   border: 2px solid var(--ink);
   transform: rotate(8deg);
 }
@@ -530,20 +502,33 @@ body::before {
   overflow: hidden;
   color: var(--surface);
   background:
-    radial-gradient(circle at 70% 32%, rgba(255, 77, 45, 0.82) 0 18%, transparent 19%),
-    linear-gradient(135deg, var(--ink) 0 54%, var(--blue) 54% 58%, var(--ink) 58% 100%);
+    linear-gradient(118deg, var(--ink) 0 62%, var(--accent) 62% 65%, var(--paper) 65% 100%);
+}
+
+.tile-art-panel::before {
+  content: "";
+  position: absolute;
+  right: -22%;
+  bottom: -42%;
+  z-index: 1;
+  width: 92%;
+  aspect-ratio: 1;
+  border: clamp(18px, 3vw, 34px) solid rgba(239, 237, 229, 0.86);
+  border-radius: 999px;
+  opacity: 0.92;
 }
 
 .tile-art-panel::after {
   content: "";
   position: absolute;
-  inset: 16px;
+  top: 18px;
+  left: 18px;
+  bottom: 18px;
   z-index: 1;
-  border: 2px solid rgba(242, 238, 227, 0.8);
-  background:
-    repeating-linear-gradient(0deg, transparent 0 13px, rgba(242, 238, 227, 0.15) 13px 14px),
-    repeating-linear-gradient(90deg, transparent 0 13px, rgba(242, 238, 227, 0.11) 13px 14px);
-  mix-blend-mode: screen;
+  width: 34%;
+  border-top: 2px solid rgba(239, 237, 229, 0.72);
+  border-left: 2px solid rgba(239, 237, 229, 0.72);
+  opacity: 0.8;
 }
 
 .art-mark {
@@ -551,54 +536,18 @@ body::before {
   z-index: 2;
   display: inline-grid;
   place-items: center;
-  padding: 7px 8px;
-  color: var(--surface);
-  background: var(--ink);
-  border: 2px solid var(--surface);
-  font-size: clamp(12px, 1.45vw, 22px);
-  font-weight: 950;
-  letter-spacing: 0.08em;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.art-mark-1 {
-  top: 18%;
-  left: 12%;
-  transform: rotate(-8deg);
-}
-
-.art-mark-2 {
-  top: 24%;
-  right: 14%;
-  color: var(--ink);
-  background: var(--acid);
-  border-color: var(--ink);
-  transform: rotate(9deg);
-}
-
-.art-mark-3 {
-  right: 8%;
-  bottom: 18%;
-  transform: rotate(-3deg);
-}
-
-.art-mark-4 {
-  bottom: 14%;
-  left: 12%;
-  color: var(--ink);
-  background: var(--blue);
-  border-color: var(--ink);
-  transform: rotate(6deg);
-}
-
-.art-mark-5 {
-  top: 48%;
-  left: 38%;
+  right: 18px;
+  bottom: 18px;
+  padding: 8px 9px;
   color: var(--ink);
   background: var(--surface);
-  border-color: var(--ink);
-  transform: rotate(-1deg);
+  border: 2px solid var(--ink);
+  font-size: clamp(11px, 1.05vw, 16px);
+  font-weight: 950;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+  transform: rotate(-4deg);
 }
 
 /* Projects */
@@ -638,14 +587,9 @@ body::before {
 
 .project-credits-track {
   display: grid;
-  gap: clamp(20px, 2vw, 34px);
+  gap: clamp(18px, 1.7vw, 28px);
   min-width: 0;
-  animation: projectCredits 24s linear infinite;
-  will-change: transform;
-}
-
-.project-credits:hover .project-credits-track {
-  animation-play-state: paused;
+  transform: translateY(0);
 }
 
 .project-link {
@@ -657,7 +601,7 @@ body::before {
 }
 
 .project-link:hover {
-  color: var(--acid);
+  color: var(--accent);
 }
 
 .project-title {
@@ -681,16 +625,6 @@ body::before {
   letter-spacing: 0;
   line-height: 1.35;
   overflow-wrap: break-word;
-}
-
-@keyframes projectCredits {
-  0% {
-    transform: translateY(76%);
-  }
-
-  100% {
-    transform: translateY(-62%);
-  }
 }
 
 /* Contact */
@@ -720,7 +654,7 @@ body::before {
 }
 
 .contact-link:hover {
-  color: var(--signal);
+  color: var(--accent-dark);
 }
 
 .contact-label {
