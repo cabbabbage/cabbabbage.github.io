@@ -41,14 +41,14 @@ document.addEventListener("DOMContentLoaded", function () {
       const title = createTextBlock("tile-title", options.title || "", {
         minFont: options.titleMinFont || 16,
         maxFont: options.titleMaxFont || 180,
-        lineFactor: options.titleLineFactor || 0.9,
+        lineFactor: options.titleLineFactor || 0.88,
         allowWrap: options.titleAllowWrap !== false
       });
 
       const content = createTextBlock("tile-content", options.content || "", {
         minFont: options.contentMinFont || 8,
         maxFont: options.contentMaxFont || 72,
-        lineFactor: options.contentLineFactor || 1.1,
+        lineFactor: options.contentLineFactor || 1,
         allowWrap: options.contentAllowWrap !== false
       });
 
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const text = createTextBlock("tile-center-text", options.content || "", {
           minFont: options.minFont || 8,
           maxFont: options.maxFont || 180,
-          lineFactor: options.lineFactor || 0.95,
+          lineFactor: options.lineFactor || 0.9,
           allowWrap: options.allowWrap !== false
         });
 
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const text = createTextBlock("tile-center-text", options.content || "", {
       minFont: options.minFont || 8,
       maxFont: options.maxFont || 180,
-      lineFactor: options.lineFactor || 0.95,
+      lineFactor: options.lineFactor || 0.9,
       allowWrap: options.allowWrap !== false
     });
 
@@ -98,13 +98,13 @@ document.addEventListener("DOMContentLoaded", function () {
       variant: "split",
       title: "About Me",
       content:
-        "I’m Calvin Mickelson, a Computer Science graduate from Colorado State University with a B.S. in Computer Science. My work is focused on software development, game systems, QA, technical support, and practical engineering tools. I build mostly in C++, Python, and JavaScript, with a strong interest in custom engines, rendering systems, procedural generation, editor tooling, debugging, and clean system design. My main personal project is a custom C++/SDL game engine with procedural map generation, dynamic lighting, asset management, rendering pipelines, and development tools. I also build Python/Tkinter tools for map editing, asset configuration, and workflow automation. I like working on difficult technical problems, breaking messy systems down into cleaner parts, and building tools that make complicated work easier to understand and manage.",
+        "Computer Science graduate focused on software development, game systems, QA, technical support, and practical engineering tools.",
       titleMinFont: 32,
       titleMaxFont: 180,
       titleLineFactor: 0.88,
       contentMinFont: 8,
       contentMaxFont: 44,
-      contentLineFactor: 1.15
+      contentLineFactor: 1
     });
 
     const nameTile = createTile({
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
       content: "Calvin Mickelson",
       minFont: 16,
       maxFont: 110,
-      lineFactor: 0.92
+      lineFactor: 0.9
     });
 
     const photosTile = createTile({
@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
       content: "null for right now",
       minFont: 20,
       maxFont: 150,
-      lineFactor: 0.92
+      lineFactor: 0.9
     });
 
     const nullLargeTile = createTile({
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
       content: "null",
       minFont: 16,
       maxFont: 90,
-      lineFactor: 0.92,
+      lineFactor: 0.9,
       allowWrap: false
     });
 
@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
       content: "null",
       minFont: 10,
       maxFont: 70,
-      lineFactor: 0.92,
+      lineFactor: 0.9,
       allowWrap: false
     });
 
@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
       content: "null",
       minFont: 8,
       maxFont: 48,
-      lineFactor: 0.92,
+      lineFactor: 0.9,
       allowWrap: false
     });
 
@@ -161,22 +161,6 @@ document.addEventListener("DOMContentLoaded", function () {
     paperGrid.appendChild(nullSmallTileB);
     paperGrid.appendChild(nullLargeTile);
     paperGrid.appendChild(photosTile);
-
-    buildGridOverlay();
-  }
-
-  function buildGridOverlay() {
-    for (let row = 1; row <= 8; row += 1) {
-      for (let col = 1; col <= 8; col += 1) {
-        const cell = document.createElement("div");
-
-        cell.className = "grid-cell-overlay";
-        cell.style.gridColumn = `${col} / span 1`;
-        cell.style.gridRow = `${row} / span 1`;
-
-        paperGrid.appendChild(cell);
-      }
-    }
   }
 
   function getTileMinorSize(tile) {
@@ -216,8 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function setTextMetrics(element, fontSize, minorY) {
     const lineFactor = Number(element.dataset.lineFactor) || 1;
-    const lineUnit = Math.max(1, minorY);
-    const lineHeight = snapUp(fontSize * lineFactor, lineUnit);
+    const lineHeight = snapUp(fontSize * lineFactor, minorY);
 
     element.style.fontSize = `${fontSize}px`;
     element.style.lineHeight = `${lineHeight}px`;
