@@ -33,6 +33,14 @@ function initializeSite() {
     }
   ];
 
+  const imageFiles = [
+    "images/image_1.jpg",
+    "images/image_2.jpg",
+    "images/image_3.jpg",
+    "images/image_4.jpg",
+    "images/image_5.jpg"
+  ];
+
   const contacts = [
     {
       label: "Email",
@@ -109,12 +117,16 @@ function initializeSite() {
     }
 
     if (variant === "slideshow") {
-      tile.classList.add("tile-image-slideshow", "tile-art-panel");
+      tile.classList.add("tile-image-slideshow");
 
-      const mark = document.createElement("span");
-      mark.className = "art-mark";
-      mark.textContent = "C++ / TOOLS";
-      tile.appendChild(mark);
+      imageFiles.forEach((src, index) => {
+        const image = document.createElement("img");
+        image.src = src;
+        image.alt = `Portfolio image ${index + 1}`;
+        image.className = "slideshow-image";
+        image.style.animationDelay = `${index * 3.5}s`;
+        tile.appendChild(image);
+      });
 
       return tile;
     }
