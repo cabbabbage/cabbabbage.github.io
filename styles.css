@@ -18,10 +18,9 @@
   --minor-grid-size: calc(100% / 32);
   --major-grid-size: calc(100% / 8);
   --minor-grid-width: 1px;
-  --major-grid-width: 2px;
+  --major-grid-width: 3px;
 
   --hard-shadow: 8px 8px 0 rgba(0, 0, 0, 0.95);
-  --hard-shadow-hover: 14px 14px 0 rgba(0, 0, 0, 0.95);
 }
 
 body {
@@ -35,7 +34,7 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   color: var(--text-main);
-  line-height: 1.15;
+  line-height: 1;
   overflow: hidden;
   text-transform: uppercase;
 }
@@ -53,7 +52,7 @@ body {
   place-items: center;
   padding: 24px;
   background: #050505;
-  z-index: 10;
+  z-index: 20;
 }
 
 .entry-card {
@@ -131,7 +130,7 @@ body {
 }
 
 .paper-grid::before {
-  z-index: 4;
+  z-index: 10;
   -webkit-mask-image:
     linear-gradient(to right, #000 var(--minor-grid-width), transparent var(--minor-grid-width)),
     linear-gradient(to bottom, #000 var(--minor-grid-width), transparent var(--minor-grid-width));
@@ -149,7 +148,7 @@ body {
 }
 
 .paper-grid::after {
-  z-index: 5;
+  z-index: 11;
   -webkit-mask-image:
     linear-gradient(to right, #000 var(--major-grid-width), transparent var(--major-grid-width)),
     linear-gradient(to bottom, #000 var(--major-grid-width), transparent var(--major-grid-width));
@@ -168,12 +167,14 @@ body {
 
 .tile {
   position: relative;
+  display: grid;
   background: var(--tile-bg);
   border: none;
   border-radius: 0;
   overflow: hidden;
   min-width: 0;
   min-height: 0;
+  z-index: 1;
   transition:
     background 120ms linear,
     transform 120ms linear,
@@ -185,137 +186,131 @@ body {
   transform: translate(-3px, -3px);
   box-shadow: var(--hard-shadow);
   z-index: 6;
+  cursor: crosshair;
 }
 
-.tile-split {
-  display: grid;
-  grid-template-rows: 1fr 2fr;
-}
-
-.tile-center {
+.tile-text-block {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: clamp(14px, 2.2vw, 42px);
-  text-align: left;
-  font-weight: 900;
-}
-
-.tile-title,
-.tile-content,
-.tile-center-text {
-  position: relative;
-  z-index: 2;
+  margin: 0;
+  padding: 0;
   color: var(--text-main);
   -webkit-text-fill-color: var(--text-main);
   background-image: none;
   opacity: 1;
+  text-align: left;
+  font-weight: 900;
+  letter-spacing: -0.08em;
+  line-height: 1;
+  word-break: normal;
 }
 
 .tile-title {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: clamp(18px, 2.7vw, 52px);
-  font-size: clamp(42px, 5.4vw, 112px);
-  font-weight: 900;
-  letter-spacing: -0.095em;
-  line-height: 0.82;
-  text-align: left;
+  color: var(--text-main);
+  -webkit-text-fill-color: var(--text-main);
 }
 
 .tile-content {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: clamp(18px, 2.7vw, 52px);
-  text-align: left;
-  font-size: clamp(17px, 1.65vw, 34px);
-  font-weight: 800;
-  letter-spacing: -0.055em;
-  line-height: 1.05;
   color: var(--text-muted);
-  max-width: 100%;
+  -webkit-text-fill-color: var(--text-muted);
+  letter-spacing: -0.05em;
+  font-weight: 900;
 }
 
 .tile-center-text {
-  display: block;
-  text-align: left;
-  line-height: 0.92;
-  font-weight: 900;
-  letter-spacing: -0.075em;
+  color: var(--text-main);
+  -webkit-text-fill-color: var(--text-main);
 }
 
 .tile-about {
   grid-column: 1 / span 4;
   grid-row: 1 / span 8;
+  --tile-minor-cols: 16;
+  --tile-minor-rows: 32;
+  grid-template-columns: repeat(16, 1fr);
+  grid-template-rows: repeat(32, 1fr);
 }
 
 .tile-about .tile-title {
-  font-size: clamp(56px, 7vw, 150px);
+  grid-column: 1 / span 14;
+  grid-row: 3 / span 4;
 }
 
 .tile-about .tile-content {
-  max-width: 92%;
-  align-self: start;
-}
-
-.tile-photos {
-  grid-column: 5 / span 4;
-  grid-row: 5 / span 4;
-  font-size: clamp(42px, 6vw, 120px);
+  grid-column: 1 / span 13;
+  grid-row: 13 / span 5;
 }
 
 .tile-name {
   grid-column: 5 / span 2;
   grid-row: 1 / span 4;
-  font-size: clamp(42px, 4.7vw, 96px);
+  --tile-minor-cols: 8;
+  --tile-minor-rows: 16;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(16, 1fr);
 }
 
 .tile-name .tile-center-text {
-  max-width: 95%;
-}
-
-.tile-null-large {
-  grid-column: 7 / span 2;
-  grid-row: 3 / span 2;
-  font-size: clamp(36px, 4vw, 80px);
+  grid-column: 1 / span 7;
+  grid-row: 2 / span 6;
 }
 
 .tile-null-small-a {
   grid-column: 7 / span 1;
   grid-row: 1 / span 2;
-  font-size: clamp(24px, 2.6vw, 52px);
+  --tile-minor-cols: 4;
+  --tile-minor-rows: 8;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+}
+
+.tile-null-small-a .tile-center-text {
+  grid-column: 1 / span 4;
+  grid-row: 2 / span 2;
 }
 
 .tile-null-small-b {
   grid-column: 8 / span 1;
   grid-row: 2 / span 1;
-  font-size: clamp(18px, 1.9vw, 38px);
+  --tile-minor-cols: 4;
+  --tile-minor-rows: 4;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
 }
 
-.tile-name,
-.tile-null-large,
-.tile-null-small-a,
-.tile-null-small-b,
+.tile-null-small-b .tile-center-text {
+  grid-column: 1 / span 4;
+  grid-row: 2 / span 1;
+}
+
+.tile-null-large {
+  grid-column: 7 / span 2;
+  grid-row: 3 / span 2;
+  --tile-minor-cols: 8;
+  --tile-minor-rows: 8;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+}
+
+.tile-null-large .tile-center-text {
+  grid-column: 1 / span 6;
+  grid-row: 2 / span 2;
+}
+
 .tile-photos {
-  align-items: flex-start;
-  justify-content: flex-start;
+  grid-column: 5 / span 4;
+  grid-row: 5 / span 4;
+  --tile-minor-cols: 16;
+  --tile-minor-rows: 16;
+  grid-template-columns: repeat(16, 1fr);
+  grid-template-rows: repeat(16, 1fr);
 }
 
-.tile-name .tile-center-text,
-.tile-null-large .tile-center-text,
-.tile-null-small-a .tile-center-text,
-.tile-null-small-b .tile-center-text,
 .tile-photos .tile-center-text {
-  word-break: break-word;
-}
-
-.tile-photos:hover,
-.tile-name:hover,
-.tile-about:hover,
-.tile-null-large:hover,
-.tile-null-small-a:hover,
-.tile-null-small-b:hover {
-  cursor: crosshair;
+  grid-column: 1 / span 13;
+  grid-row: 2 / span 5;
 }
