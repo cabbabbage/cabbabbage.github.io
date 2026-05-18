@@ -330,7 +330,7 @@ body::after {
 .tile-photos {
   grid-column: 22 / span 13;
   grid-row: 1 / span 13;
-  align-items: flex-end;
+  align-items: center;
   overflow: visible;
   z-index: 4;
   contain: layout;
