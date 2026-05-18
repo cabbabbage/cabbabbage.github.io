@@ -338,3 +338,7 @@ body {
 .tile-null-small-b:hover {
   cursor: crosshair;
 }
+
+html {
+  filter: invert(1);
+}
