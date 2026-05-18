@@ -15,7 +15,7 @@
   </script>
 </head>
 <body>
-  <section id="entry-screen" class="entry-screen">
+  <div id="entry-screen" class="entry-screen">
     <div class="entry-card">
       <h1>Calvin Mickelson</h1>
       <p>Please verify that you are human to enter.</p>
@@ -23,18 +23,16 @@
       <div
         class="cf-turnstile"
         data-sitekey="1x00000000000000000000AA"
-        data-callback="captchaComplete">
+        data-callback="captchaComplete"
+        data-error-callback="captchaError"
+        data-expired-callback="captchaExpired">
       </div>
 
-      <button id="enter-button" type="button" disabled>
-        Enter Site
-      </button>
-
       <p id="entry-message" class="entry-message">
-        Complete the check above first.
+        Complete the check above to enter.
       </p>
     </div>
-  </section>
+  </div>
 
   <main id="home-page" class="hidden">
     <section class="hero">
@@ -81,13 +79,7 @@
       </article>
     </section>
 
-    <section>
-      <h2>Contact</h2>
-      <p>
-        Email:
-        <a href="mailto:YOUR_EMAIL@example.com">YOUR_EMAIL@example.com</a>
-      </p>
-    </section>
+
   </main>
 
   <script src="script.js"></script>
