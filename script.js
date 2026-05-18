@@ -15,13 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  const imageFiles = [
-    "assets/images/image-1.jpg",
-    "assets/images/image-2.jpg",
-    "assets/images/image-3.jpg",
-    "assets/images/image-4.jpg"
-  ];
-
   const projects = [
     {
       title: "ENGINE 2.0",
@@ -116,15 +109,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (variant === "slideshow") {
-      tile.classList.add("tile-image-slideshow");
+      tile.classList.add("tile-image-slideshow", "tile-art-panel");
 
-      imageFiles.forEach((src, index) => {
-        const image = document.createElement("img");
-        image.src = src;
-        image.alt = `Portfolio image ${index + 1}`;
-        image.className = "slideshow-image";
-        image.style.animationDelay = `${index * 4}s`;
-        tile.appendChild(image);
+      ["C++", "SDL", "TOOLS", "QA", "PY"].forEach((label, index) => {
+        const mark = document.createElement("span");
+        mark.className = `art-mark art-mark-${index + 1}`;
+        mark.textContent = label;
+        tile.appendChild(mark);
       });
 
       return tile;
@@ -206,21 +197,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const aboutTile = createTile({
       className: "tile-about",
       variant: "split",
-      title: "About Me",
+      title: "Software Engineer / Tool Builder",
       html: `
         <div class="about-copy">
           <p>
-            I am a computer science graduate focused on building practical software, game systems,
-            technical tools, and clean user-facing interfaces.
+            I build practical software, game systems, technical tools, and user-facing interfaces
+            with a bias toward clear systems and direct problem solving.
           </p>
           <p>
-            My work sits between engineering and visual systems. I like procedural generation,
-            custom editors, runtime tools, rendering pipelines, QA, support workflows, and anything
-            that turns messy systems into something usable.
+            My work sits between engineering and visual systems: procedural generation, custom
+            editors, runtime tools, rendering pipelines, QA workflows, and anything that turns
+            messy behavior into something usable.
           </p>
           <p>
-            I care about direct problem solving, readable architecture, and software that feels
-            intentional instead of overbuilt.
+            I care about readable architecture, fast debugging, thoughtful interfaces, and software
+            that feels intentional instead of overbuilt.
           </p>
           <ul>
             <li>C++ game systems and SDL rendering</li>
@@ -251,7 +242,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const statusTile = createTile({
       className: "tile-null-small-b",
       variant: "center",
-      content: "Open to work"
+      content: "Open to work / building"
     });
 
     const contactTile = createTile({
@@ -259,12 +250,17 @@ document.addEventListener("DOMContentLoaded", function () {
       variant: "contact"
     });
 
-    paperGrid.appendChild(photosTile);
-    paperGrid.appendChild(aboutTile);
-    paperGrid.appendChild(imageTile);
-    paperGrid.appendChild(nameTile);
-    paperGrid.appendChild(statusTile);
-    paperGrid.appendChild(contactTile);
+    [
+      photosTile,
+      aboutTile,
+      imageTile,
+      nameTile,
+      statusTile,
+      contactTile
+    ].forEach((tile, index) => {
+      tile.dataset.index = `0${index + 1}`;
+      paperGrid.appendChild(tile);
+    });
   }
 
   function showHomePage() {
