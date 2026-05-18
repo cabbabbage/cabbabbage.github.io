@@ -563,7 +563,12 @@ body {
   display: grid;
   gap: var(--subgrid-y);
   min-width: 0;
-  animation: none;
+  animation: projectCredits 22s linear infinite;
+  will-change: transform;
+}
+
+.project-credits:hover .project-credits-track {
+  animation-play-state: paused;
 }
 
 .project-link {
