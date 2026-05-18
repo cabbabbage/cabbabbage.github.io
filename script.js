@@ -19,22 +19,27 @@ function initializeSite() {
     {
       title: "ENGINE 2.0 / VIBBLE Engine",
       description: "Custom C++/SDL engine with dynamic lighting, parallax rendering, procedural maps, editor tooling, and JSON asset workflows.",
-      url: "https://github.com/cabbabbage"
+      url: "https://github.com/cabbabbage/ENGINE-2.0"
     },
     {
       title: "ASL Interpretation Model",
       description: "Real-time ASL recognition pipeline using MediaPipe hand landmarks, TensorFlow classification, and live video input.",
-      url: "https://github.com/cabbabbage"
+      url: "https://github.com/cabbabbage/ASL_Interpretation_Model-"
     },
     {
       title: "SSH_MAVLINK",
       description: "Remote multirotor control over 4G LTE with real-time telemetry, video streaming, and MAVLink command links.",
-      url: "https://github.com/cabbabbage"
+      url: "https://github.com/cabbabbage/SSH_MAVLINK"
     },
     {
       title: "SmileScope",
       description: "Python and MediaPipe facial landmark app for smile detection and annotated screenshot capture under noisy motion.",
-      url: "https://github.com/cabbabbage"
+      url: "https://github.com/cabbabbage/SmileScope"
+    },
+    {
+      title: "auto_edit",
+      description: "Python generator for beat-synced glitch edits, with BPM/drop analysis, OCR text overlays, and batch-rendered vertical MP4 outputs.",
+      url: "https://github.com/cabbabbage/auto_edit"
     }
   ];
 
