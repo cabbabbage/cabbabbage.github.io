@@ -4,8 +4,8 @@ export function createAboutTile() {
   return createTile({
     className: "tile-about",
     variant: "split",
-    title: "About Me",
+    title: "Software Engineer",
     content:
-      "I’m Calvin Mickelson, a Computer Science graduate from Colorado State University with a B.S. in Computer Science. My work is focused on software development, game systems, QA, technical support, and practical engineering tools. I build mostly in C++, Python, and JavaScript, with a strong interest in custom engines, rendering systems, procedural generation, editor tooling, debugging, and clean system design. My main personal project is a custom C++/SDL game engine with procedural map generation, dynamic lighting, asset management, rendering pipelines, and development tools. I also build Python/Tkinter tools for map editing, asset configuration, and workflow automation. I like working on difficult technical problems, breaking messy systems down into cleaner parts, and building tools that make complicated work easier to understand and manage."
+      "Calvin Mickelson is a software engineer in Fort Collins, Colorado with a B.S. in Computer Science from Colorado State University. His work spans performance-sensitive C++ systems, custom rendering pipelines, developer tooling, procedural generation, asset pipelines, data-driven software architecture, and machine learning/computer vision applications. His resume projects include ENGINE 2.0 / VIBBLE Engine, an ASL interpretation model, SSH_MAVLINK, and SmileScope."
   });
 }

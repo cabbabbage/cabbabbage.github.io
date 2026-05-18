@@ -17,37 +17,47 @@ function initializeSite() {
 
   const projects = [
     {
-      title: "ENGINE 2.0",
-      description: "Custom C++ game engine with SDL rendering, procedural maps, tools, lighting, and runtime systems.",
-      url: "https://github.com/krispykxl/ENGINE-2.0"
+      title: "ENGINE 2.0 / VIBBLE Engine",
+      description: "Custom C++/SDL engine with dynamic lighting, parallax rendering, procedural maps, editor tooling, and JSON asset workflows.",
+      url: "https://github.com/cabbabbage"
     },
     {
-      title: "Procedural Map Tools",
-      description: "Room and trail generation tooling with layered placement, editor previews, and spatial rules.",
-      url: "https://github.com/krispykxl"
+      title: "ASL Interpretation Model",
+      description: "Real-time ASL recognition pipeline using MediaPipe hand landmarks, TensorFlow classification, and live video input.",
+      url: "https://github.com/cabbabbage"
     },
     {
-      title: "Portfolio Site",
-      description: "Brutalist personal web space for projects, visuals, experiments, and contact.",
-      url: "https://github.com/krispykxl"
+      title: "SSH_MAVLINK",
+      description: "Remote multirotor control over 4G LTE with real-time telemetry, video streaming, and MAVLink command links.",
+      url: "https://github.com/cabbabbage"
+    },
+    {
+      title: "SmileScope",
+      description: "Python and MediaPipe facial landmark app for smile detection and annotated screenshot capture under noisy motion.",
+      url: "https://github.com/cabbabbage"
     }
   ];
 
   const contacts = [
     {
       label: "Email",
-      value: "krispykxl@gmail.com",
-      url: "mailto:krispykxl@gmail.com"
+      value: "mickelsoncalvin021@gmail.com",
+      url: "mailto:mickelsoncalvin021@gmail.com"
+    },
+    {
+      label: "Phone",
+      value: "970-666-1069",
+      url: "tel:9706661069"
     },
     {
       label: "GitHub",
-      value: "@krispykxl",
-      url: "https://github.com/krispykxl"
+      value: "github.com/cabbabbage",
+      url: "https://github.com/cabbabbage"
     },
     {
       label: "LinkedIn",
-      value: "Calvin Mickelson",
-      url: "https://www.linkedin.com/"
+      value: "linkedin.com/in/calvin-mickelson-7573b6381",
+      url: "https://linkedin.com/in/calvin-mickelson-7573b6381"
     }
   ];
 
@@ -195,21 +205,24 @@ function initializeSite() {
       html: `
         <div class="about-copy">
           <p>
-            Practical software. Game systems. Tools. Interfaces. Built with a bias toward clarity,
-            force, and direct problem solving.
+            Software engineer with a B.S. in Computer Science from Colorado State University,
+            focused on performance-sensitive C++ systems, rendering pipelines, developer tooling,
+            and machine learning/computer vision applications.
           </p>
           <p>
-            Procedural generation, custom editors, runtime tooling, rendering pipelines, QA
-            workflows, and production debugging.
+            Strong in C++, Python, JavaScript, Java, and SQL, with experience across React,
+            Node.js, Git, CMake, TensorFlow, NumPy, Pandas, SDL, and MediaPipe.
           </p>
           <p>
-            Readable architecture, sharp interfaces, and software that feels intentional instead
-            of overbuilt.
+            Experience includes Broadcom manufacturing control operations, Collins Control and
+            Electric apprenticeship work, and high-volume kitchen operations at UNION Bar & Soda
+            Fountain.
           </p>
           <ul>
-            <li>C++ systems, SDL rendering, and engine tools</li>
-            <li>Python tooling, QA workflows, and editor support</li>
-            <li>Procedural maps, asset pipelines, and visual systems</li>
+            <li>Colorado State University, B.S. Computer Science, 2025</li>
+            <li>Systems design, performance optimization, and debugging</li>
+            <li>Procedural generation, asset pipelines, and data-driven architecture</li>
+            <li>Fort Collins, Colorado</li>
           </ul>
         </div>
       `
