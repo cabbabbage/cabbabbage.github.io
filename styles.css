@@ -252,13 +252,12 @@ body::after {
     linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 32%),
     linear-gradient(135deg, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.03)),
     var(--tile-bg);
-  border: 2px solid rgba(0, 0, 0, 0.94);
+  border: 0;
   box-shadow: none;
   contain: layout;
   transition:
     background 120ms linear,
-    color 120ms linear,
-    border-color 120ms linear;
+    color 120ms linear;
 }
 
 .tile::after {
@@ -266,7 +265,6 @@ body::after {
   position: absolute;
   inset: 9px;
   z-index: 1;
-  border: 1px solid rgba(0, 0, 0, 0.24);
   pointer-events: none;
 }
 
@@ -377,7 +375,6 @@ body::after {
 
 .tile-photos::after {
   inset: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .tile-photos .tile-center-text {
@@ -509,7 +506,40 @@ body::after {
 }
 
 .tile-name::after {
-  border-color: rgba(255, 255, 255, 0.16);
+  inset: 10px;
+}
+
+.name-dot-field {
+  position: absolute;
+  inset: 10px;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.name-dot {
+  position: absolute;
+  left: var(--dot-left);
+  top: var(--dot-top);
+  width: var(--dot-size);
+  height: var(--dot-size);
+  border-radius: 50%;
+  background: var(--dot-color);
+  opacity: 0.86;
+  transform: translate3d(0, 0, 0);
+  animation: nameDotBounce var(--dot-duration) cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+  animation-delay: var(--dot-delay);
+  will-change: transform;
+}
+
+@keyframes nameDotBounce {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(var(--dot-travel-x), var(--dot-travel-y), 0);
+  }
 }
 
 .tile-null-small-a {
@@ -544,14 +574,12 @@ body::after {
     linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 42%),
     linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.18)),
     var(--ink);
-  border: 2px solid rgba(216, 216, 211, 0.82);
   box-shadow: none;
   text-decoration: none;
 }
 
 .tile-resume::after {
   display: block;
-  border-color: rgba(216, 216, 211, 0.22);
 }
 
 .tile-resume:hover {
@@ -561,13 +589,15 @@ body::after {
     linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 42%),
     linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.12)),
     var(--charcoal);
-  border-color: var(--paper);
   box-shadow: none;
 }
 
 .resume-download-label {
   position: relative;
   z-index: 2;
+  display: block;
+  justify-self: center;
+  align-self: center;
   max-width: 7ch;
   color: currentColor;
   font-size: clamp(14px, 1.05vw, 18px);
@@ -824,7 +854,7 @@ body::after {
 
 .tile-name,
 .tile-null-small-a,
-.tile-square-field {
+.tile-square-field:not(.tile-resume) {
   align-items: flex-start;
   justify-content: flex-start;
 }
@@ -848,6 +878,10 @@ body::after {
   .project-credits-track {
     animation-duration: 24s !important;
     animation-iteration-count: infinite !important;
+  }
+
+  .name-dot {
+    animation: none !important;
   }
 }
 

@@ -67,6 +67,62 @@ const FALLBACK_CONTENT = {
   }
 };
 
+const captchaState = {
+  isComplete: false,
+  onComplete: null,
+  onError: null,
+  onExpired: null
+};
+
+function setCaptchaPassed(isPassed) {
+  captchaState.isComplete = isPassed;
+
+  try {
+    if (isPassed) {
+      sessionStorage.setItem("captchaPassed", "true");
+    } else {
+      sessionStorage.removeItem("captchaPassed");
+    }
+  } catch (error) {
+    console.warn("Unable to update captcha session state.", error);
+  }
+}
+
+function hasCaptchaPassed() {
+  if (captchaState.isComplete) {
+    return true;
+  }
+
+  try {
+    return sessionStorage.getItem("captchaPassed") === "true";
+  } catch (error) {
+    console.warn("Unable to read captcha session state.", error);
+    return false;
+  }
+}
+
+window.captchaComplete = function () {
+  setCaptchaPassed(true);
+
+  if (typeof captchaState.onComplete === "function") {
+    captchaState.onComplete();
+  }
+};
+
+window.captchaError = function () {
+  if (typeof captchaState.onError === "function") {
+    captchaState.onError();
+  }
+};
+
+window.captchaExpired = function () {
+  setCaptchaPassed(false);
+
+  if (typeof captchaState.onExpired === "function") {
+    captchaState.onExpired();
+  }
+};
+
 async function loadResumeContent() {
   try {
     const response = await fetch("resume-content.json", { cache: "no-store" });
@@ -99,6 +155,7 @@ async function initializeSite() {
   const homePage = document.getElementById("home-page");
   const entryMessage = document.getElementById("entry-message");
   const paperGrid = document.getElementById("paper-grid");
+  let isHomePageShown = false;
 
   if (!entryScreen || !homePage || !entryMessage || !paperGrid) {
     console.error("Missing required HTML element. Check these IDs:");
@@ -286,6 +343,42 @@ async function initializeSite() {
     return tile;
   }
 
+  function addNameDots(tile) {
+    const dotColors = [
+      "var(--signal)",
+      "var(--electric)",
+      "var(--strike)",
+      "var(--paper)"
+    ];
+    const dotCount = 14;
+    const field = document.createElement("div");
+    field.className = "name-dot-field";
+    field.setAttribute("aria-hidden", "true");
+
+    for (let index = 0; index < dotCount; index += 1) {
+      const dot = document.createElement("span");
+      const left = 8 + Math.random() * 78;
+      const top = 8 + Math.random() * 78;
+      const xLimit = Math.min(left - 2, 92 - left, 26);
+      const yLimit = Math.min(top - 2, 92 - top, 26);
+      const xDirection = Math.random() < 0.5 ? -1 : 1;
+      const yDirection = Math.random() < 0.5 ? -1 : 1;
+
+      dot.className = "name-dot";
+      dot.style.setProperty("--dot-left", `${left.toFixed(2)}%`);
+      dot.style.setProperty("--dot-top", `${top.toFixed(2)}%`);
+      dot.style.setProperty("--dot-size", `${(4 + Math.random() * 5).toFixed(2)}px`);
+      dot.style.setProperty("--dot-travel-x", `${(xDirection * (3 + Math.random() * (xLimit - 3))).toFixed(2)}%`);
+      dot.style.setProperty("--dot-travel-y", `${(yDirection * (3 + Math.random() * (yLimit - 3))).toFixed(2)}%`);
+      dot.style.setProperty("--dot-duration", `${(2.8 + Math.random() * 3.4).toFixed(2)}s`);
+      dot.style.setProperty("--dot-delay", `${(-Math.random() * 5).toFixed(2)}s`);
+      dot.style.setProperty("--dot-color", dotColors[index % dotColors.length]);
+      field.appendChild(dot);
+    }
+
+    tile.prepend(field);
+  }
+
   function buildHomePage() {
     paperGrid.innerHTML = "";
 
@@ -340,6 +433,7 @@ async function initializeSite() {
       variant: "projects",
       label: "Selected Work"
     });
+    addNameDots(nameTile);
 
     const contactTile = createTile({
       className: "tile-null-small-a",
@@ -449,13 +543,18 @@ async function initializeSite() {
   }
 
   function showHomePage() {
+    if (isHomePageShown) {
+      return;
+    }
+
+    isHomePageShown = true;
     buildHomePage();
     entryScreen.classList.add("hidden");
     homePage.classList.remove("hidden");
     window.requestAnimationFrame(() => {
       paperGrid.querySelectorAll(".tile-square-field:not(.tile-resume)").forEach(buildSquareField);
     });
-    sessionStorage.setItem("captchaPassed", "true");
+    setCaptchaPassed(true);
   }
 
   function isLocalPreviewHost() {
@@ -468,18 +567,17 @@ async function initializeSite() {
     );
   }
 
-  window.captchaComplete = function () {
+  captchaState.onComplete = function () {
     entryMessage.textContent = "Verification complete. Entering...";
     showHomePage();
   };
 
-  window.captchaError = function () {
+  captchaState.onError = function () {
     entryMessage.textContent = "Verification failed. Please try again.";
   };
 
-  window.captchaExpired = function () {
+  captchaState.onExpired = function () {
     entryMessage.textContent = "Verification expired. Please complete it again.";
-    sessionStorage.removeItem("captchaPassed");
   };
 
   if (isLocalPreviewHost()) {
@@ -487,7 +585,7 @@ async function initializeSite() {
     return;
   }
 
-  if (sessionStorage.getItem("captchaPassed") === "true") {
+  if (hasCaptchaPassed()) {
     showHomePage();
   }
 }

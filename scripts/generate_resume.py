@@ -194,29 +194,19 @@ def draw_contact_block(pdf, content, y):
 def draw_header(pdf, content, page_num):
     draw_background(pdf)
     if page_num == 1:
-        panel_x = PAGE_W - 174
-        panel_w = 138
         pdf.setFillColor(INK)
         pdf.rect(MARGIN, PAGE_H - 112, PAGE_W - (MARGIN * 2), 76, fill=1, stroke=0)
-        pdf.setFillColor(PAPER_DIM)
-        pdf.rect(panel_x, PAGE_H - 112, panel_w, 76, fill=1, stroke=0)
         pdf.setFillColor(STRIKE)
         pdf.rect(MARGIN, PAGE_H - 112, 8, 76, fill=1, stroke=0)
         pdf.setFillColor(SIGNAL)
         pdf.rect(MARGIN, PAGE_H - 112, PAGE_W - (MARGIN * 2), 5, fill=1, stroke=0)
         pdf.setStrokeColor(PAPER)
         pdf.setLineWidth(0.8)
-        pdf.rect(MARGIN + 10, PAGE_H - 102, panel_x - MARGIN - 20, 56, fill=0, stroke=1)
-        pdf.rect(panel_x + 14, PAGE_H - 102, panel_w - 28, 56, fill=0, stroke=1)
+        pdf.rect(MARGIN + 10, PAGE_H - 102, PAGE_W - (MARGIN * 2) - 20, 56, fill=0, stroke=1)
         set_font(pdf, "Helvetica-Bold", 27, PAPER)
         pdf.drawString(MARGIN + 20, PAGE_H - 68, content["name"].upper())
         set_font(pdf, "Helvetica-Bold", 13, SIGNAL)
         pdf.drawString(MARGIN + 20, PAGE_H - 90, content["title"].upper())
-        set_font(pdf, "Helvetica-Bold", 10.2, INK)
-        pdf.drawString(panel_x + 28, PAGE_H - 68, "PROJECT")
-        pdf.drawString(panel_x + 28, PAGE_H - 84, "RESUME")
-        set_font(pdf, "Helvetica-Bold", 7.6, INK)
-        pdf.drawString(panel_x + 28, PAGE_H - 98, "2026 / PDF")
         y = PAGE_H - 128
     else:
         pdf.setFillColor(INK)
@@ -278,12 +268,13 @@ def draw_projects_page_one(pdf, content, y):
     y -= 4
     y = draw_label(pdf, "Selected Projects", MARGIN, y, 126)
     project_limits = {
-        "ENGINE 2.0 / VIBBLE Engine": 3,
+        "ENGINE 2.0 / VIBBLE Engine": 2,
         "auto_edit": 2,
-        "ASL Interpretation Model": 2,
-        "SSH_MAVLINK": 2
+        "ASL Interpretation Model": 1,
+        "SSH_MAVLINK": 1,
+        "SmileScope": 1
     }
-    for project in content["projects"][:4]:
+    for project in content["projects"]:
         y = draw_project(pdf, project, MARGIN, y, PAGE_W - (MARGIN * 2), project_limits.get(project["title"]))
     return y
 
@@ -337,9 +328,6 @@ def build_pdf():
     pdf.showPage()
 
     y = draw_header(pdf, content, 2)
-    smile_scope = next(project for project in content["projects"] if project["title"] == "SmileScope")
-    y = draw_label(pdf, "Selected Project", MARGIN, y, 118)
-    y = draw_project(pdf, smile_scope, MARGIN, y, PAGE_W - (MARGIN * 2))
     y = draw_experience(pdf, content, y)
     draw_education(pdf, content, y)
     pdf.save()
