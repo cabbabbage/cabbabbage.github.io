@@ -149,10 +149,10 @@ def draw_header(pdf, content, page_num):
         set_font(pdf, "Helvetica-Bold", 13, PAPER)
         pdf.drawString(MARGIN + 18, PAGE_H - 90, content["title"])
         set_font(pdf, "Helvetica-Bold", 9, INK)
-        pdf.drawString(PAGE_W - 140, PAGE_H - 62, "INTERVIEW")
-        pdf.drawString(PAGE_W - 140, PAGE_H - 78, "RESUME")
+        pdf.drawString(PAGE_W - 140, PAGE_H - 62, "SOFTWARE")
+        pdf.drawString(PAGE_W - 140, PAGE_H - 78, "DEVELOPER")
         set_font(pdf, "Helvetica", 8, INK)
-        pdf.drawString(PAGE_W - 140, PAGE_H - 94, content["location"])
+        pdf.drawString(PAGE_W - 140, PAGE_H - 94, "PROJECT RESUME")
         y = PAGE_H - 128
     else:
         pdf.setFillColor(INK)
@@ -253,18 +253,6 @@ def draw_education(pdf, content, y):
     return draw_wrapped(pdf, education["details"], MARGIN, y, PAGE_W - (MARGIN * 2), "Helvetica", 8.2, 10.4)
 
 
-def draw_footer(pdf, content):
-    y = 34
-    pdf.setFillColor(INK)
-    pdf.rect(MARGIN, y - 12, PAGE_W - (MARGIN * 2), 22, fill=1, stroke=0)
-    set_font(pdf, "Helvetica-Bold", 7.2, PAPER)
-    pdf.drawString(MARGIN + 8, y - 4, "LINKS")
-    draw_link(pdf, "GitHub", content["github"]["url"], MARGIN + 54, y - 4, "Helvetica-Bold", 7.2, PAPER)
-    draw_link(pdf, "LinkedIn", content["linkedin"]["url"], MARGIN + 110, y - 4, "Helvetica-Bold", 7.2, PAPER)
-    draw_link(pdf, "Portfolio", content["portfolio"]["url"], MARGIN + 178, y - 4, "Helvetica-Bold", 7.2, PAPER)
-    draw_link(pdf, "Email", f"mailto:{content['email']}", MARGIN + 254, y - 4, "Helvetica-Bold", 7.2, PAPER)
-
-
 def build_pdf():
     content = load_content()
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -277,7 +265,6 @@ def build_pdf():
     y = draw_summary(pdf, content, y)
     y = draw_skills(pdf, content, y)
     draw_projects_page_one(pdf, content, y)
-    draw_footer(pdf, content)
     pdf.showPage()
 
     y = draw_header(pdf, content, 2)
@@ -286,7 +273,6 @@ def build_pdf():
     y = draw_project(pdf, smile_scope, MARGIN, y, PAGE_W - (MARGIN * 2))
     y = draw_experience(pdf, content, y)
     draw_education(pdf, content, y)
-    draw_footer(pdf, content)
     pdf.save()
 
     shutil.copyfile(OUTPUT_PATH, CONVENIENCE_COPY)
