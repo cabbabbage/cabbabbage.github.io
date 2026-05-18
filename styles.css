@@ -153,47 +153,47 @@ body {
   font-weight: 700;
 }
 
-/* A-SERIES TILE PLACEMENT */
+/* A-SERIES TILE PLACEMENT, ROTATED 180 DEGREES */
 
-/* A1, largest tile, right side */
+/* A1, largest tile, left side */
 .tile-about {
-  grid-column: 5 / span 4;
+  grid-column: 1 / span 4;
   grid-row: 1 / span 8;
 }
 
-/* A2, second largest, top left */
+/* A2, second largest, bottom right */
 .tile-photos {
-  grid-column: 1 / span 4;
-  grid-row: 1 / span 4;
+  grid-column: 5 / span 4;
+  grid-row: 5 / span 4;
   font-size: clamp(18px, 2.5vw, 44px);
 }
 
-/* A3, third largest, lower middle-left */
+/* A3, third largest, upper middle-right */
 .tile-name {
-  grid-column: 3 / span 2;
-  grid-row: 5 / span 4;
+  grid-column: 5 / span 2;
+  grid-row: 1 / span 4;
   font-size: clamp(22px, 3vw, 56px);
   letter-spacing: -0.04em;
 }
 
 /* A4 */
 .tile-null-large {
-  grid-column: 1 / span 2;
-  grid-row: 5 / span 2;
+  grid-column: 7 / span 2;
+  grid-row: 3 / span 2;
   font-size: clamp(16px, 2vw, 32px);
 }
 
 /* A5 */
 .tile-null-small-a {
-  grid-column: 2 / span 1;
-  grid-row: 7 / span 2;
+  grid-column: 7 / span 1;
+  grid-row: 1 / span 2;
   font-size: clamp(10px, 1.2vw, 20px);
 }
 
 /* A6 */
 .tile-null-small-b {
-  grid-column: 1 / span 1;
-  grid-row: 7 / span 1;
+  grid-column: 8 / span 1;
+  grid-row: 2 / span 1;
   font-size: clamp(10px, 1.2vw, 20px);
 }
 
