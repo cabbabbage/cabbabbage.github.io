@@ -136,6 +136,24 @@ body {
   transition: opacity 180ms ease;
 }
 
+.tile-title,
+.tile-content,
+.tile-center {
+  background-image: var(--page-gif);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  opacity: var(--text-punch-opacity);
+  transition: opacity 180ms ease;
+}
+
 .tile:hover .tile-title,
 .tile:hover .tile-content,
 .tile:hover.tile-center {

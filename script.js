@@ -52,13 +52,20 @@ document.addEventListener("DOMContentLoaded", function () {
         image.alt = options.imageAlt || "";
         tile.appendChild(image);
       } else {
-        tile.textContent = options.content || "";
+        const text = document.createElement("div");
+        text.className = "tile-center-text";
+        text.textContent = options.content || "";
+        tile.appendChild(text);
       }
 
       return tile;
     }
 
-    tile.textContent = options.content || "";
+    const text = document.createElement("div");
+    text.className = "tile-center-text";
+    text.textContent = options.content || "";
+    tile.appendChild(text);
+
     return tile;
   }
 
