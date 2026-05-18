@@ -348,7 +348,7 @@ body::after {
     100% calc(100% / 8),
     auto,
     auto;
-  font-size: clamp(46px, 5vw, 94px);
+  font-size: clamp(50px, 5.35vw, 102px);
 }
 
 .tile-photos::after {
@@ -387,6 +387,61 @@ body::after {
     linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 28%),
     linear-gradient(135deg, rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.03)),
     var(--paper);
+}
+
+.tile-about::before {
+  content: "";
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  z-index: 1;
+  height: clamp(160px, 30%, 200px);
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 78% 18%, transparent 0 22%, rgba(216, 216, 211, 0.24) 22.2% 22.7%, transparent 23%),
+    radial-gradient(circle at 42% 5%, transparent 0 38%, rgba(216, 216, 211, 0.2) 38.2% 38.7%, transparent 39%),
+    linear-gradient(90deg, transparent 0 49.8%, rgba(216, 216, 211, 0.2) 50%, transparent 50.2%),
+    linear-gradient(90deg, rgba(216, 216, 211, 0.08), transparent 32%, rgba(216, 216, 211, 0.06) 66%, transparent),
+    linear-gradient(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.72)),
+    url("assets/background.gif") center / cover no-repeat fixed;
+  opacity: 0.96;
+  -webkit-mask-image:
+    radial-gradient(ellipse 72% 112% at -12% 104%, #000 0 36%, rgba(0, 0, 0, 0.9) 48%, transparent 70%),
+    radial-gradient(ellipse 42% 54% at 12% 58%, #000 0 22%, transparent 58%),
+    radial-gradient(ellipse 34% 24% at 92% 76%, #000 0 22%, transparent 62%),
+    radial-gradient(ellipse 18% 12% at 84% 46%, #000 0 24%, transparent 64%),
+    radial-gradient(circle at 4% 18%, #000 0 3px, transparent 4px),
+    radial-gradient(circle at 10% 30%, #000 0 5px, transparent 7px),
+    radial-gradient(circle at 18% 22%, #000 0 2px, transparent 4px),
+    radial-gradient(circle at 28% 42%, #000 0 4px, transparent 6px),
+    radial-gradient(circle at 40% 56%, #000 0 2px, transparent 4px),
+    radial-gradient(circle at 57% 70%, #000 0 5px, transparent 7px),
+    radial-gradient(circle at 72% 48%, #000 0 3px, transparent 5px),
+    radial-gradient(circle at 83% 32%, #000 0 2px, transparent 4px),
+    radial-gradient(circle at 94% 46%, #000 0 5px, transparent 8px),
+    linear-gradient(176deg, transparent 0 50%, rgba(0, 0, 0, 0.58) 72%, #000 100%);
+  -webkit-mask-position: 0 0;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-image:
+    radial-gradient(ellipse 72% 112% at -12% 104%, #000 0 36%, rgba(0, 0, 0, 0.9) 48%, transparent 70%),
+    radial-gradient(ellipse 42% 54% at 12% 58%, #000 0 22%, transparent 58%),
+    radial-gradient(ellipse 34% 24% at 92% 76%, #000 0 22%, transparent 62%),
+    radial-gradient(ellipse 18% 12% at 84% 46%, #000 0 24%, transparent 64%),
+    radial-gradient(circle at 4% 18%, #000 0 3px, transparent 4px),
+    radial-gradient(circle at 10% 30%, #000 0 5px, transparent 7px),
+    radial-gradient(circle at 18% 22%, #000 0 2px, transparent 4px),
+    radial-gradient(circle at 28% 42%, #000 0 4px, transparent 6px),
+    radial-gradient(circle at 40% 56%, #000 0 2px, transparent 4px),
+    radial-gradient(circle at 57% 70%, #000 0 5px, transparent 7px),
+    radial-gradient(circle at 72% 48%, #000 0 3px, transparent 5px),
+    radial-gradient(circle at 83% 32%, #000 0 2px, transparent 4px),
+    radial-gradient(circle at 94% 46%, #000 0 5px, transparent 8px),
+    linear-gradient(176deg, transparent 0 50%, rgba(0, 0, 0, 0.58) 72%, #000 100%);
+  mask-position: 0 0;
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
 }
 
 .tile-about.tile-split {
@@ -744,6 +799,7 @@ body::after {
   .paper-grid > .tile {
     grid-column: 1 / -1;
     grid-row: auto;
+    height: auto;
     min-height: 210px;
   }
 
@@ -769,8 +825,13 @@ body::after {
     bottom: -2.2em;
   }
 
-  .tile-about {
-    min-height: 640px;
+  .paper-grid > .tile.tile-about {
+    min-height: 760px;
+  }
+
+  .tile-about::before {
+    height: clamp(120px, 16%, 150px);
+    opacity: 0.58;
   }
 
   .tile-about .tile-title {
@@ -799,6 +860,7 @@ body::after {
 
   .about-copy {
     grid-template-columns: 1fr;
+    grid-auto-flow: row;
     overflow: visible;
   }
 
@@ -807,5 +869,6 @@ body::after {
   .about-copy p:nth-child(3),
   .about-copy ul {
     grid-column: auto;
+    grid-row: auto;
   }
 }
