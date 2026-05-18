@@ -15,6 +15,49 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
+  const imageFiles = [
+    "assets/images/image-1.jpg",
+    "assets/images/image-2.jpg",
+    "assets/images/image-3.jpg",
+    "assets/images/image-4.jpg"
+  ];
+
+  const projects = [
+    {
+      title: "ENGINE 2.0",
+      description: "Custom C++ game engine with SDL rendering, procedural maps, tools, lighting, and runtime systems.",
+      url: "https://github.com/krispykxl/ENGINE-2.0"
+    },
+    {
+      title: "Procedural Map Tools",
+      description: "Room and trail generation tooling with layered placement, editor previews, and spatial rules.",
+      url: "https://github.com/krispykxl"
+    },
+    {
+      title: "Portfolio Site",
+      description: "Brutalist personal web space for projects, visuals, experiments, and contact.",
+      url: "https://github.com/krispykxl"
+    }
+  ];
+
+  const contacts = [
+    {
+      label: "Email",
+      value: "krispykxl@gmail.com",
+      url: "mailto:krispykxl@gmail.com"
+    },
+    {
+      label: "GitHub",
+      value: "@krispykxl",
+      url: "https://github.com/krispykxl"
+    },
+    {
+      label: "LinkedIn",
+      value: "Calvin Mickelson",
+      url: "https://www.linkedin.com/"
+    }
+  ];
+
   function createTile(options) {
     const tile = document.createElement("section");
 
@@ -36,28 +79,92 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const content = document.createElement("div");
       content.className = "tile-content";
-      content.textContent = options.content || "";
+
+      if (options.html) {
+        content.innerHTML = options.html;
+      } else {
+        content.textContent = options.content || "";
+      }
 
       tile.appendChild(title);
       tile.appendChild(content);
       return tile;
     }
 
-    if (variant === "image") {
-      tile.classList.add("tile-image");
+    if (variant === "slideshow") {
+      tile.classList.add("tile-image-slideshow");
 
-      if (options.imageSrc) {
+      imageFiles.forEach((src, index) => {
         const image = document.createElement("img");
-        image.src = options.imageSrc;
-        image.alt = options.imageAlt || "";
+        image.src = src;
+        image.alt = `Portfolio image ${index + 1}`;
+        image.className = "slideshow-image";
+        image.style.animationDelay = `${index * 4}s`;
         tile.appendChild(image);
-      } else {
-        const text = document.createElement("div");
-        text.className = "tile-center-text";
-        text.textContent = options.content || "";
-        tile.appendChild(text);
-      }
+      });
 
+      return tile;
+    }
+
+    if (variant === "projects") {
+      const wrapper = document.createElement("div");
+      wrapper.className = "project-credits";
+
+      const track = document.createElement("div");
+      track.className = "project-credits-track";
+
+      const repeatedProjects = [...projects, ...projects];
+
+      repeatedProjects.forEach((project) => {
+        const link = document.createElement("a");
+        link.href = project.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.className = "project-link";
+
+        const title = document.createElement("span");
+        title.className = "project-title";
+        title.textContent = project.title;
+
+        const description = document.createElement("span");
+        description.className = "project-description";
+        description.textContent = project.description;
+
+        link.appendChild(title);
+        link.appendChild(description);
+        track.appendChild(link);
+      });
+
+      wrapper.appendChild(track);
+      tile.appendChild(wrapper);
+      return tile;
+    }
+
+    if (variant === "contact") {
+      const wrapper = document.createElement("div");
+      wrapper.className = "contact-list";
+
+      contacts.forEach((contact) => {
+        const link = document.createElement("a");
+        link.href = contact.url;
+        link.target = contact.url.startsWith("mailto:") ? "_self" : "_blank";
+        link.rel = "noopener noreferrer";
+        link.className = "contact-link";
+
+        const label = document.createElement("span");
+        label.className = "contact-label";
+        label.textContent = contact.label;
+
+        const value = document.createElement("span");
+        value.className = "contact-value";
+        value.textContent = contact.value;
+
+        link.appendChild(label);
+        link.appendChild(value);
+        wrapper.appendChild(link);
+      });
+
+      tile.appendChild(wrapper);
       return tile;
     }
 
@@ -76,14 +183,35 @@ document.addEventListener("DOMContentLoaded", function () {
       className: "tile-about",
       variant: "split",
       title: "About Me",
-      content:
-        "Computer Science graduate focused on software development, game systems, QA, technical support, and practical engineering tools."
+      html:
+        `
+        <div class="about-copy">
+          <p>
+            I am a computer science graduate focused on building practical software, game systems,
+            technical tools, and clean user-facing interfaces.
+          </p>
+          <p>
+            My work sits between engineering and visual systems. I like procedural generation,
+            custom editors, runtime tools, rendering pipelines, QA, support workflows, and anything
+            that turns messy systems into something usable.
+          </p>
+          <p>
+            I care about direct problem solving, readable architecture, and software that feels
+            intentional instead of overbuilt.
+          </p>
+          <ul>
+            <li>C++ game systems and SDL rendering</li>
+            <li>Python tooling and editor workflows</li>
+            <li>QA, debugging, support, and documentation</li>
+            <li>Procedural maps, asset systems, and visual tools</li>
+          </ul>
+        </div>
+        `
     });
 
     const nameTile = createTile({
       className: "tile-name",
-      variant: "center",
-      content: "null for right now"
+      variant: "projects"
     });
 
     const photosTile = createTile({
@@ -92,30 +220,28 @@ document.addEventListener("DOMContentLoaded", function () {
       content: "Calvin Mickelson"
     });
 
-    const nullLargeTile = createTile({
+    const imageTile = createTile({
       className: "tile-null-large",
-      variant: "center",
-      content: "null"
+      variant: "slideshow"
     });
 
-    const nullSmallTileA = createTile({
+    const contactTile = createTile({
       className: "tile-null-small-a",
-      variant: "center",
-      content: "null"
+      variant: "contact"
     });
 
-    const nullSmallTileB = createTile({
+    const statusTile = createTile({
       className: "tile-null-small-b",
       variant: "center",
-      content: "null"
+      content: "Open to work"
     });
 
     paperGrid.appendChild(aboutTile);
     paperGrid.appendChild(nameTile);
-    paperGrid.appendChild(nullLargeTile);
+    paperGrid.appendChild(imageTile);
     paperGrid.appendChild(photosTile);
-    paperGrid.appendChild(nullSmallTileA);
-    paperGrid.appendChild(nullSmallTileB);
+    paperGrid.appendChild(contactTile);
+    paperGrid.appendChild(statusTile);
   }
 
   function showHomePage() {
