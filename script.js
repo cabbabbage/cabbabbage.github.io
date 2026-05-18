@@ -59,26 +59,24 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   function getVariantClass(variant) {
-    if (variant === "split") return "tile-split";
-    if (variant === "center") return "tile-center";
-    if (variant === "image") return "tile-image";
-    if (variant === "slideshow") return "tile-slideshow";
-    if (variant === "projects") return "tile-projects";
-    if (variant === "contact") return "tile-contact";
-    return "tile-center";
+    const variantClasses = {
+      split: "tile-split",
+      center: "tile-center",
+      image: "tile-image",
+      slideshow: "tile-slideshow",
+      projects: "tile-projects",
+      contact: "tile-contact"
+    };
+
+    return variantClasses[variant] || "tile-center";
   }
 
   function createTile(options) {
     const tile = document.createElement("section");
-
     const variant = options.variant || "center";
     const className = options.className || "";
 
-    tile.className = [
-      "tile",
-      getVariantClass(variant),
-      className
-    ]
+    tile.className = ["tile", getVariantClass(variant), className]
       .filter(Boolean)
       .join(" ");
 
@@ -234,11 +232,6 @@ document.addEventListener("DOMContentLoaded", function () {
       `
     });
 
-    const nameTile = createTile({
-      className: "tile-name",
-      variant: "projects"
-    });
-
     const photosTile = createTile({
       className: "tile-photos",
       variant: "center",
@@ -250,9 +243,9 @@ document.addEventListener("DOMContentLoaded", function () {
       variant: "slideshow"
     });
 
-    const contactTile = createTile({
-      className: "tile-null-small-a",
-      variant: "contact"
+    const nameTile = createTile({
+      className: "tile-name",
+      variant: "projects"
     });
 
     const statusTile = createTile({
@@ -261,12 +254,17 @@ document.addEventListener("DOMContentLoaded", function () {
       content: "Open to work"
     });
 
-    paperGrid.appendChild(aboutTile);
+    const contactTile = createTile({
+      className: "tile-null-small-a",
+      variant: "contact"
+    });
+
     paperGrid.appendChild(photosTile);
+    paperGrid.appendChild(aboutTile);
     paperGrid.appendChild(imageTile);
     paperGrid.appendChild(nameTile);
-    paperGrid.appendChild(contactTile);
     paperGrid.appendChild(statusTile);
+    paperGrid.appendChild(contactTile);
   }
 
   function showHomePage() {

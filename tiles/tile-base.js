@@ -5,10 +5,18 @@ export function createTile(options) {
   const className = options.className || "";
   const titleText = options.title || "";
   const contentText = options.content || "";
+  const variantClasses = {
+    split: "tile-split",
+    center: "tile-center",
+    image: "tile-image",
+    slideshow: "tile-slideshow",
+    projects: "tile-projects",
+    contact: "tile-contact"
+  };
 
   tile.className = [
     "tile",
-    variant === "split" ? "tile-split" : "tile-center",
+    variantClasses[variant] || "tile-center",
     className
   ]
     .filter(Boolean)
