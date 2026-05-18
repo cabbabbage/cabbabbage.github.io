@@ -13,8 +13,8 @@
   --gap: 8px;
   --page-padding: 8px;
 
-  --text-punch-opacity: 0.5;
-  --text-punch-opacity-hover: 1;
+  --text-punch-opacity: 0.99;
+  --text-punch-opacity-hover: 0.5;
 }
 
 body {
@@ -35,8 +35,6 @@ body {
 .hidden {
   display: none !important;
 }
-
-/* CAPTCHA ENTRY SCREEN */
 
 .entry-screen {
   position: fixed;
@@ -83,8 +81,6 @@ body {
   font-size: 14px;
 }
 
-/* HOME PAGE */
-
 .home-page {
   width: 100vw;
   height: 100vh;
@@ -94,21 +90,6 @@ body {
   background: transparent;
 }
 
-/*
-  A-series recursive tile layout.
-
-  The whole page uses an 8 x 8 logical grid.
-
-  A1 / About:   4 x 8
-  A2 / Photos:  4 x 4
-  A3 / Name:    2 x 4
-  A4 / Null:    2 x 2
-  A5 / Null:    1 x 2
-  A6 / Null:    1 x 1
-
-  The layout is rotated so the largest panel is on the left.
-*/
-
 .paper-grid {
   width: 100%;
   height: 100%;
@@ -117,8 +98,6 @@ body {
   grid-template-rows: repeat(8, 1fr);
   gap: var(--gap);
 }
-
-/* BASE TILE */
 
 .tile {
   background: var(--tile-bg);
@@ -191,22 +170,17 @@ body {
   font-weight: 700;
 }
 
-/* A-SERIES TILE PLACEMENT, ROTATED 180 DEGREES */
-
-/* A1, largest tile, left side */
 .tile-about {
   grid-column: 1 / span 4;
   grid-row: 1 / span 8;
 }
 
-/* A2, second largest, bottom right */
 .tile-photos {
   grid-column: 5 / span 4;
   grid-row: 5 / span 4;
   font-size: clamp(18px, 2.5vw, 44px);
 }
 
-/* A3, third largest, upper middle-right */
 .tile-name {
   grid-column: 5 / span 2;
   grid-row: 1 / span 4;
@@ -214,21 +188,18 @@ body {
   letter-spacing: -0.04em;
 }
 
-/* A4 */
 .tile-null-large {
   grid-column: 7 / span 2;
   grid-row: 3 / span 2;
   font-size: clamp(16px, 2vw, 32px);
 }
 
-/* A5 */
 .tile-null-small-a {
   grid-column: 7 / span 1;
   grid-row: 1 / span 2;
   font-size: clamp(10px, 1.2vw, 20px);
 }
 
-/* A6 */
 .tile-null-small-b {
   grid-column: 8 / span 1;
   grid-row: 2 / span 1;
