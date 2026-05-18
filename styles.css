@@ -331,6 +331,8 @@ body::after {
   grid-column: 22 / span 13;
   grid-row: 1 / span 13;
   align-items: flex-end;
+  overflow: visible;
+  z-index: 4;
   padding: clamp(18px, 2.1vw, 34px) clamp(20px, 2.6vw, 42px) clamp(22px, 2.8vw, 42px);
   color: var(--paper);
   background:
@@ -355,10 +357,13 @@ body::after {
 
 .tile-photos .tile-center-text {
   position: relative;
-  max-width: 8.5ch;
+  max-width: none;
+  width: max-content;
+  z-index: 8;
+  margin-right: -4.4ch;
   color: var(--paper);
   line-height: 0.8;
-  white-space: pre-line;
+  white-space: pre;
 }
 
 .tile-photos .tile-center-text::after {
@@ -382,18 +387,26 @@ body::after {
     var(--paper);
 }
 
+.tile-about.tile-split {
+  grid-template-rows: minmax(108px, calc(var(--subgrid-y) * 7)) 1fr;
+}
+
 .tile-about .tile-title {
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: flex-start;
-  padding-top: clamp(30px, 4vw, 76px);
-  padding-bottom: clamp(20px, 2.4vw, 42px);
+  min-height: 0;
+  padding-top: clamp(18px, 1.8vw, 24px);
+  padding-bottom: clamp(12px, 1.1vw, 18px);
   border-bottom: 2px solid var(--ink);
-  font-size: clamp(48px, 5.3vw, 108px);
+  font-size: clamp(54px, 5.1vw, 104px);
+  line-height: 0.9;
 }
 
 .tile-about .tile-content {
-  width: min(100%, 56ch);
-  padding-top: clamp(16px, 1.6vw, 24px);
+  width: min(100%, 62ch);
+  height: 100%;
+  padding-top: clamp(8px, 0.7vw, 12px);
+  padding-bottom: clamp(18px, 1.4vw, 24px);
 }
 
 .tile-name {
@@ -464,31 +477,49 @@ body::after {
 
 .about-copy {
   display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   align-content: start;
-  gap: clamp(11px, 1.1vw, 18px);
+  height: 100%;
+  gap: clamp(14px, 1.3vw, 20px);
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
 }
 
 .about-copy p {
-  max-width: 54ch;
+  max-width: none;
   margin: 0;
 }
 
 .about-copy p:first-child {
-  max-width: 44ch;
-  font-size: clamp(16px, 1.12vw, 20px);
+  grid-column: 1 / span 2;
+  max-width: 28ch;
+  font-size: clamp(18px, 1.28vw, 23px);
   font-weight: 900;
-  line-height: 1.18;
+  line-height: 1.14;
   text-transform: uppercase;
+}
+
+.about-copy p:nth-child(2) {
+  grid-column: 1;
+}
+
+.about-copy p:nth-child(3),
+.about-copy ul {
+  grid-column: 2;
+}
+
+.about-copy p:not(:first-child),
+.about-copy li {
+  font-size: clamp(14px, 0.96vw, 17px);
+  line-height: 1.4;
 }
 
 .about-copy ul {
   display: grid;
   gap: 8px;
-  max-width: 54ch;
-  margin: 6px 0 0;
+  max-width: none;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
@@ -518,24 +549,8 @@ body::after {
   height: 100%;
   min-width: 0;
   min-height: 0;
-  overflow: auto;
+  overflow: hidden;
   padding: clamp(14px, 1.2vw, 18px);
-  scrollbar-width: thin;
-  scrollbar-color: rgba(216, 216, 211, 0.32) rgba(255, 255, 255, 0.04);
-}
-
-.project-credits::-webkit-scrollbar {
-  width: 10px;
-}
-
-.project-credits::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.project-credits::-webkit-scrollbar-thumb {
-  background: rgba(216, 216, 211, 0.3);
-  border: 2px solid rgba(0, 0, 0, 0);
-  background-clip: padding-box;
 }
 
 .project-credits-track {
@@ -543,6 +558,8 @@ body::after {
   gap: clamp(14px, 1.2vw, 18px);
   min-width: 0;
   padding-right: 6px;
+  animation: projectCredits 24s linear infinite;
+  will-change: transform;
 }
 
 .project-link {
@@ -558,6 +575,10 @@ body::after {
 .project-link:last-child {
   padding-bottom: 0;
   border-bottom: 0;
+}
+
+.project-credits:hover .project-credits-track {
+  animation-play-state: paused;
 }
 
 .project-link:hover {
@@ -583,6 +604,16 @@ body::after {
   font-weight: 700;
   line-height: 1.38;
   overflow-wrap: break-word;
+}
+
+@keyframes projectCredits {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-50%);
+  }
 }
 
 .contact-list {
@@ -663,6 +694,11 @@ body::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
   }
+
+  .project-credits-track {
+    animation-duration: 24s !important;
+    animation-iteration-count: infinite !important;
+  }
 }
 
 @media (max-width: 860px) {
@@ -707,12 +743,21 @@ body::after {
     font-size: clamp(58px, 18vw, 120px);
   }
 
+  .tile-photos .tile-center-text {
+    margin-right: -2.2ch;
+  }
+
   .tile-photos .tile-center-text::after {
     bottom: -2.2em;
   }
 
   .tile-about {
     min-height: 640px;
+  }
+
+  .tile-about .tile-title {
+    padding-top: 18px;
+    padding-bottom: 14px;
   }
 
   .tile-name,
@@ -735,6 +780,14 @@ body::after {
   }
 
   .about-copy {
+    grid-template-columns: 1fr;
     overflow: visible;
+  }
+
+  .about-copy p:first-child,
+  .about-copy p:nth-child(2),
+  .about-copy p:nth-child(3),
+  .about-copy ul {
+    grid-column: auto;
   }
 }
