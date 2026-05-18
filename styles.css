@@ -4,21 +4,30 @@
 
 :root {
   --page-bg: #111111;
-  --tile-bg: #8c8c8c;
-  --tile-bg-light: #9a9a9a;
-  --tile-border: #a8a8a8;
-  --text-main: #111111;
-  --text-muted: #2f2f2f;
+  --page-gif: url("assets/background.gif");
+
+  --tile-bg: rgba(140, 140, 140, 0.92);
+  --tile-bg-light: rgba(154, 154, 154, 0.92);
+  --tile-border: rgba(168, 168, 168, 0.95);
+
   --gap: 8px;
   --page-padding: 8px;
+
+  --text-punch-opacity: 0.5;
+  --text-punch-opacity-hover: 1;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
   font-family: Arial, sans-serif;
-  background: var(--page-bg);
-  color: var(--text-main);
+  background-color: var(--page-bg);
+  background-image: var(--page-gif);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: transparent;
   line-height: 1.5;
   overflow: hidden;
 }
@@ -55,6 +64,7 @@ body {
 .entry-card h1 {
   margin: 0 0 8px;
   font-size: 32px;
+  color: #111111;
 }
 
 .entry-card p {
@@ -81,6 +91,7 @@ body {
   display: grid;
   place-items: stretch;
   padding: var(--page-padding);
+  background: transparent;
 }
 
 /*
@@ -95,8 +106,7 @@ body {
   A5 / Null:    1 x 2
   A6 / Null:    1 x 1
 
-  This follows the A0, A1, A2, A3, etc. recursive paper split pattern.
-  The whole layout warps to the screen so all outer padding and inner gaps stay exactly 8px.
+  The layout is rotated so the largest panel is on the left.
 */
 
 .paper-grid {
@@ -117,11 +127,40 @@ body {
   overflow: hidden;
   min-width: 0;
   min-height: 0;
+  transition: background 180ms ease;
+}
+
+.tile:hover {
+  background: var(--tile-bg-light);
 }
 
 .tile-split {
   display: grid;
   grid-template-rows: 1fr 2fr;
+}
+
+.tile-title,
+.tile-content,
+.tile-center {
+  background-image: var(--page-gif);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  opacity: var(--text-punch-opacity);
+  transition: opacity 180ms ease;
+}
+
+.tile:hover .tile-title,
+.tile:hover .tile-content,
+.tile:hover.tile-center {
+  opacity: var(--text-punch-opacity-hover);
 }
 
 .tile-title {
@@ -141,7 +180,6 @@ body {
   padding: clamp(14px, 2vw, 32px);
   text-align: center;
   font-size: clamp(14px, 1.35vw, 24px);
-  color: var(--text-muted);
 }
 
 .tile-center {
@@ -195,8 +233,4 @@ body {
   grid-column: 8 / span 1;
   grid-row: 2 / span 1;
   font-size: clamp(10px, 1.2vw, 20px);
-}
-
-.tile:hover {
-  background: var(--tile-bg-light);
 }
