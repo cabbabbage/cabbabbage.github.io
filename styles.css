@@ -26,7 +26,7 @@ html {
   --signal: #dfff35;
   --electric: #66e7ff;
   --strike: #ff4d2e;
-  --gap: 10px;
+  --gap: clamp(12px, 1vw, 18px);
   --page-padding: clamp(10px, 1.4vw, 18px);
   --subgrid-x: calc((100vw - (var(--page-padding) * 2)) / var(--grid-columns));
   --subgrid-y: calc((100dvh - (var(--page-padding) * 2)) / var(--grid-rows));
@@ -207,8 +207,7 @@ body::after {
   isolation: isolate;
 }
 
-.paper-grid::before,
-.paper-grid::after {
+.paper-grid::before {
   content: "";
   position: absolute;
   z-index: 20;
@@ -232,17 +231,6 @@ body::after {
     76% 100%,
     0 100%
   );
-}
-
-.paper-grid::after {
-  right: calc(var(--gap) * -0.55);
-  bottom: calc(var(--gap) * -0.55);
-  width: min(18vw, 190px);
-  height: min(18vw, 190px);
-  background:
-    linear-gradient(90deg, transparent calc(50% - 1px), var(--signal) 0 calc(50% + 1px), transparent 0),
-    linear-gradient(0deg, transparent calc(50% - 1px), var(--signal) 0 calc(50% + 1px), transparent 0);
-  opacity: 0.82;
 }
 
 .paper-grid > .tile {
@@ -280,28 +268,6 @@ body::after {
   z-index: 1;
   border: 1px solid rgba(0, 0, 0, 0.24);
   pointer-events: none;
-}
-
-.tile:not(.tile-about)::before {
-  content: attr(data-index) " / " attr(data-label);
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 4;
-  max-width: calc(100% - 18px);
-  padding: 5px 8px 4px;
-  color: var(--ink);
-  background: var(--signal);
-  border-right: 2px solid var(--ink);
-  border-bottom: 2px solid var(--ink);
-  font-size: clamp(8px, 0.58vw, 10px);
-  font-weight: 950;
-  letter-spacing: 0.1em;
-  line-height: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-  white-space: nowrap;
 }
 
 .tile-split {
@@ -517,22 +483,6 @@ body::after {
   border-bottom: 2px solid var(--ink);
   font-size: clamp(48px, 4.6vw, 92px);
   line-height: 0.84;
-}
-
-.tile-about .tile-title::before {
-  content: "01 / MANIFEST";
-  position: absolute;
-  right: clamp(14px, 1.4vw, 24px);
-  bottom: -2px;
-  padding: 6px 9px 5px;
-  color: var(--ink);
-  background: var(--electric);
-  border: 2px solid var(--ink);
-  border-bottom: 0;
-  font-size: clamp(8px, 0.58vw, 10px);
-  font-weight: 950;
-  letter-spacing: 0.1em;
-  line-height: 1;
 }
 
 .tile-about .tile-content {
@@ -834,7 +784,7 @@ body::after {
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  padding: clamp(22px, 1.8vw, 26px) clamp(8px, 0.72vw, 12px) clamp(6px, 0.55vw, 9px);
+  padding: clamp(8px, 0.72vw, 12px);
 }
 
 .contact-link {
@@ -995,7 +945,7 @@ body::after {
   }
 
   .contact-list {
-    padding: 30px 14px 12px;
+    padding: 14px;
   }
 
   .contact-link {
