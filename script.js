@@ -1,53 +1,32 @@
-const captchaScreen = document.getElementById("captcha-screen");
+const entryScreen = document.getElementById("entry-screen");
 const homePage = document.getElementById("home-page");
-const questionElement = document.getElementById("captcha-question");
-const answerInput = document.getElementById("captcha-answer");
-const submitButton = document.getElementById("captcha-submit");
-const errorElement = document.getElementById("captcha-error");
+const enterButton = document.getElementById("enter-button");
+const entryMessage = document.getElementById("entry-message");
 
-let correctAnswer = null;
+let captchaPassed = false;
 
-function generateCaptcha() {
-  const firstNumber = Math.floor(Math.random() * 10) + 1;
-  const secondNumber = Math.floor(Math.random() * 10) + 1;
-
-  correctAnswer = firstNumber + secondNumber;
-  questionElement.textContent = `What is ${firstNumber} + ${secondNumber}?`;
-
-  answerInput.value = "";
-  errorElement.textContent = "";
-  answerInput.focus();
-}
-
-function unlockSite() {
-  sessionStorage.setItem("captchaPassed", "true");
-
-  captchaScreen.classList.add("hidden");
+function showHomePage() {
+  entryScreen.classList.add("hidden");
   homePage.classList.remove("hidden");
+  sessionStorage.setItem("captchaPassed", "true");
 }
 
-function checkCaptcha() {
-  const userAnswer = Number(answerInput.value.trim());
+window.captchaComplete = function () {
+  captchaPassed = true;
+  enterButton.disabled = false;
+  entryMessage.textContent = "Verification complete. You can enter now.";
+};
 
-  if (userAnswer === correctAnswer) {
-    unlockSite();
+enterButton.addEventListener("click", function () {
+  if (!captchaPassed) {
+    entryMessage.textContent = "Complete the verification first.";
     return;
   }
 
-  errorElement.textContent = "Incorrect. Try again.";
-  generateCaptcha();
-}
-
-submitButton.addEventListener("click", checkCaptcha);
-
-answerInput.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    checkCaptcha();
-  }
+  showHomePage();
 });
 
 if (sessionStorage.getItem("captchaPassed") === "true") {
-  unlockSite();
-} else {
-  generateCaptcha();
+  captchaPassed = true;
+  showHomePage();
 }

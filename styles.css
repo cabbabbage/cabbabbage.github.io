@@ -14,7 +14,7 @@ body {
   display: none;
 }
 
-.screen {
+.entry-screen {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -22,9 +22,9 @@ body {
   padding: 24px;
 }
 
-.captcha-card {
+.entry-card {
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
   background: #ffffff;
   border: 1px solid #dddddd;
   border-radius: 14px;
@@ -33,36 +33,23 @@ body {
   text-align: center;
 }
 
-.captcha-card h1 {
+.entry-card h1 {
   margin: 0 0 8px;
   font-size: 32px;
 }
 
-.subtitle {
-  margin-bottom: 24px;
+.entry-card p {
   color: #555555;
 }
 
-.captcha-box {
+.cf-turnstile {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-#captcha-question {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 0;
-}
-
-input {
-  padding: 12px;
-  font-size: 16px;
-  border: 1px solid #bbbbbb;
-  border-radius: 8px;
+  justify-content: center;
+  margin: 24px 0;
 }
 
 button {
+  width: 100%;
   padding: 12px;
   font-size: 16px;
   font-weight: bold;
@@ -73,14 +60,19 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+button:disabled {
+  background: #999999;
+  cursor: not-allowed;
+}
+
+button:not(:disabled):hover {
   background: #333333;
 }
 
-.error-message {
+.entry-message {
   min-height: 24px;
-  color: #b00020;
-  margin: 0;
+  margin-top: 14px;
+  font-size: 14px;
 }
 
 main {
