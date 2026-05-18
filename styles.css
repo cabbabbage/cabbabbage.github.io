@@ -27,7 +27,6 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  color: transparent;
   line-height: 1.5;
   overflow: hidden;
 }
@@ -118,27 +117,18 @@ body {
   grid-template-rows: 1fr 2fr;
 }
 
-.tile-title,
-.tile-content,
 .tile-center {
-  background-image: var(--page-gif);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
-
-  opacity: var(--text-punch-opacity);
-  transition: opacity 180ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(12px, 2vw, 28px);
+  text-align: center;
+  font-weight: 700;
 }
 
 .tile-title,
 .tile-content,
-.tile-center {
+.tile-center-text {
   background-image: var(--page-gif);
   background-size: cover;
   background-position: center;
@@ -156,7 +146,7 @@ body {
 
 .tile:hover .tile-title,
 .tile:hover .tile-content,
-.tile:hover.tile-center {
+.tile:hover .tile-center-text {
   opacity: var(--text-punch-opacity-hover);
 }
 
@@ -179,13 +169,8 @@ body {
   font-size: clamp(14px, 1.35vw, 24px);
 }
 
-.tile-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(12px, 2vw, 28px);
-  text-align: center;
-  font-weight: 700;
+.tile-center-text {
+  display: block;
 }
 
 .tile-about {
