@@ -201,29 +201,43 @@ function initializeSite() {
       className: "tile-about",
       variant: "split",
       label: "Manifest",
-      title: "Software Engineer",
+      title: "About Me",
       html: `
         <div class="about-copy">
-          <p>
-            Software engineer with a B.S. in Computer Science from Colorado State University,
-            focused on performance-sensitive C++ systems, rendering pipelines, developer tooling,
-            and machine learning/computer vision applications.
-          </p>
-          <p>
-            Strong in C++, Python, JavaScript, Java, and SQL, with experience across React,
-            Node.js, Git, CMake, TensorFlow, NumPy, Pandas, SDL, and MediaPipe.
-          </p>
-          <p>
-            Experience includes Broadcom manufacturing control operations, Collins Control and
-            Electric apprenticeship work, and high-volume kitchen operations at UNION Bar & Soda
-            Fountain.
-          </p>
-          <ul>
-            <li>Colorado State University, B.S. Computer Science, 2025</li>
-            <li>Systems design, performance optimization, and debugging</li>
-            <li>Procedural generation, asset pipelines, and data-driven architecture</li>
-            <li>Fort Collins, Colorado</li>
-          </ul>
+          <section class="about-overview" aria-label="Overview">
+            <p>
+              I am a Fort Collins-based software engineer focused on practical systems work:
+              C++ engines, rendering tools, real-time applications, and computer vision projects.
+              I like building software that is fast, debuggable, and useful under real constraints.
+            </p>
+          </section>
+
+          <div class="about-columns">
+            <section class="about-panel">
+              <h3>Education</h3>
+              <p class="about-kicker">Colorado State University</p>
+              <p>B.S. in Computer Science, 2025.</p>
+              <p>Coursework and project work centered on software engineering, algorithms, systems, data, and applied machine learning.</p>
+            </section>
+
+            <section class="about-panel">
+              <h3>Experience</h3>
+              <ul>
+                <li>Broadcom manufacturing control operations.</li>
+                <li>Collins Control and Electric apprenticeship work.</li>
+                <li>High-volume kitchen operations at UNION Bar & Soda Fountain.</li>
+              </ul>
+            </section>
+
+            <section class="about-panel">
+              <h3>Skills</h3>
+              <ul>
+                <li>C++, Python, JavaScript, Java, and SQL.</li>
+                <li>React, Node.js, Git, CMake, TensorFlow, NumPy, Pandas, SDL, and MediaPipe.</li>
+                <li>Rendering pipelines, procedural generation, asset tooling, debugging, and performance optimization.</li>
+              </ul>
+            </section>
+          </div>
         </div>
       `
     });
