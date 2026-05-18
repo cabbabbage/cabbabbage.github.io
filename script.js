@@ -23,7 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     block.dataset.minFont = String(options?.minFont || 8);
     block.dataset.maxFont = String(options?.maxFont || 180);
-    block.dataset.gridSnap = String(options?.gridSnap || "true");
+    block.dataset.lineFactor = String(options?.lineFactor || 1);
+    block.dataset.allowWrap = String(options?.allowWrap !== false);
 
     return block;
   }
@@ -39,12 +40,16 @@ document.addEventListener("DOMContentLoaded", function () {
     if (variant === "split") {
       const title = createTextBlock("tile-title", options.title || "", {
         minFont: options.titleMinFont || 16,
-        maxFont: options.titleMaxFont || 180
+        maxFont: options.titleMaxFont || 180,
+        lineFactor: options.titleLineFactor || 0.9,
+        allowWrap: options.titleAllowWrap !== false
       });
 
       const content = createTextBlock("tile-content", options.content || "", {
         minFont: options.contentMinFont || 8,
-        maxFont: options.contentMaxFont || 72
+        maxFont: options.contentMaxFont || 72,
+        lineFactor: options.contentLineFactor || 1.1,
+        allowWrap: options.contentAllowWrap !== false
       });
 
       tile.appendChild(title);
@@ -63,7 +68,9 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         const text = createTextBlock("tile-center-text", options.content || "", {
           minFont: options.minFont || 8,
-          maxFont: options.maxFont || 180
+          maxFont: options.maxFont || 180,
+          lineFactor: options.lineFactor || 0.95,
+          allowWrap: options.allowWrap !== false
         });
 
         tile.appendChild(text);
@@ -74,7 +81,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const text = createTextBlock("tile-center-text", options.content || "", {
       minFont: options.minFont || 8,
-      maxFont: options.maxFont || 180
+      maxFont: options.maxFont || 180,
+      lineFactor: options.lineFactor || 0.95,
+      allowWrap: options.allowWrap !== false
     });
 
     tile.appendChild(text);
@@ -92,8 +101,10 @@ document.addEventListener("DOMContentLoaded", function () {
         "Computer Science graduate focused on software development, game systems, QA, technical support, and practical engineering tools.",
       titleMinFont: 32,
       titleMaxFont: 180,
-      contentMinFont: 10,
-      contentMaxFont: 54
+      titleLineFactor: 0.88,
+      contentMinFont: 8,
+      contentMaxFont: 44,
+      contentLineFactor: 1.15
     });
 
     const nameTile = createTile({
@@ -101,7 +112,8 @@ document.addEventListener("DOMContentLoaded", function () {
       variant: "center",
       content: "Calvin Mickelson",
       minFont: 16,
-      maxFont: 120
+      maxFont: 110,
+      lineFactor: 0.92
     });
 
     const photosTile = createTile({
@@ -109,7 +121,8 @@ document.addEventListener("DOMContentLoaded", function () {
       variant: "center",
       content: "null for right now",
       minFont: 20,
-      maxFont: 160
+      maxFont: 150,
+      lineFactor: 0.92
     });
 
     const nullLargeTile = createTile({
@@ -117,7 +130,9 @@ document.addEventListener("DOMContentLoaded", function () {
       variant: "center",
       content: "null",
       minFont: 16,
-      maxFont: 100
+      maxFont: 90,
+      lineFactor: 0.92,
+      allowWrap: false
     });
 
     const nullSmallTileA = createTile({
@@ -125,7 +140,9 @@ document.addEventListener("DOMContentLoaded", function () {
       variant: "center",
       content: "null",
       minFont: 10,
-      maxFont: 80
+      maxFont: 70,
+      lineFactor: 0.92,
+      allowWrap: false
     });
 
     const nullSmallTileB = createTile({
@@ -133,7 +150,9 @@ document.addEventListener("DOMContentLoaded", function () {
       variant: "center",
       content: "null",
       minFont: 8,
-      maxFont: 56
+      maxFont: 48,
+      lineFactor: 0.92,
+      allowWrap: false
     });
 
     paperGrid.appendChild(aboutTile);
@@ -142,6 +161,22 @@ document.addEventListener("DOMContentLoaded", function () {
     paperGrid.appendChild(nullSmallTileB);
     paperGrid.appendChild(nullLargeTile);
     paperGrid.appendChild(photosTile);
+
+    buildGridOverlay();
+  }
+
+  function buildGridOverlay() {
+    for (let row = 1; row <= 8; row += 1) {
+      for (let col = 1; col <= 8; col += 1) {
+        const cell = document.createElement("div");
+
+        cell.className = "grid-cell-overlay";
+        cell.style.gridColumn = `${col} / span 1`;
+        cell.style.gridRow = `${row} / span 1`;
+
+        paperGrid.appendChild(cell);
+      }
+    }
   }
 
   function getTileMinorSize(tile) {
@@ -164,11 +199,28 @@ document.addEventListener("DOMContentLoaded", function () {
     return Math.max(unit, Math.floor(value / unit) * unit);
   }
 
+  function snapUp(value, unit) {
+    if (!unit || unit <= 0) {
+      return value;
+    }
+
+    return Math.max(unit, Math.ceil(value / unit) * unit);
+  }
+
   function textFits(element) {
     return (
       element.scrollWidth <= element.clientWidth + 1 &&
       element.scrollHeight <= element.clientHeight + 1
     );
+  }
+
+  function setTextMetrics(element, fontSize, minorY) {
+    const lineFactor = Number(element.dataset.lineFactor) || 1;
+    const lineUnit = Math.max(1, minorY);
+    const lineHeight = snapUp(fontSize * lineFactor, lineUnit);
+
+    element.style.fontSize = `${fontSize}px`;
+    element.style.lineHeight = `${lineHeight}px`;
   }
 
   function fitTextBlock(element) {
@@ -181,11 +233,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const minor = getTileMinorSize(tile);
     const minFont = Number(element.dataset.minFont) || 8;
     const maxFont = Number(element.dataset.maxFont) || 120;
+    const allowWrap = element.dataset.allowWrap !== "false";
 
-    const usableWidth = element.clientWidth;
-    const usableHeight = element.clientHeight;
+    element.style.whiteSpace = allowWrap ? "normal" : "nowrap";
+    element.style.fontSize = "";
+    element.style.lineHeight = "";
 
-    if (usableWidth <= 0 || usableHeight <= 0) {
+    if (element.clientWidth <= 0 || element.clientHeight <= 0) {
       return;
     }
 
@@ -193,27 +247,26 @@ document.addEventListener("DOMContentLoaded", function () {
     let high = maxFont;
     let best = minFont;
 
-    for (let i = 0; i < 20; i += 1) {
-      const mid = (low + high) / 2;
-      const snappedFont = snapDown(mid, Math.max(1, minor.y / 2));
-      const snappedLine = snapDown(snappedFont * 0.92, Math.max(1, minor.y / 2));
+    for (let i = 0; i < 28; i += 1) {
+      const rawMid = (low + high) / 2;
+      const snappedFont = snapDown(rawMid, Math.max(1, minor.y / 4));
 
-      element.style.fontSize = `${snappedFont}px`;
-      element.style.lineHeight = `${Math.max(snappedLine, minor.y / 2)}px`;
+      setTextMetrics(element, snappedFont, minor.y);
 
       if (textFits(element)) {
         best = snappedFont;
-        low = mid;
+        low = rawMid;
       } else {
-        high = mid;
+        high = rawMid;
       }
     }
 
-    const finalFont = snapDown(best, Math.max(1, minor.y / 2));
-    const finalLine = snapDown(finalFont * 0.92, Math.max(1, minor.y / 2));
+    setTextMetrics(element, best, minor.y);
 
-    element.style.fontSize = `${finalFont}px`;
-    element.style.lineHeight = `${Math.max(finalLine, minor.y / 2)}px`;
+    while (!textFits(element) && best > minFont) {
+      best = Math.max(minFont, best - Math.max(1, minor.y / 4));
+      setTextMetrics(element, best, minor.y);
+    }
   }
 
   function fitAllTextBlocks() {

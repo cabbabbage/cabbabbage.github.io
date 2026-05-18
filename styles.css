@@ -15,10 +15,7 @@
   --text-main: #050505;
   --text-muted: #111111;
 
-  --minor-grid-size: calc(100% / 32);
-  --major-grid-size: calc(100% / 8);
   --minor-grid-width: 1px;
-  --major-grid-width: 3px;
 
   --hard-shadow: 8px 8px 0 rgba(0, 0, 0, 0.95);
 }
@@ -115,56 +112,6 @@ body {
   overflow: visible;
 }
 
-.paper-grid::before,
-.paper-grid::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-color: var(--page-bg);
-  background-image: var(--page-gif);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
-.paper-grid::before {
-  z-index: 10;
-  -webkit-mask-image:
-    linear-gradient(to right, #000 var(--minor-grid-width), transparent var(--minor-grid-width)),
-    linear-gradient(to bottom, #000 var(--minor-grid-width), transparent var(--minor-grid-width));
-  -webkit-mask-size:
-    var(--minor-grid-size) var(--minor-grid-size),
-    var(--minor-grid-size) var(--minor-grid-size);
-  -webkit-mask-repeat: repeat;
-  mask-image:
-    linear-gradient(to right, #000 var(--minor-grid-width), transparent var(--minor-grid-width)),
-    linear-gradient(to bottom, #000 var(--minor-grid-width), transparent var(--minor-grid-width));
-  mask-size:
-    var(--minor-grid-size) var(--minor-grid-size),
-    var(--minor-grid-size) var(--minor-grid-size);
-  mask-repeat: repeat;
-}
-
-.paper-grid::after {
-  z-index: 11;
-  -webkit-mask-image:
-    linear-gradient(to right, #000 var(--major-grid-width), transparent var(--major-grid-width)),
-    linear-gradient(to bottom, #000 var(--major-grid-width), transparent var(--major-grid-width));
-  -webkit-mask-size:
-    var(--major-grid-size) var(--major-grid-size),
-    var(--major-grid-size) var(--major-grid-size);
-  -webkit-mask-repeat: repeat;
-  mask-image:
-    linear-gradient(to right, #000 var(--major-grid-width), transparent var(--major-grid-width)),
-    linear-gradient(to bottom, #000 var(--major-grid-width), transparent var(--major-grid-width));
-  mask-size:
-    var(--major-grid-size) var(--major-grid-size),
-    var(--major-grid-size) var(--major-grid-size);
-  mask-repeat: repeat;
-}
-
 .tile {
   position: relative;
   display: grid;
@@ -189,13 +136,41 @@ body {
   cursor: crosshair;
 }
 
+.grid-cell-overlay {
+  position: relative;
+  pointer-events: none;
+  z-index: 10;
+  min-width: 0;
+  min-height: 0;
+  background-color: var(--page-bg);
+  background-image: var(--page-gif);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  -webkit-mask-image:
+    linear-gradient(to right, #000 var(--minor-grid-width), transparent var(--minor-grid-width)),
+    linear-gradient(to bottom, #000 var(--minor-grid-width), transparent var(--minor-grid-width));
+  -webkit-mask-size:
+    25% 25%,
+    25% 25%;
+  -webkit-mask-repeat: repeat;
+
+  mask-image:
+    linear-gradient(to right, #000 var(--minor-grid-width), transparent var(--minor-grid-width)),
+    linear-gradient(to bottom, #000 var(--minor-grid-width), transparent var(--minor-grid-width));
+  mask-size:
+    25% 25%,
+    25% 25%;
+  mask-repeat: repeat;
+}
+
 .tile-text-block {
   position: relative;
   z-index: 2;
   overflow: hidden;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
+  display: block;
   margin: 0;
   padding: 0;
   color: var(--text-main);
@@ -207,23 +182,28 @@ body {
   letter-spacing: -0.08em;
   line-height: 1;
   word-break: normal;
+  overflow-wrap: normal;
 }
 
 .tile-title {
   color: var(--text-main);
   -webkit-text-fill-color: var(--text-main);
+  white-space: normal;
 }
 
 .tile-content {
   color: var(--text-muted);
   -webkit-text-fill-color: var(--text-muted);
-  letter-spacing: -0.05em;
+  letter-spacing: -0.045em;
   font-weight: 900;
+  white-space: normal;
+  overflow-wrap: normal;
 }
 
 .tile-center-text {
   color: var(--text-main);
   -webkit-text-fill-color: var(--text-main);
+  white-space: normal;
 }
 
 .tile-about {
@@ -236,13 +216,13 @@ body {
 }
 
 .tile-about .tile-title {
-  grid-column: 1 / span 14;
-  grid-row: 3 / span 4;
+  grid-column: 2 / span 13;
+  grid-row: 2 / span 4;
 }
 
 .tile-about .tile-content {
-  grid-column: 1 / span 13;
-  grid-row: 13 / span 5;
+  grid-column: 2 / span 13;
+  grid-row: 14 / span 6;
 }
 
 .tile-name {
@@ -255,8 +235,8 @@ body {
 }
 
 .tile-name .tile-center-text {
-  grid-column: 1 / span 7;
-  grid-row: 2 / span 6;
+  grid-column: 2 / span 6;
+  grid-row: 2 / span 5;
 }
 
 .tile-null-small-a {
@@ -269,7 +249,7 @@ body {
 }
 
 .tile-null-small-a .tile-center-text {
-  grid-column: 1 / span 4;
+  grid-column: 2 / span 3;
   grid-row: 2 / span 2;
 }
 
@@ -283,7 +263,7 @@ body {
 }
 
 .tile-null-small-b .tile-center-text {
-  grid-column: 1 / span 4;
+  grid-column: 2 / span 3;
   grid-row: 2 / span 1;
 }
 
@@ -297,7 +277,7 @@ body {
 }
 
 .tile-null-large .tile-center-text {
-  grid-column: 1 / span 6;
+  grid-column: 2 / span 6;
   grid-row: 2 / span 2;
 }
 
@@ -311,6 +291,6 @@ body {
 }
 
 .tile-photos .tile-center-text {
-  grid-column: 1 / span 13;
+  grid-column: 2 / span 13;
   grid-row: 2 / span 5;
 }
