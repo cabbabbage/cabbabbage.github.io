@@ -33,14 +33,6 @@ function initializeSite() {
     }
   ];
 
-  const imageFiles = [
-    "images/image_1.jpg",
-    "images/image_2.jpg",
-    "images/image_3.jpg",
-    "images/image_4.jpg",
-    "images/image_5.jpg"
-  ];
-
   const contacts = [
     {
       label: "Email",
@@ -64,7 +56,6 @@ function initializeSite() {
       split: "tile-split",
       center: "tile-center",
       image: "tile-image",
-      slideshow: "tile-slideshow",
       projects: "tile-projects",
       contact: "tile-contact",
       fractal: "tile-fractal"
@@ -118,31 +109,6 @@ function initializeSite() {
       return tile;
     }
 
-    if (variant === "slideshow") {
-      tile.classList.add("tile-image-slideshow");
-
-      const fallback = document.createElement("div");
-      fallback.className = "archive-fallback";
-      fallback.innerHTML = `
-        <span class="archive-fallback-kicker">Visual archive</span>
-        <span class="archive-fallback-title">Raw frames. Process stills.</span>
-      `;
-      tile.appendChild(fallback);
-
-      imageFiles.forEach((src, index) => {
-        const image = document.createElement("img");
-        image.alt = `Portfolio image ${index + 1}`;
-        image.className = "slideshow-image";
-        image.style.animationDelay = `${(index * 3.5) - 3.5}s`;
-        image.addEventListener("load", () => {
-          tile.appendChild(image);
-        });
-        image.src = src;
-      });
-
-      return tile;
-    }
-
     if (variant === "projects") {
       const wrapper = document.createElement("div");
       wrapper.className = "project-credits";
@@ -150,9 +116,9 @@ function initializeSite() {
       const track = document.createElement("div");
       track.className = "project-credits-track";
 
-      const repeatedProjects = [...projects, ...projects];
+      const scrollProjects = [...projects, ...projects];
 
-      repeatedProjects.forEach((project) => {
+      scrollProjects.forEach((project) => {
         const link = document.createElement("a");
         link.href = project.url;
         link.target = "_blank";
@@ -253,13 +219,7 @@ function initializeSite() {
       className: "tile-photos",
       variant: "center",
       label: "Identity",
-      content: "Calvin Mickelson"
-    });
-
-    const imageTile = createTile({
-      className: "tile-null-large",
-      variant: "slideshow",
-      label: "Archive"
+      content: "Calvin\nMickelson"
     });
 
     const nameTile = createTile({
@@ -268,29 +228,16 @@ function initializeSite() {
       label: "Selected Work"
     });
 
-    const statusTile = createTile({
-      className: "tile-null-small-b",
-      variant: "center",
-      label: "Status",
-      content: "Open"
-    });
-
     const contactTile = createTile({
       className: "tile-null-small-a",
       variant: "contact",
       label: "Contact"
     });
 
-    const fractalTile = createTile({
-      className: "tile-fractal-field",
+    const squareFieldTile = createTile({
+      className: "tile-square-field",
       variant: "fractal",
-      label: "Signal"
-    });
-
-    const markerTile = createTile({
-      className: "tile-marker",
-      variant: "fractal",
-      label: "Mark"
+      label: "Field"
     });
 
     [
@@ -298,10 +245,7 @@ function initializeSite() {
       photosTile,
       nameTile,
       contactTile,
-      imageTile,
-      statusTile,
-      fractalTile,
-      markerTile
+      squareFieldTile
     ].forEach((tile, index) => {
       tile.dataset.index = `0${index + 1}`;
       paperGrid.appendChild(tile);
@@ -314,7 +258,7 @@ function initializeSite() {
     return Number.isFinite(parsed) ? parsed : fallback;
   }
 
-  function buildFractalTiles(container) {
+  function buildSquareField(container) {
     const palette = [
       "var(--steel)",
       "var(--smoke)",
@@ -346,28 +290,26 @@ function initializeSite() {
         colorIndex += 1;
       }
 
-      function recurse(x, y, width, height, direction) {
+      function recurse(x, y, width, height) {
         if (width < minSize || height < minSize) {
           return;
         }
 
-        if (direction === "vertical") {
-          const firstWidth = width / 2;
-          const secondWidth = width - firstWidth;
+        const side = Math.min(width, height);
 
-          addTile(x, y, Math.max(0, firstWidth - gap), height);
-          recurse(x + firstWidth, y, secondWidth, height, "horizontal");
+        addTile(x, y, Math.max(0, side - gap), Math.max(0, side - gap));
+
+        if (width > height) {
+          recurse(x + side, y, width - side, height);
           return;
         }
 
-        const firstHeight = height / 2;
-        const secondHeight = height - firstHeight;
-
-        addTile(x, y, width, Math.max(0, firstHeight - gap));
-        recurse(x, y + firstHeight, width, secondHeight, "vertical");
+        if (height > width) {
+          recurse(x, y + side, width, height - side);
+        }
       }
 
-      recurse(0, 0, bounds.width, bounds.height, "vertical");
+      recurse(0, 0, bounds.width, bounds.height);
 
       container.replaceChildren();
 
@@ -398,11 +340,7 @@ function initializeSite() {
     entryScreen.classList.add("hidden");
     homePage.classList.remove("hidden");
     window.requestAnimationFrame(() => {
-      const fractalTile = paperGrid.querySelector(".tile-fractal-field");
-
-      if (fractalTile) {
-        buildFractalTiles(fractalTile);
-      }
+      paperGrid.querySelectorAll(".tile-square-field").forEach(buildSquareField);
     });
     sessionStorage.setItem("captchaPassed", "true");
   }
