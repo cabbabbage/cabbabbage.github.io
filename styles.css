@@ -15,8 +15,10 @@
   --text-main: #050505;
   --text-muted: #111111;
 
-  --major-grid-line: rgba(0, 0, 0, 0.34);
-  --minor-grid-line: rgba(0, 0, 0, 0.11);
+  --minor-grid-size: calc(100% / 32);
+  --major-grid-size: calc(100% / 8);
+  --minor-grid-width: 1px;
+  --major-grid-width: 2px;
 
   --hard-shadow: 8px 8px 0 rgba(0, 0, 0, 0.95);
   --hard-shadow-hover: 14px 14px 0 rgba(0, 0, 0, 0.95);
@@ -114,40 +116,54 @@ body {
   overflow: visible;
 }
 
-.paper-grid::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 4;
-
-  background-image:
-    linear-gradient(to right, var(--minor-grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--minor-grid-line) 1px, transparent 1px);
-
-  background-size:
-    calc(100% / 32) calc(100% / 32),
-    calc(100% / 32) calc(100% / 32);
-
-  mix-blend-mode: multiply;
-}
-
+.paper-grid::before,
 .paper-grid::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
+  background-color: var(--page-bg);
+  background-image: var(--page-gif);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.paper-grid::before {
+  z-index: 4;
+  -webkit-mask-image:
+    linear-gradient(to right, #000 var(--minor-grid-width), transparent var(--minor-grid-width)),
+    linear-gradient(to bottom, #000 var(--minor-grid-width), transparent var(--minor-grid-width));
+  -webkit-mask-size:
+    var(--minor-grid-size) var(--minor-grid-size),
+    var(--minor-grid-size) var(--minor-grid-size);
+  -webkit-mask-repeat: repeat;
+  mask-image:
+    linear-gradient(to right, #000 var(--minor-grid-width), transparent var(--minor-grid-width)),
+    linear-gradient(to bottom, #000 var(--minor-grid-width), transparent var(--minor-grid-width));
+  mask-size:
+    var(--minor-grid-size) var(--minor-grid-size),
+    var(--minor-grid-size) var(--minor-grid-size);
+  mask-repeat: repeat;
+}
+
+.paper-grid::after {
   z-index: 5;
-
-  background-image:
-    linear-gradient(to right, var(--major-grid-line) 2px, transparent 2px),
-    linear-gradient(to bottom, var(--major-grid-line) 2px, transparent 2px);
-
-  background-size:
-    calc(100% / 8) calc(100% / 8),
-    calc(100% / 8) calc(100% / 8);
-
-  mix-blend-mode: multiply;
+  -webkit-mask-image:
+    linear-gradient(to right, #000 var(--major-grid-width), transparent var(--major-grid-width)),
+    linear-gradient(to bottom, #000 var(--major-grid-width), transparent var(--major-grid-width));
+  -webkit-mask-size:
+    var(--major-grid-size) var(--major-grid-size),
+    var(--major-grid-size) var(--major-grid-size);
+  -webkit-mask-repeat: repeat;
+  mask-image:
+    linear-gradient(to right, #000 var(--major-grid-width), transparent var(--major-grid-width)),
+    linear-gradient(to bottom, #000 var(--major-grid-width), transparent var(--major-grid-width));
+  mask-size:
+    var(--major-grid-size) var(--major-grid-size),
+    var(--major-grid-size) var(--major-grid-size);
+  mask-repeat: repeat;
 }
 
 .tile {
