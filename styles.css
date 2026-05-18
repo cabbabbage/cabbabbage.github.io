@@ -9,8 +9,8 @@
   --tile-border: #a8a8a8;
   --text-main: #111111;
   --text-muted: #2f2f2f;
-  --gap: 12px;
-  --page-padding: 12px;
+  --gap: 8px;
+  --page-padding: 8px;
 }
 
 body {
