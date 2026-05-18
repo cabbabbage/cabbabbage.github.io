@@ -263,7 +263,7 @@ body {
   letter-spacing: -0.075em;
 }
 
-/* MAIN TILE LAYOUT */
+/* ORIGINAL 8x8 TILE GEOMETRY */
 
 .tile-about {
   grid-column: 5 / span 4;
@@ -426,12 +426,12 @@ body {
 
 .project-credits::before {
   top: 0;
-  background: linear-gradient(to bottom, var(--tile-bg), rgba(144, 209, 218, 0));
+  background: linear-gradient(to bottom, rgba(144, 209, 218, 0.9), rgba(144, 209, 218, 0));
 }
 
 .project-credits::after {
   bottom: 0;
-  background: linear-gradient(to top, var(--tile-bg), rgba(144, 209, 218, 0));
+  background: linear-gradient(to top, rgba(144, 209, 218, 0.9), rgba(144, 209, 218, 0));
 }
 
 .project-credits-track {
@@ -570,69 +570,4 @@ body {
 .tile-null-small-a:hover,
 .tile-null-small-b:hover {
   cursor: crosshair;
-}
-
-/* MOBILE */
-
-@media (max-width: 900px) {
-  body {
-    overflow: auto;
-  }
-
-  .home-page {
-    height: auto;
-    min-height: 100vh;
-  }
-
-  .paper-grid {
-    min-height: 140vh;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(12, minmax(90px, 1fr));
-  }
-
-  .tile-photos {
-    grid-column: 1 / span 4;
-    grid-row: 1 / span 3;
-  }
-
-  .tile-about {
-    grid-column: 1 / span 4;
-    grid-row: 4 / span 5;
-  }
-
-  .tile-name {
-    grid-column: 3 / span 2;
-    grid-row: 9 / span 3;
-  }
-
-  .tile-null-large {
-    grid-column: 1 / span 2;
-    grid-row: 9 / span 2;
-  }
-
-  .tile-null-small-a {
-    grid-column: 1 / span 1;
-    grid-row: 11 / span 1;
-  }
-
-  .tile-null-small-b {
-    grid-column: 2 / span 1;
-    grid-row: 11 / span 1;
-  }
-
-  .tile-photos .tile-center-text {
-    font-size: clamp(58px, 16vw, 130px);
-  }
-
-  .tile-content {
-    font-size: clamp(13px, 2.6vw, 22px);
-  }
-
-  .project-title {
-    font-size: clamp(28px, 8vw, 70px);
-  }
-
-  .project-description {
-    font-size: clamp(12px, 2.5vw, 20px);
-  }
 }
