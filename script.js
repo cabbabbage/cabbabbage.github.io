@@ -66,7 +66,8 @@ function initializeSite() {
       image: "tile-image",
       slideshow: "tile-slideshow",
       projects: "tile-projects",
-      contact: "tile-contact"
+      contact: "tile-contact",
+      solid: "tile-solid"
     };
 
     return variantClasses[variant] || "tile-center";
@@ -193,6 +194,11 @@ function initializeSite() {
       return tile;
     }
 
+    if (variant === "solid") {
+      tile.setAttribute("aria-hidden", "true");
+      return tile;
+    }
+
     const text = document.createElement("div");
     text.className = "tile-center-text";
     text.textContent = options.content || "";
@@ -260,13 +266,37 @@ function initializeSite() {
       variant: "contact"
     });
 
+    const colorTileA = createTile({
+      className: "tile-color-a",
+      variant: "solid"
+    });
+
+    const colorTileB = createTile({
+      className: "tile-color-b",
+      variant: "solid"
+    });
+
+    const colorTileC = createTile({
+      className: "tile-color-c",
+      variant: "solid"
+    });
+
+    const colorTileD = createTile({
+      className: "tile-color-d",
+      variant: "solid"
+    });
+
     [
       photosTile,
       aboutTile,
       imageTile,
       nameTile,
       statusTile,
-      contactTile
+      contactTile,
+      colorTileA,
+      colorTileB,
+      colorTileC,
+      colorTileD
     ].forEach((tile, index) => {
       tile.dataset.index = `0${index + 1}`;
       paperGrid.appendChild(tile);

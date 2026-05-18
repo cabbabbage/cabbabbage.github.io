@@ -185,58 +185,6 @@ body {
   min-height: 0;
 }
 
-.paper-grid::before,
-.paper-grid::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-color: var(--page-bg);
-  background-image: var(--page-gif);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
-.paper-grid::before {
-  z-index: 8;
-  opacity: var(--minor-grid-opacity);
-  -webkit-mask-image:
-    linear-gradient(to right, #000 var(--minor-grid-width), transparent var(--minor-grid-width)),
-    linear-gradient(to bottom, #000 var(--minor-grid-width), transparent var(--minor-grid-width));
-  -webkit-mask-size:
-    var(--minor-grid-size) var(--minor-grid-size),
-    var(--minor-grid-size) var(--minor-grid-size);
-  -webkit-mask-repeat: repeat;
-  mask-image:
-    linear-gradient(to right, #000 var(--minor-grid-width), transparent var(--minor-grid-width)),
-    linear-gradient(to bottom, #000 var(--minor-grid-width), transparent var(--minor-grid-width));
-  mask-size:
-    var(--minor-grid-size) var(--minor-grid-size),
-    var(--minor-grid-size) var(--minor-grid-size);
-  mask-repeat: repeat;
-}
-
-.paper-grid::after {
-  z-index: 9;
-  opacity: var(--major-grid-opacity);
-  -webkit-mask-image:
-    linear-gradient(to right, #000 var(--major-grid-width), transparent var(--major-grid-width)),
-    linear-gradient(to bottom, #000 var(--major-grid-width), transparent var(--major-grid-width));
-  -webkit-mask-size:
-    var(--major-grid-size) var(--major-grid-size),
-    var(--major-grid-size) var(--major-grid-size);
-  -webkit-mask-repeat: repeat;
-  mask-image:
-    linear-gradient(to right, #000 var(--major-grid-width), transparent var(--major-grid-width)),
-    linear-gradient(to bottom, #000 var(--major-grid-width), transparent var(--major-grid-width));
-  mask-size:
-    var(--major-grid-size) var(--major-grid-size),
-    var(--major-grid-size) var(--major-grid-size);
-  mask-repeat: repeat;
-}
-
 .tile {
   position: relative;
   z-index: 1;
@@ -363,11 +311,22 @@ body {
   grid-column: 1 / span 4;
   grid-row: 1 / span 4;
   align-items: flex-end;
-  padding: clamp(26px, 4.3vw, 74px);
+  padding: clamp(18px, 2.6vw, 46px) clamp(24px, 4.3vw, 76px) clamp(28px, 4.5vw, 78px);
   color: var(--ink);
   background:
+    linear-gradient(to right, rgba(9, 10, 13, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(9, 10, 13, 0.09) 1px, transparent 1px),
+    linear-gradient(to right, rgba(9, 10, 13, 0.18) 2px, transparent 2px),
+    linear-gradient(to bottom, rgba(9, 10, 13, 0.16) 2px, transparent 2px),
     linear-gradient(160deg, rgba(119, 129, 127, 0.55) 0 33%, transparent 33% 100%),
     var(--surface);
+  background-size:
+    var(--minor-grid-size) var(--minor-grid-size),
+    var(--minor-grid-size) var(--minor-grid-size),
+    var(--major-grid-size) var(--major-grid-size),
+    var(--major-grid-size) var(--major-grid-size),
+    auto,
+    auto;
   font-size: clamp(56px, 7.4vw, 148px);
 }
 
@@ -386,7 +345,9 @@ body {
 }
 
 .tile-photos .tile-center-text {
-  max-width: 9ch;
+  max-width: 8.6ch;
+  line-height: 0.86;
+  letter-spacing: -0.052em;
 }
 
 .tile-about {
@@ -416,7 +377,7 @@ body {
 
 .tile-name {
   grid-column: 3 / span 2;
-  grid-row: 5 / span 4;
+  grid-row: 6 / span 3;
   color: var(--surface);
   background:
     linear-gradient(180deg, rgba(119, 129, 127, 0.16), transparent 44%),
@@ -433,8 +394,32 @@ body {
 
 .tile-null-small-a {
   grid-column: 2 / span 1;
-  grid-row: 7 / span 2;
+  grid-row: 8 / span 1;
   background: var(--accent);
+}
+
+.tile-color-a {
+  grid-column: 3 / span 1;
+  grid-row: 5 / span 1;
+  background: var(--night-soft);
+}
+
+.tile-color-b {
+  grid-column: 4 / span 1;
+  grid-row: 5 / span 1;
+  background: var(--accent-dark);
+}
+
+.tile-color-c {
+  grid-column: 2 / span 1;
+  grid-row: 7 / span 1;
+  background: var(--muted);
+}
+
+.tile-color-d {
+  grid-column: 1 / span 1;
+  grid-row: 8 / span 1;
+  background: var(--ink);
 }
 
 .tile-name.tile-center {
@@ -796,11 +781,6 @@ body {
     height: auto;
     min-height: 100dvh;
     overflow: visible;
-  }
-
-  .paper-grid::before,
-  .paper-grid::after {
-    display: none;
   }
 
   .paper-grid > .tile {
