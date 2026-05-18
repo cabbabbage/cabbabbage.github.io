@@ -518,10 +518,9 @@ body::after {
   place-items: center;
   color: var(--paper);
   background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 42%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.18)),
     var(--ink);
-  background-size: 25% 100%, 100% 50%, auto;
   border: 2px solid rgba(216, 216, 211, 0.82);
   box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.96);
   text-decoration: none;
@@ -535,8 +534,8 @@ body::after {
 .tile-resume:hover {
   color: white;
   background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
-    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 42%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.12)),
     var(--charcoal);
   border-color: var(--paper);
   transform: translate(-3px, -3px);

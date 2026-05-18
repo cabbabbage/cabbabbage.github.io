@@ -57,21 +57,17 @@ def wrap_text(text, font, size, max_width):
 def draw_background(pdf):
     pdf.setFillColor(PAPER)
     pdf.rect(0, 0, PAGE_W, PAGE_H, fill=1, stroke=0)
-    pdf.setStrokeColor(colors.Color(0, 0, 0, alpha=0.12))
-    pdf.setLineWidth(0.35)
-    for x in range(0, int(PAGE_W), 36):
-        pdf.line(x, 0, x, PAGE_H)
-    for y in range(0, int(PAGE_H), 36):
-        pdf.line(0, y, PAGE_W, y)
+    pdf.setFillColor(colors.Color(0, 0, 0, alpha=0.035))
+    pdf.rect(MARGIN - 12, MARGIN - 12, PAGE_W - ((MARGIN - 12) * 2), PAGE_H - ((MARGIN - 12) * 2), fill=1, stroke=0)
 
 
 def draw_label(pdf, text, x, y, width=None):
     label_width = width or max(72, text_width(text, "Helvetica-Bold", 8) + 16)
     pdf.setFillColor(INK)
-    pdf.rect(x, y - 10, label_width, 14, fill=1, stroke=0)
+    pdf.rect(x, y - 11, label_width, 15, fill=1, stroke=0)
     set_font(pdf, "Helvetica-Bold", 8, PAPER)
-    pdf.drawString(x + 7, y - 6, text.upper())
-    return y - 17
+    pdf.drawString(x + 7, y - 6.5, text.upper())
+    return y - 23
 
 
 def draw_rule(pdf, x, y, width):
@@ -141,11 +137,11 @@ def draw_header(pdf, content, page_num):
 
 def draw_summary(pdf, content, y):
     y = draw_label(pdf, "Summary", MARGIN, y, 86)
-    return draw_wrapped(pdf, content["summary"], MARGIN, y, PAGE_W - (MARGIN * 2), "Helvetica-Bold", 9.4, 12)
+    return draw_wrapped(pdf, content["summary"], MARGIN, y, PAGE_W - (MARGIN * 2), "Helvetica-Bold", 9.1, 12)
 
 
 def draw_skills(pdf, content, y):
-    y -= 4
+    y -= 10
     y = draw_label(pdf, "Technical Skills", MARGIN, y, 118)
     col_w = (PAGE_W - (MARGIN * 2) - 18) / 3
     x = MARGIN
@@ -155,17 +151,22 @@ def draw_skills(pdf, content, y):
         draw_rule(pdf, x, y - 4, col_w - 4)
         draw_wrapped(pdf, ", ".join(items), x, y - 16, col_w - 4, "Helvetica", 7.9, 9.6, ASH)
         x += col_w + 9
-    return y - 66
+    return y - 72
 
 
 def draw_project(pdf, project, x, y, width, max_bullets=None):
+    title_width = min(width * 0.62, text_width(project["title"], "Helvetica-Bold", 10.4) + 18)
+    stack_x = x + title_width + 14
+    stack_width = width - title_width - 14
+
     set_font(pdf, "Helvetica-Bold", 10.4, INK)
     pdf.drawString(x, y, project["title"])
     pdf.linkURL(project["url"], (x, y - 2, x + text_width(project["title"], "Helvetica-Bold", 10.4), y + 11), relative=0, thickness=0)
     set_font(pdf, "Helvetica-Bold", 7.6, SMOKE)
-    pdf.drawRightString(x + width, y, project["stack"])
-    y -= 12
-    draw_rule(pdf, x, y + 4, width)
+    pdf.drawRightString(stack_x + stack_width, y, project["stack"])
+    y -= 9
+    draw_rule(pdf, x, y + 3, title_width)
+    y -= 7
     bullets = project["bullets"][:max_bullets] if max_bullets else project["bullets"]
     for bullet in bullets:
         y = draw_wrapped(pdf, bullet, x, y, width, "Helvetica", 8.15, 10.3, INK, bullet=True)
@@ -174,6 +175,7 @@ def draw_project(pdf, project, x, y, width, max_bullets=None):
 
 
 def draw_projects_page_one(pdf, content, y):
+    y -= 4
     y = draw_label(pdf, "Selected Projects", MARGIN, y, 126)
     project_limits = {
         "ENGINE 2.0 / VIBBLE Engine": 3,
@@ -187,6 +189,7 @@ def draw_projects_page_one(pdf, content, y):
 
 
 def draw_experience(pdf, content, y):
+    y -= 4
     y = draw_label(pdf, "Experience", MARGIN, y, 94)
     for job in content["experience"]:
         set_font(pdf, "Helvetica-Bold", 10, INK)
@@ -205,6 +208,7 @@ def draw_experience(pdf, content, y):
 
 
 def draw_education(pdf, content, y):
+    y -= 4
     y = draw_label(pdf, "Education", MARGIN, y, 88)
     education = content["education"]
     set_font(pdf, "Helvetica-Bold", 10, INK)
