@@ -1,37 +1,150 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background: #f7f7f7;
-  color: #1f1f1f;
   margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  color: #1f1f1f;
   line-height: 1.6;
 }
 
-main {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 48px 24px;
+.hidden {
+  display: none;
 }
 
-h1 {
-  font-size: 42px;
-  margin-bottom: 8px;
+.screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.captcha-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 14px;
+  padding: 32px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.captcha-card h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+}
+
+.subtitle {
+  margin-bottom: 24px;
+  color: #555555;
+}
+
+.captcha-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#captcha-question {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+
+input {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #bbbbbb;
+  border-radius: 8px;
+}
+
+button {
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  background: #1f1f1f;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #333333;
+}
+
+.error-message {
+  min-height: 24px;
+  color: #b00020;
+  margin: 0;
+}
+
+main {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 56px 24px;
+}
+
+.hero {
+  padding-bottom: 32px;
+}
+
+.hero h1 {
+  font-size: 44px;
+  margin: 0 0 12px;
+}
+
+.hero p {
+  font-size: 20px;
+  color: #444444;
+  max-width: 700px;
+}
+
+.links {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.links a {
+  text-decoration: none;
+  background: #ffffff;
+  color: #1f1f1f;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.links a:hover {
+  background: #eeeeee;
+}
+
+section {
+  margin-top: 40px;
 }
 
 h2 {
-  margin-top: 40px;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 6px;
+  border-bottom: 1px solid #dddddd;
+  padding-bottom: 8px;
 }
 
-.project {
-  background: white;
-  padding: 18px;
-  margin: 16px 0;
-  border-radius: 10px;
-  border: 1px solid #ddd;
+.project-card {
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 16px;
+}
+
+.project-card h3 {
+  margin-top: 0;
 }
 
 a {
   color: #005fcc;
-  margin-right: 16px;
 }
