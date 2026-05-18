@@ -502,15 +502,58 @@ body::after {
   box-shadow: none;
 }
 
-.tile-square-field::before,
-.tile-square-field::after {
+.tile-square-field:not(.tile-resume)::before,
+.tile-square-field:not(.tile-resume)::after {
   display: none;
 }
 
-.tile-square-field:hover {
+.tile-square-field:not(.tile-resume):hover {
   background: transparent;
   box-shadow: none;
   transform: none;
+}
+
+.tile-resume {
+  display: grid;
+  place-items: center;
+  color: var(--paper);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    var(--ink);
+  background-size: 25% 100%, 100% 50%, auto;
+  border: 2px solid rgba(216, 216, 211, 0.82);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.96);
+  text-decoration: none;
+}
+
+.tile-resume::after {
+  display: block;
+  border-color: rgba(216, 216, 211, 0.22);
+}
+
+.tile-resume:hover {
+  color: white;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    var(--charcoal);
+  border-color: var(--paper);
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 rgba(0, 0, 0, 1);
+}
+
+.resume-download-label {
+  position: relative;
+  z-index: 2;
+  max-width: 7ch;
+  color: currentColor;
+  font-size: clamp(14px, 1.05vw, 18px);
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  line-height: 0.94;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .fractal-solid-tile {

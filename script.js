@@ -1,4 +1,100 @@
-function initializeSite() {
+const FALLBACK_CONTENT = {
+  name: "Calvin Mickelson",
+  title: "Software Developer",
+  location: "Fort Collins, CO",
+  phone: "970-666-1069",
+  email: "mickelsoncalvin021@gmail.com",
+  github: {
+    label: "github.com/cabbabbage",
+    url: "https://github.com/cabbabbage"
+  },
+  linkedin: {
+    label: "linkedin.com/in/calvin-mickelson-7573b6381",
+    url: "https://linkedin.com/in/calvin-mickelson-7573b6381"
+  },
+  portfolio: {
+    label: "cabbabbage.github.io/calvin.github.io",
+    url: "https://cabbabbage.github.io/calvin.github.io/"
+  },
+  resumeDownload: {
+    label: "Resume PDF",
+    path: "assets/Calvin_Mickelson_Resume_2026.pdf",
+    fileName: "Calvin_Mickelson_Resume_2026.pdf"
+  },
+  websiteSummary: "I am a Fort Collins-based software developer focused on practical systems work: C++ engines, rendering tools, real-time applications, and computer vision projects. I like building software that is fast, debuggable, and useful under real constraints.",
+  skills: {
+    Languages: ["C++", "Python", "JavaScript", "Java", "SQL"],
+    "Frameworks/Tools": ["React", "Node.js", "Git", "CMake", "TensorFlow", "NumPy", "Pandas", "SDL", "MediaPipe"],
+    "Core Strengths": ["Rendering pipelines", "procedural generation", "asset tooling", "debugging", "performance optimization"]
+  },
+  projects: [
+    {
+      title: "ENGINE 2.0 / VIBBLE Engine",
+      description: "Custom C++/SDL engine with dynamic lighting, parallax rendering, procedural maps, editor tooling, and JSON asset workflows.",
+      url: "https://github.com/cabbabbage/ENGINE-2.0"
+    },
+    {
+      title: "auto_edit",
+      description: "Python generator for beat-synced glitch edits, with BPM/drop analysis, OCR text overlays, and batch-rendered vertical MP4 outputs.",
+      url: "https://github.com/cabbabbage/auto_edit"
+    },
+    {
+      title: "ASL Interpretation Model",
+      description: "Real-time ASL recognition pipeline using MediaPipe hand landmarks, TensorFlow classification, and live video input.",
+      url: "https://github.com/cabbabbage/ASL_Interpretation_Model-"
+    },
+    {
+      title: "SSH_MAVLINK",
+      description: "Remote multirotor control over 4G LTE with real-time telemetry, video streaming, and MAVLink command links.",
+      url: "https://github.com/cabbabbage/SSH_MAVLINK"
+    },
+    {
+      title: "SmileScope",
+      description: "Python and MediaPipe facial landmark app for smile detection and annotated screenshot capture under noisy motion.",
+      url: "https://github.com/cabbabbage/SmileScope"
+    }
+  ],
+  experience: [
+    { company: "Broadcom", role: "Manufacturing Control" },
+    { company: "Collins Control and Electric", role: "Electrician Apprentice" },
+    { company: "UNION Bar & Soda Fountain", role: "Line Cook / Prep Cook" }
+  ],
+  education: {
+    school: "Colorado State University",
+    degree: "B.S. Computer Science",
+    dates: "Graduated 2025",
+    details: "Coursework and project work centered on software engineering, algorithms, systems, data, and applied machine learning."
+  }
+};
+
+async function loadResumeContent() {
+  try {
+    const response = await fetch("resume-content.json", { cache: "no-store" });
+    if (!response.ok) {
+      throw new Error(`Content request failed: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.warn("Using fallback resume content.", error);
+    return FALLBACK_CONTENT;
+  }
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function formatList(items) {
+  return (items || []).join(", ");
+}
+
+async function initializeSite() {
+  const content = await loadResumeContent();
   const entryScreen = document.getElementById("entry-screen");
   const homePage = document.getElementById("home-page");
   const entryMessage = document.getElementById("entry-message");
@@ -15,54 +111,31 @@ function initializeSite() {
     return;
   }
 
-  const projects = [
-    {
-      title: "ENGINE 2.0 / VIBBLE Engine",
-      description: "Custom C++/SDL engine with dynamic lighting, parallax rendering, procedural maps, editor tooling, and JSON asset workflows.",
-      url: "https://github.com/cabbabbage/ENGINE-2.0"
-    },
-    {
-      title: "ASL Interpretation Model",
-      description: "Real-time ASL recognition pipeline using MediaPipe hand landmarks, TensorFlow classification, and live video input.",
-      url: "https://github.com/cabbabbage/ASL_Interpretation_Model-"
-    },
-    {
-      title: "SSH_MAVLINK",
-      description: "Remote multirotor control over 4G LTE with real-time telemetry, video streaming, and MAVLink command links.",
-      url: "https://github.com/cabbabbage/SSH_MAVLINK"
-    },
-    {
-      title: "SmileScope",
-      description: "Python and MediaPipe facial landmark app for smile detection and annotated screenshot capture under noisy motion.",
-      url: "https://github.com/cabbabbage/SmileScope"
-    },
-    {
-      title: "auto_edit",
-      description: "Python generator for beat-synced glitch edits, with BPM/drop analysis, OCR text overlays, and batch-rendered vertical MP4 outputs.",
-      url: "https://github.com/cabbabbage/auto_edit"
-    }
-  ];
-
   const contacts = [
     {
       label: "Email",
-      value: "mickelsoncalvin021@gmail.com",
-      url: "mailto:mickelsoncalvin021@gmail.com"
+      value: content.email,
+      url: `mailto:${content.email}`
     },
     {
       label: "Phone",
-      value: "970-666-1069",
-      url: "tel:9706661069"
+      value: content.phone,
+      url: `tel:${content.phone.replace(/\D/g, "")}`
     },
     {
       label: "GitHub",
-      value: "github.com/cabbabbage",
-      url: "https://github.com/cabbabbage"
+      value: content.github.label,
+      url: content.github.url
     },
     {
       label: "LinkedIn",
-      value: "linkedin.com/in/calvin-mickelson-7573b6381",
-      url: "https://linkedin.com/in/calvin-mickelson-7573b6381"
+      value: content.linkedin.label,
+      url: content.linkedin.url
+    },
+    {
+      label: "Portfolio",
+      value: content.portfolio.label,
+      url: content.portfolio.url
     }
   ];
 
@@ -73,15 +146,16 @@ function initializeSite() {
       image: "tile-image",
       projects: "tile-projects",
       contact: "tile-contact",
-      fractal: "tile-fractal"
+      fractal: "tile-fractal",
+      resume: "tile-resume"
     };
 
     return variantClasses[variant] || "tile-center";
   }
 
   function createTile(options) {
-    const tile = document.createElement("section");
     const variant = options.variant || "center";
+    const tile = document.createElement(variant === "resume" ? "a" : "section");
     const className = options.className || "";
 
     tile.className = ["tile", getVariantClass(variant), className]
@@ -131,7 +205,7 @@ function initializeSite() {
       const track = document.createElement("div");
       track.className = "project-credits-track";
 
-      const scrollProjects = [...projects, ...projects];
+      const scrollProjects = [...content.projects, ...content.projects];
 
       scrollProjects.forEach((project) => {
         const link = document.createElement("a");
@@ -155,6 +229,19 @@ function initializeSite() {
 
       wrapper.appendChild(track);
       tile.appendChild(wrapper);
+      return tile;
+    }
+
+    if (variant === "resume") {
+      tile.href = content.resumeDownload.path;
+      tile.download = content.resumeDownload.fileName;
+      tile.setAttribute("aria-label", `Download ${content.name} resume PDF`);
+
+      const label = document.createElement("span");
+      label.className = "resume-download-label";
+      label.textContent = "RESUME / PDF";
+
+      tile.appendChild(label);
       return tile;
     }
 
@@ -206,40 +293,34 @@ function initializeSite() {
       className: "tile-about",
       variant: "split",
       label: "Manifest",
-      title: "About Me",
+      title: content.title,
       html: `
         <div class="about-copy">
           <section class="about-overview" aria-label="Overview">
-            <p>
-              I am a Fort Collins-based software engineer focused on practical systems work:
-              C++ engines, rendering tools, real-time applications, and computer vision projects.
-              I like building software that is fast, debuggable, and useful under real constraints.
-            </p>
+            <p>${escapeHtml(content.websiteSummary)}</p>
           </section>
 
           <div class="about-columns">
             <section class="about-panel">
               <h3>Education</h3>
-              <p class="about-kicker">Colorado State University</p>
-              <p>B.S. in Computer Science, 2025.</p>
-              <p>Coursework and project work centered on software engineering, algorithms, systems, data, and applied machine learning.</p>
+              <p class="about-kicker">${escapeHtml(content.education.school)}</p>
+              <p>${escapeHtml(content.education.degree)}, ${escapeHtml(content.education.dates.replace("Graduated ", ""))}.</p>
+              <p>${escapeHtml(content.education.details)}</p>
             </section>
 
             <section class="about-panel">
               <h3>Experience</h3>
               <ul>
-                <li>Broadcom manufacturing control operations.</li>
-                <li>Collins Control and Electric apprenticeship work.</li>
-                <li>High-volume kitchen operations at UNION Bar & Soda Fountain.</li>
+                ${content.experience.map((item) => `<li>${escapeHtml(item.company)} ${escapeHtml(item.role).toLowerCase()}.</li>`).join("")}
               </ul>
             </section>
 
             <section class="about-panel">
               <h3>Skills</h3>
               <ul>
-                <li>C++, Python, JavaScript, Java, and SQL.</li>
-                <li>React, Node.js, Git, CMake, TensorFlow, NumPy, Pandas, SDL, and MediaPipe.</li>
-                <li>Rendering pipelines, procedural generation, asset tooling, debugging, and performance optimization.</li>
+                <li>${escapeHtml(formatList(content.skills.Languages))}.</li>
+                <li>${escapeHtml(formatList(content.skills["Frameworks/Tools"]))}.</li>
+                <li>${escapeHtml(formatList(content.skills["Core Strengths"]))}.</li>
               </ul>
             </section>
           </div>
@@ -251,7 +332,7 @@ function initializeSite() {
       className: "tile-photos",
       variant: "center",
       label: "Identity",
-      content: "Calvin\nMickelson"
+      content: content.name.replace(" ", "\n")
     });
 
     const nameTile = createTile({
@@ -266,10 +347,10 @@ function initializeSite() {
       label: "Contact"
     });
 
-    const squareFieldTile = createTile({
+    const resumeTile = createTile({
       className: "tile-square-field",
-      variant: "fractal",
-      label: "Field"
+      variant: "resume",
+      label: "Resume"
     });
 
     [
@@ -277,7 +358,7 @@ function initializeSite() {
       photosTile,
       nameTile,
       contactTile,
-      squareFieldTile
+      resumeTile
     ].forEach((tile, index) => {
       tile.dataset.index = `0${index + 1}`;
       paperGrid.appendChild(tile);
@@ -372,7 +453,7 @@ function initializeSite() {
     entryScreen.classList.add("hidden");
     homePage.classList.remove("hidden");
     window.requestAnimationFrame(() => {
-      paperGrid.querySelectorAll(".tile-square-field").forEach(buildSquareField);
+      paperGrid.querySelectorAll(".tile-square-field:not(.tile-resume)").forEach(buildSquareField);
     });
     sessionStorage.setItem("captchaPassed", "true");
   }

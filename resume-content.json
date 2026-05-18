@@ -1,0 +1,148 @@
+{
+  "name": "Calvin Mickelson",
+  "title": "Software Developer",
+  "location": "Fort Collins, CO",
+  "phone": "970-666-1069",
+  "email": "mickelsoncalvin021@gmail.com",
+  "github": {
+    "label": "github.com/cabbabbage",
+    "url": "https://github.com/cabbabbage"
+  },
+  "linkedin": {
+    "label": "linkedin.com/in/calvin-mickelson-7573b6381",
+    "url": "https://linkedin.com/in/calvin-mickelson-7573b6381"
+  },
+  "portfolio": {
+    "label": "cabbabbage.github.io/calvin.github.io",
+    "url": "https://cabbabbage.github.io/calvin.github.io/"
+  },
+  "resumeDownload": {
+    "label": "Resume PDF",
+    "path": "assets/Calvin_Mickelson_Resume_2026.pdf",
+    "fileName": "Calvin_Mickelson_Resume_2026.pdf"
+  },
+  "summary": "Fort Collins-based software developer with a B.S. in Computer Science and hands-on experience building performance-sensitive C++ systems, custom rendering pipelines, developer tooling, real-time applications, and machine learning/computer vision projects. Strong in C++, Python, and JavaScript, with a focus on fast, debuggable software that works under real constraints.",
+  "websiteSummary": "I am a Fort Collins-based software developer focused on practical systems work: C++ engines, rendering tools, real-time applications, and computer vision projects. I like building software that is fast, debuggable, and useful under real constraints.",
+  "skills": {
+    "Languages": [
+      "C++",
+      "Python",
+      "JavaScript",
+      "Java",
+      "SQL"
+    ],
+    "Frameworks/Tools": [
+      "React",
+      "Node.js",
+      "Git",
+      "CMake",
+      "TensorFlow",
+      "NumPy",
+      "Pandas",
+      "SDL",
+      "MediaPipe"
+    ],
+    "Core Strengths": [
+      "Software engineering",
+      "data structures and algorithms",
+      "systems design",
+      "performance optimization",
+      "debugging",
+      "developer tooling",
+      "rendering pipelines",
+      "procedural generation",
+      "asset tooling",
+      "machine learning"
+    ]
+  },
+  "projects": [
+    {
+      "title": "ENGINE 2.0 / VIBBLE Engine",
+      "stack": "C++, SDL, CMake, JSON",
+      "url": "https://github.com/cabbabbage/ENGINE-2.0",
+      "description": "Custom C++/SDL engine with dynamic lighting, parallax rendering, procedural maps, editor tooling, and JSON asset workflows.",
+      "bullets": [
+        "Built a custom 2D engine with dynamic lighting, parallax rendering, layered world composition, and clear separation between runtime, editor, and tooling systems.",
+        "Implemented procedural map generation with room layering, sector-based placement, parent-child room relationships, collision/interaction geometry, and JSON-driven assets.",
+        "Developed editor tooling for asset management, rendering controls, animation caching, and scalable content pipelines supporting rapid iteration."
+      ]
+    },
+    {
+      "title": "auto_edit",
+      "stack": "Python, OpenCV, librosa, FFmpeg, EasyOCR",
+      "url": "https://github.com/cabbabbage/auto_edit",
+      "description": "Python generator for beat-synced glitch edits, with BPM/drop analysis, OCR text overlays, and batch-rendered vertical MP4 outputs.",
+      "bullets": [
+        "Built an automated video generator that scans audio/media inputs, detects beats, drop timing, and bass energy, then schedules edits against the music timeline.",
+        "Added OCR-driven text overlay preprocessing, configurable glitch/transition effects, dry-run timeline debugging, and batch rendering of numbered vertical MP4 variants."
+      ]
+    },
+    {
+      "title": "ASL Interpretation Model",
+      "stack": "Python, TensorFlow, MediaPipe",
+      "url": "https://github.com/cabbabbage/ASL_Interpretation_Model-",
+      "description": "Real-time ASL recognition pipeline using MediaPipe hand landmarks, TensorFlow classification, and live video input.",
+      "bullets": [
+        "Built a real-time ASL recognition pipeline using hand landmark extraction and classification from live video input.",
+        "Trained and evaluated models for sign prediction and implemented preprocessing to improve inference stability and usability."
+      ]
+    },
+    {
+      "title": "SSH_MAVLINK",
+      "stack": "Python, Raspberry Pi, MAVLink",
+      "url": "https://github.com/cabbabbage/SSH_MAVLINK",
+      "description": "Remote multirotor control over 4G LTE with real-time telemetry, video streaming, and MAVLink command links.",
+      "bullets": [
+        "Developed a remote multirotor control system over 4G LTE with real-time telemetry, video streaming, and command/control links.",
+        "Enabled remote manual and autonomous flight workflows using MAVLink-based communication."
+      ]
+    },
+    {
+      "title": "SmileScope",
+      "stack": "Python, MediaPipe",
+      "url": "https://github.com/cabbabbage/SmileScope",
+      "description": "Python and MediaPipe facial landmark app for smile detection and annotated screenshot capture under noisy motion.",
+      "bullets": [
+        "Built a real-time facial landmark application to detect smiles and capture annotated screenshots under noisy motion conditions.",
+        "Used MediaPipe landmarks and Python image processing to support lightweight computer vision interaction experiments."
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "company": "Broadcom",
+      "role": "Manufacturing Control",
+      "location": "Fort Collins, CO",
+      "dates": "Jan 2026 - Mar 2026",
+      "bullets": [
+        "Supported manufacturing control operations in a high-volume semiconductor production environment.",
+        "Worked across schedule-driven workflows and internal production systems to help maintain continuity and process visibility."
+      ]
+    },
+    {
+      "company": "Collins Control and Electric",
+      "role": "Electrician Apprentice",
+      "location": "Fort Collins, CO",
+      "dates": "2022 - 2023",
+      "bullets": [
+        "Assisted with electrical and generator installations and supported troubleshooting of networking, firmware, and control-system issues."
+      ]
+    },
+    {
+      "company": "UNION Bar & Soda Fountain",
+      "role": "Line Cook / Prep Cook",
+      "location": "Fort Collins, CO",
+      "dates": "2022 - 2025",
+      "bullets": [
+        "Worked in a fast-paced, high-volume environment while coordinating prep, line execution, and quality standards across daily service."
+      ]
+    }
+  ],
+  "education": {
+    "school": "Colorado State University",
+    "degree": "B.S. Computer Science",
+    "location": "Fort Collins, CO",
+    "dates": "Graduated 2025",
+    "details": "Coursework and project work centered on software engineering, algorithms, systems, data, and applied machine learning."
+  }
+}
