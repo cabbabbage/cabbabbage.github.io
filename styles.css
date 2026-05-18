@@ -11,6 +11,7 @@ html {
 :root {
   --page-bg: #050505;
   --page-gif: url("assets/background.gif");
+  --ink: #050505;
 
   --tile-bg: rgba(144, 209, 218, 0.9);
   --tile-bg-hover: rgba(255, 255, 255, 0.96);
@@ -22,6 +23,12 @@ html {
   --major-grid-size: calc(100% / 8);
   --minor-grid-width: 1px;
   --major-grid-width: 2px;
+  --grid-track-x: calc((100vw - (var(--page-padding) * 2) - (var(--gap) * 7)) / 8);
+  --grid-track-y: calc((100dvh - (var(--page-padding) * 2) - (var(--gap) * 7)) / 8);
+  --subgrid-x: calc(var(--grid-track-x) / 4);
+  --subgrid-y: calc(var(--grid-track-y) / 4);
+  --snap-x: clamp(12px, var(--subgrid-x), 40px);
+  --snap-y: clamp(10px, var(--subgrid-y), 28px);
 
   --text-punch-opacity: 1;
   --text-punch-opacity-hover: 0.55;
@@ -236,10 +243,8 @@ body {
 }
 
 .tile-title,
-.tile-content,
 .tile-center-text,
-.project-link,
-.contact-link {
+.project-title {
   position: relative;
   z-index: 2;
 
@@ -257,15 +262,15 @@ body {
 }
 
 .tile-title,
-.tile-content,
-.tile-center-text {
+.tile-center-text,
+.project-title {
   opacity: var(--text-punch-opacity);
   transition: opacity 120ms linear;
 }
 
 .tile:hover .tile-title,
-.tile:hover .tile-content,
-.tile:hover .tile-center-text {
+.tile:hover .tile-center-text,
+.tile:hover .project-title {
   opacity: var(--text-punch-opacity-hover);
 }
 
@@ -286,13 +291,16 @@ body {
 
 .tile-content {
   display: block;
+  position: relative;
+  z-index: 2;
   min-width: 0;
   min-height: 0;
-  padding: clamp(18px, 2.7vw, 52px);
+  padding: var(--snap-y) var(--snap-x);
   text-align: left;
-  font-size: clamp(13px, 1.15vw, 24px);
+  color: var(--ink);
+  font-size: clamp(12px, 1vw, 19px);
   font-weight: 800;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.025em;
   line-height: 1.08;
   max-width: 100%;
   overflow: hidden;
@@ -357,10 +365,11 @@ body {
 
 .tile-about .tile-content {
   width: 100%;
-  max-width: 82%;
+  max-width: calc(100% - (var(--snap-x) * 2));
   align-self: start;
   justify-self: center;
-  padding-top: clamp(10px, 1.5vw, 28px);
+  padding: 0;
+  padding-top: var(--snap-y);
 }
 
 .tile-photos .tile-center-text {
@@ -396,11 +405,23 @@ body {
   padding: clamp(10px, 1.25vw, 18px);
 }
 
+.tile-null-small-b .tile-center-text {
+  background: none;
+  background-clip: border-box;
+  -webkit-background-clip: border-box;
+  color: var(--ink);
+  -webkit-text-fill-color: currentColor;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+  opacity: 1;
+}
+
 /* ABOUT ME EXPANDED CONTENT */
 
 .about-copy {
   display: grid;
-  gap: clamp(7px, 0.75vw, 13px);
+  align-content: start;
+  gap: clamp(8px, calc(var(--snap-y) * 0.55), 14px);
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
@@ -411,7 +432,7 @@ body {
 }
 
 .about-copy ul {
-  margin: clamp(5px, 0.7vw, 12px) 0 0;
+  margin: clamp(4px, calc(var(--snap-y) * 0.45), 10px) 0 0;
   padding-left: 1em;
 }
 
@@ -487,7 +508,7 @@ body {
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  padding: clamp(20px, 2.4vw, 48px);
+  padding: var(--snap-y) var(--snap-x);
 }
 
 .project-credits::before,
@@ -513,7 +534,7 @@ body {
 
 .project-credits-track {
   display: grid;
-  gap: clamp(20px, 2.4vw, 46px);
+  gap: clamp(18px, calc(var(--snap-y) * 1.4), 38px);
   min-width: 0;
   animation: projectCredits 22s linear infinite;
   will-change: transform;
@@ -527,6 +548,7 @@ body {
   display: grid;
   gap: 8px;
   min-width: 0;
+  color: var(--ink);
   text-decoration: none;
 }
 
@@ -549,10 +571,12 @@ body {
 .project-description {
   display: block;
   max-width: 95%;
-  font-size: clamp(11px, 0.95vw, 20px);
+  color: var(--ink);
+  -webkit-text-fill-color: currentColor;
+  font-size: clamp(10px, 0.85vw, 17px);
   font-weight: 800;
-  line-height: 1.02;
-  letter-spacing: -0.04em;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
   overflow-wrap: break-word;
 }
 
@@ -580,13 +604,14 @@ body {
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  padding: clamp(10px, 1.1vw, 20px);
+  padding: var(--snap-y) calc(var(--snap-x) * 0.35);
 }
 
 .contact-link {
   display: grid;
   gap: 2px;
   min-width: 0;
+  color: var(--ink);
   text-decoration: none;
 }
 
@@ -597,17 +622,21 @@ body {
 }
 
 .contact-label {
+  color: var(--ink);
+  -webkit-text-fill-color: currentColor;
   font-size: clamp(9px, 0.72vw, 14px);
   font-weight: 900;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.015em;
   line-height: 1;
 }
 
 .contact-value {
   max-width: 100%;
+  color: var(--ink);
+  -webkit-text-fill-color: currentColor;
   font-size: clamp(11px, 0.95vw, 21px);
   font-weight: 900;
-  letter-spacing: -0.055em;
+  letter-spacing: -0.035em;
   line-height: 0.95;
   overflow-wrap: anywhere;
 }
