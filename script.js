@@ -344,13 +344,17 @@ async function initializeSite() {
   }
 
   function tintAboutBottomArt(tile) {
+    const tintStrength = 0.16 + Math.random() * 0.08;
+
     tile.style.setProperty("--about-tint-a-x", `${(16 + Math.random() * 22).toFixed(2)}%`);
     tile.style.setProperty("--about-tint-a-y", `${(48 + Math.random() * 34).toFixed(2)}%`);
     tile.style.setProperty("--about-tint-b-x", `${(58 + Math.random() * 26).toFixed(2)}%`);
     tile.style.setProperty("--about-tint-b-y", `${(28 + Math.random() * 38).toFixed(2)}%`);
     tile.style.setProperty("--about-tint-c-x", `${(70 + Math.random() * 22).toFixed(2)}%`);
     tile.style.setProperty("--about-tint-c-y", `${(60 + Math.random() * 24).toFixed(2)}%`);
-    tile.style.setProperty("--about-tint-strength", `${(0.16 + Math.random() * 0.08).toFixed(2)}`);
+    tile.style.setProperty("--about-tint-a-strength", tintStrength.toFixed(2));
+    tile.style.setProperty("--about-tint-b-strength", (tintStrength * 0.9).toFixed(2));
+    tile.style.setProperty("--about-tint-c-strength", (tintStrength * 0.74).toFixed(2));
   }
 
   function buildHomePage() {
