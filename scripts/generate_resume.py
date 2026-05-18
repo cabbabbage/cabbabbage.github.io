@@ -212,11 +212,11 @@ def draw_header(pdf, content, page_num):
         pdf.drawString(MARGIN + 20, PAGE_H - 68, content["name"].upper())
         set_font(pdf, "Helvetica-Bold", 13, SIGNAL)
         pdf.drawString(MARGIN + 20, PAGE_H - 90, content["title"].upper())
-        set_font(pdf, "Helvetica-Bold", 9.4, INK)
-        pdf.drawString(panel_x + 28, PAGE_H - 64, "SOFTWARE")
-        pdf.drawString(panel_x + 28, PAGE_H - 80, "DEVELOPER")
-        set_font(pdf, "Helvetica-Bold", 8, INK)
-        pdf.drawString(panel_x + 28, PAGE_H - 96, "PROJECT RESUME")
+        set_font(pdf, "Helvetica-Bold", 10.2, INK)
+        pdf.drawString(panel_x + 28, PAGE_H - 68, "PROJECT")
+        pdf.drawString(panel_x + 28, PAGE_H - 84, "RESUME")
+        set_font(pdf, "Helvetica-Bold", 7.6, INK)
+        pdf.drawString(panel_x + 28, PAGE_H - 98, "2026 / PDF")
         y = PAGE_H - 128
     else:
         pdf.setFillColor(INK)
