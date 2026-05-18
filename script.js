@@ -67,7 +67,7 @@ function initializeSite() {
       slideshow: "tile-slideshow",
       projects: "tile-projects",
       contact: "tile-contact",
-      solid: "tile-solid"
+      fractal: "tile-fractal"
     };
 
     return variantClasses[variant] || "tile-center";
@@ -194,7 +194,7 @@ function initializeSite() {
       return tile;
     }
 
-    if (variant === "solid") {
+    if (variant === "fractal") {
       tile.setAttribute("aria-hidden", "true");
       return tile;
     }
@@ -266,24 +266,9 @@ function initializeSite() {
       variant: "contact"
     });
 
-    const colorTileA = createTile({
-      className: "tile-color-a",
-      variant: "solid"
-    });
-
-    const colorTileB = createTile({
-      className: "tile-color-b",
-      variant: "solid"
-    });
-
-    const colorTileC = createTile({
-      className: "tile-color-c",
-      variant: "solid"
-    });
-
-    const colorTileD = createTile({
-      className: "tile-color-d",
-      variant: "solid"
+    const fractalTile = createTile({
+      className: "tile-fractal-field",
+      variant: "fractal"
     });
 
     [
@@ -293,20 +278,109 @@ function initializeSite() {
       nameTile,
       statusTile,
       contactTile,
-      colorTileA,
-      colorTileB,
-      colorTileC,
-      colorTileD
+      fractalTile
     ].forEach((tile, index) => {
       tile.dataset.index = `0${index + 1}`;
       paperGrid.appendChild(tile);
     });
   }
 
+  function getCssPixelValue(element, propertyName, fallback) {
+    const value = window.getComputedStyle(element).getPropertyValue(propertyName);
+    const parsed = Number.parseFloat(value);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  }
+
+  function buildFractalTiles(container) {
+    const palette = [
+      "var(--night-soft)",
+      "var(--accent-dark)",
+      "var(--muted)",
+      "var(--paper)",
+      "var(--accent)",
+      "var(--ink)"
+    ];
+
+    function render() {
+      const bounds = container.getBoundingClientRect();
+      const gap = getCssPixelValue(document.documentElement, "--gap", 10);
+      const minSize = 1;
+      const tiles = [];
+      let colorIndex = 0;
+
+      function addTile(x, y, width, height) {
+        if (width < minSize || height < minSize) {
+          return;
+        }
+
+        tiles.push({
+          x,
+          y,
+          width,
+          height,
+          color: palette[colorIndex % palette.length]
+        });
+        colorIndex += 1;
+      }
+
+      function recurse(x, y, width, height, direction) {
+        if (width < minSize || height < minSize) {
+          return;
+        }
+
+        if (direction === "vertical") {
+          const firstWidth = width / 2;
+          const secondWidth = width - firstWidth;
+
+          addTile(x, y, Math.max(0, firstWidth - gap), height);
+          recurse(x + firstWidth, y, secondWidth, height, "horizontal");
+          return;
+        }
+
+        const firstHeight = height / 2;
+        const secondHeight = height - firstHeight;
+
+        addTile(x, y, width, Math.max(0, firstHeight - gap));
+        recurse(x, y + firstHeight, width, secondHeight, "vertical");
+      }
+
+      recurse(0, 0, bounds.width, bounds.height, "vertical");
+
+      container.replaceChildren();
+
+      tiles.forEach((tile) => {
+        const element = document.createElement("span");
+        element.className = "fractal-solid-tile";
+        element.style.left = `${tile.x}px`;
+        element.style.top = `${tile.y}px`;
+        element.style.width = `${tile.width}px`;
+        element.style.height = `${tile.height}px`;
+        element.style.background = tile.color;
+        container.appendChild(element);
+      });
+    }
+
+    render();
+
+    if ("ResizeObserver" in window) {
+      const observer = new ResizeObserver(render);
+      observer.observe(container);
+    } else {
+      window.addEventListener("resize", render);
+    }
+  }
+
   function showHomePage() {
     buildHomePage();
     entryScreen.classList.add("hidden");
     homePage.classList.remove("hidden");
+    window.requestAnimationFrame(() => {
+      const fractalTile = paperGrid.querySelector(".tile-fractal-field");
+
+      if (fractalTile) {
+        buildFractalTiles(fractalTile);
+      }
+    });
     sessionStorage.setItem("captchaPassed", "true");
   }
 

@@ -400,28 +400,25 @@ body {
   background: var(--accent);
 }
 
-.tile-color-a {
-  grid-column: 1 / span 2;
+.tile-fractal-field {
+  grid-column: 1 / span 4;
   grid-row: 29 / span 4;
-  background: var(--night-soft);
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 }
 
-.tile-color-b {
-  grid-column: 3 / span 2;
-  grid-row: 29 / span 2;
-  background: var(--accent-dark);
+.tile-fractal-field:hover {
+  background: transparent;
+  box-shadow: none;
+  transform: none;
 }
 
-.tile-color-c {
-  grid-column: 3 / span 1;
-  grid-row: 31 / span 2;
-  background: var(--muted);
-}
-
-.tile-color-d {
-  grid-column: 4 / span 1;
-  grid-row: 31 / span 1;
-  background: var(--ink);
+.fractal-solid-tile {
+  position: absolute;
+  display: block;
+  min-width: 1px;
+  min-height: 1px;
 }
 
 .tile-name.tile-center {
