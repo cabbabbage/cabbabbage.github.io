@@ -3,23 +3,26 @@
 }
 
 :root {
-  --page-bg: #111111;
+  --page-bg: #050505;
   --page-gif: url("assets/background.gif");
 
-  --tile-bg: rgba(225, 225, 225, 0.88);
-  --tile-bg-light: rgba(225, 225, 225, 0.72);
+  --tile-bg: rgba(232, 232, 232, 0.9);
+  --tile-bg-hover: rgba(255, 255, 255, 0.96);
 
   --gap: 8px;
   --page-padding: 8px;
 
-  --text-main: #111111;
-  --text-muted: #1f1f1f;
+  --text-main: #050505;
+  --text-muted: #111111;
+
+  --hard-shadow: 8px 8px 0 rgba(0, 0, 0, 0.95);
+  --hard-shadow-hover: 14px 14px 0 rgba(0, 0, 0, 0.95);
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   background-color: var(--page-bg);
   background-image: var(--page-gif);
   background-size: cover;
@@ -27,8 +30,9 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   color: var(--text-main);
-  line-height: 1.5;
+  line-height: 1.15;
   overflow: hidden;
+  text-transform: uppercase;
 }
 
 .hidden {
@@ -43,34 +47,40 @@ body {
   display: grid;
   place-items: center;
   padding: 24px;
-  background: #f5f5f5;
+  background: #050505;
   z-index: 10;
 }
 
 .entry-card {
   width: 100%;
-  max-width: 440px;
-  background: #ffffff;
-  border: none;
+  max-width: 460px;
+  background: #e8e8e8;
+  border: 4px solid #050505;
   border-radius: 0;
   padding: 32px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-  text-align: center;
+  box-shadow: var(--hard-shadow);
+  text-align: left;
 }
 
 .entry-card h1 {
-  margin: 0 0 8px;
-  font-size: 32px;
-  color: #111111;
+  margin: 0 0 16px;
+  font-size: 42px;
+  line-height: 0.9;
+  letter-spacing: -0.08em;
+  color: #050505;
+  font-weight: 900;
 }
 
 .entry-card p {
-  color: #555555;
+  color: #050505;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .cf-turnstile {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   margin: 24px 0;
 }
 
@@ -78,6 +88,7 @@ body {
   min-height: 24px;
   margin-top: 14px;
   font-size: 14px;
+  font-weight: 800;
 }
 
 .home-page {
@@ -99,17 +110,46 @@ body {
 }
 
 .tile {
+  position: relative;
   background: var(--tile-bg);
   border: none;
   border-radius: 0;
   overflow: hidden;
   min-width: 0;
   min-height: 0;
-  transition: background 180ms ease;
+  transition:
+    background 120ms linear,
+    transform 120ms linear,
+    box-shadow 120ms linear;
+}
+
+.tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+}
+
+.tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 0 solid transparent;
+  outline: 0;
 }
 
 .tile:hover {
-  background: var(--tile-bg-light);
+  background: var(--tile-bg-hover);
+  transform: translate(-3px, -3px);
+  box-shadow: var(--hard-shadow);
+  z-index: 2;
 }
 
 .tile-split {
@@ -121,14 +161,16 @@ body {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: clamp(12px, 2vw, 28px);
+  padding: clamp(14px, 2.2vw, 42px);
   text-align: left;
-  font-weight: 700;
+  font-weight: 900;
 }
 
 .tile-title,
 .tile-content,
 .tile-center-text {
+  position: relative;
+  z-index: 1;
   color: var(--text-main);
   -webkit-text-fill-color: var(--text-main);
   background-image: none;
@@ -137,13 +179,13 @@ body {
 
 .tile-title {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
-  padding: clamp(16px, 2.4vw, 40px);
-  font-size: clamp(30px, 4vw, 78px);
-  font-weight: 800;
-  letter-spacing: -0.05em;
-  line-height: 0.95;
+  padding: clamp(18px, 2.7vw, 52px);
+  font-size: clamp(42px, 5.4vw, 112px);
+  font-weight: 900;
+  letter-spacing: -0.095em;
+  line-height: 0.82;
   text-align: left;
 }
 
@@ -151,17 +193,22 @@ body {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: clamp(16px, 2.4vw, 40px);
+  padding: clamp(18px, 2.7vw, 52px);
   text-align: left;
-  font-size: clamp(16px, 1.45vw, 28px);
-  line-height: 1.35;
+  font-size: clamp(17px, 1.65vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 1.05;
   color: var(--text-muted);
+  max-width: 100%;
 }
 
 .tile-center-text {
   display: block;
   text-align: left;
-  line-height: 1.1;
+  line-height: 0.92;
+  font-weight: 900;
+  letter-spacing: -0.075em;
 }
 
 .tile-about {
@@ -169,41 +216,71 @@ body {
   grid-row: 1 / span 8;
 }
 
+.tile-about .tile-title {
+  font-size: clamp(56px, 7vw, 150px);
+}
+
 .tile-about .tile-content {
-  max-width: 86%;
+  max-width: 92%;
+  align-self: start;
 }
 
 .tile-photos {
   grid-column: 5 / span 4;
   grid-row: 5 / span 4;
-  font-size: clamp(22px, 3vw, 56px);
+  font-size: clamp(42px, 6vw, 120px);
 }
 
 .tile-name {
   grid-column: 5 / span 2;
   grid-row: 1 / span 4;
-  font-size: clamp(28px, 3.4vw, 64px);
-  letter-spacing: -0.05em;
+  font-size: clamp(42px, 4.7vw, 96px);
 }
 
 .tile-name .tile-center-text {
-  max-width: 80%;
+  max-width: 95%;
 }
 
 .tile-null-large {
   grid-column: 7 / span 2;
   grid-row: 3 / span 2;
-  font-size: clamp(20px, 2.4vw, 42px);
+  font-size: clamp(36px, 4vw, 80px);
 }
 
 .tile-null-small-a {
   grid-column: 7 / span 1;
   grid-row: 1 / span 2;
-  font-size: clamp(14px, 1.5vw, 24px);
+  font-size: clamp(24px, 2.6vw, 52px);
 }
 
 .tile-null-small-b {
   grid-column: 8 / span 1;
   grid-row: 2 / span 1;
-  font-size: clamp(12px, 1.2vw, 20px);
+  font-size: clamp(18px, 1.9vw, 38px);
+}
+
+.tile-name,
+.tile-null-large,
+.tile-null-small-a,
+.tile-null-small-b,
+.tile-photos {
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.tile-name .tile-center-text,
+.tile-null-large .tile-center-text,
+.tile-null-small-a .tile-center-text,
+.tile-null-small-b .tile-center-text,
+.tile-photos .tile-center-text {
+  word-break: break-word;
+}
+
+.tile-photos:hover,
+.tile-name:hover,
+.tile-about:hover,
+.tile-null-large:hover,
+.tile-null-small-a:hover,
+.tile-null-small-b:hover {
+  cursor: crosshair;
 }
