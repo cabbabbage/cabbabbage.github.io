@@ -2,15 +2,15 @@ document.addEventListener("DOMContentLoaded", function () {
   const entryScreen = document.getElementById("entry-screen");
   const homePage = document.getElementById("home-page");
   const entryMessage = document.getElementById("entry-message");
-  const fibonacciGrid = document.getElementById("fibonacci-grid");
+  const paperGrid = document.getElementById("paper-grid");
 
-  if (!entryScreen || !homePage || !entryMessage || !fibonacciGrid) {
+  if (!entryScreen || !homePage || !entryMessage || !paperGrid) {
     console.error("Missing required HTML element. Check these IDs:");
     console.error({
       entryScreen,
       homePage,
       entryMessage,
-      fibonacciGrid
+      paperGrid
     });
     return;
   }
@@ -18,13 +18,18 @@ document.addEventListener("DOMContentLoaded", function () {
   function createTile(options) {
     const tile = document.createElement("section");
 
+    const variant = options.variant || "center";
+    const className = options.className || "";
+
     tile.className = [
       "tile",
-      options.variant === "split" ? "tile-split" : "tile-center",
-      options.className
-    ].join(" ");
+      variant === "split" ? "tile-split" : "tile-center",
+      className
+    ]
+      .filter(Boolean)
+      .join(" ");
 
-    if (options.variant === "split") {
+    if (variant === "split") {
       const title = document.createElement("div");
       title.className = "tile-title";
       title.textContent = options.title || "";
@@ -38,12 +43,27 @@ document.addEventListener("DOMContentLoaded", function () {
       return tile;
     }
 
+    if (variant === "image") {
+      tile.classList.add("tile-image");
+
+      if (options.imageSrc) {
+        const image = document.createElement("img");
+        image.src = options.imageSrc;
+        image.alt = options.imageAlt || "";
+        tile.appendChild(image);
+      } else {
+        tile.textContent = options.content || "";
+      }
+
+      return tile;
+    }
+
     tile.textContent = options.content || "";
     return tile;
   }
 
   function buildHomePage() {
-    fibonacciGrid.innerHTML = "";
+    paperGrid.innerHTML = "";
 
     const aboutTile = createTile({
       className: "tile-about",
@@ -83,12 +103,12 @@ document.addEventListener("DOMContentLoaded", function () {
       content: "null"
     });
 
-    fibonacciGrid.appendChild(aboutTile);
-    fibonacciGrid.appendChild(nullLargeTile);
-    fibonacciGrid.appendChild(nullSmallTileA);
-    fibonacciGrid.appendChild(nullSmallTileB);
-    fibonacciGrid.appendChild(nameTile);
-    fibonacciGrid.appendChild(photosTile);
+    paperGrid.appendChild(aboutTile);
+    paperGrid.appendChild(nameTile);
+    paperGrid.appendChild(nullLargeTile);
+    paperGrid.appendChild(photosTile);
+    paperGrid.appendChild(nullSmallTileA);
+    paperGrid.appendChild(nullSmallTileB);
   }
 
   function showHomePage() {
