@@ -15,6 +15,9 @@
   --text-main: #050505;
   --text-muted: #111111;
 
+  --major-grid-line: rgba(0, 0, 0, 0.34);
+  --minor-grid-line: rgba(0, 0, 0, 0.11);
+
   --hard-shadow: 8px 8px 0 rgba(0, 0, 0, 0.95);
   --hard-shadow-hover: 14px 14px 0 rgba(0, 0, 0, 0.95);
 }
@@ -101,12 +104,50 @@ body {
 }
 
 .paper-grid {
+  position: relative;
   width: 100%;
   height: 100%;
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(8, 1fr);
   gap: var(--gap);
+  overflow: visible;
+}
+
+.paper-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+
+  background-image:
+    linear-gradient(to right, var(--minor-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--minor-grid-line) 1px, transparent 1px);
+
+  background-size:
+    calc(100% / 32) calc(100% / 32),
+    calc(100% / 32) calc(100% / 32);
+
+  mix-blend-mode: multiply;
+}
+
+.paper-grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+
+  background-image:
+    linear-gradient(to right, var(--major-grid-line) 2px, transparent 2px),
+    linear-gradient(to bottom, var(--major-grid-line) 2px, transparent 2px);
+
+  background-size:
+    calc(100% / 8) calc(100% / 8),
+    calc(100% / 8) calc(100% / 8);
+
+  mix-blend-mode: multiply;
 }
 
 .tile {
@@ -123,33 +164,11 @@ body {
     box-shadow 120ms linear;
 }
 
-.tile::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
-  background-size: 24px 24px;
-  mix-blend-mode: multiply;
-  opacity: 0.55;
-}
-
-.tile::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border: 0 solid transparent;
-  outline: 0;
-}
-
 .tile:hover {
   background: var(--tile-bg-hover);
   transform: translate(-3px, -3px);
   box-shadow: var(--hard-shadow);
-  z-index: 2;
+  z-index: 6;
 }
 
 .tile-split {
@@ -170,7 +189,7 @@ body {
 .tile-content,
 .tile-center-text {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   color: var(--text-main);
   -webkit-text-fill-color: var(--text-main);
   background-image: none;
